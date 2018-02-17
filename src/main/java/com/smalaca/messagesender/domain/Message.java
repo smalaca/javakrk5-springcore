@@ -1,13 +1,15 @@
 package com.smalaca.messagesender.domain;
 
 public class Message {
-    private String subject;
-    private String body;
-    private String from;
-    private String to;
-    private String id;
+    private static final String NO_VALUE = "";
 
-    Message(String subject, String body) {
+    private String subject = NO_VALUE;
+    private String body = NO_VALUE;
+    private String from = NO_VALUE;
+    private String to = NO_VALUE;
+    private String id = NO_VALUE;
+
+    public Message(String subject, String body) {
         this.subject = subject;
         this.body = body;
     }
@@ -42,6 +44,7 @@ public class Message {
         if (!subject.equals(message.subject)) return false;
         if (!body.equals(message.body)) return false;
         if (!from.equals(message.from)) return false;
+        if (!id.equals(message.id)) return false;
         return to.equals(message.to);
     }
 
@@ -66,7 +69,7 @@ public class Message {
     }
 
     public static class MessageBuilder {
-        private static final String NO_ID = null;
+        private static final String NO_ID = NO_VALUE;
 
         private String subject;
         private String body;

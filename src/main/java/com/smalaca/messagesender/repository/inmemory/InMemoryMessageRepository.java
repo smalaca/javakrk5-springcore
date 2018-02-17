@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryMessageRepository implements MessageRepository {
-    private final List<Message> messages;
+    private final
+    List<Message> messages;
 
     public InMemoryMessageRepository() {
         this(new ArrayList<>());

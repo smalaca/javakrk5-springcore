@@ -4,6 +4,39 @@
 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
     <bean
+            id="message1"
+            class="com.smalaca.messagesender.domain.Message">
+        <constructor-arg name="subject" value="some subject"/>
+        <constructor-arg name="body" value="some body"/>
+    </bean>
+
+    <bean
+            id="message2"
+            class="com.smalaca.messagesender.domain.Message">
+        <constructor-arg name="subject" value="some"/>
+        <constructor-arg name="body" value="some"/>
+        <property name="id" value="123456"/>
+    </bean>
+
+    <bean
+            id="message3"
+            class="com.smalaca.messagesender.domain.Message">
+        <constructor-arg name="subject" value="some subject 2"/>
+        <constructor-arg name="body" value="some body 2"/>
+        <property name="id" value="123456"/>
+        <property name="to" value="javakrk5"/>
+        <property name="from" value="smalaca"/>
+    </bean>
+
+    <bean
             id="messageRepository"
-            class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository"/>
+            class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository">
+        <constructor-arg>
+            <list>
+                <ref bean="message1"/>
+                <ref bean="message2"/>
+                <ref bean="message3"/>
+            </list>
+        </constructor-arg>
+    </bean>
 </beans>
