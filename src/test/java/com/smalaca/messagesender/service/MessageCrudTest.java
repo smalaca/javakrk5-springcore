@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.hamcrest.CoreMatchers.any;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/message-sender.xml")
+@ContextConfiguration(locations = {"/message-sender.xml", "/messages-as-beans.xml"})
 public class MessageCrudTest {
     @Autowired private MessageRepository messageRepository;
     @Autowired private MessageCrud messageCrud;
