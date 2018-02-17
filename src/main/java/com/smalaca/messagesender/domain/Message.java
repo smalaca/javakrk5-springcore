@@ -5,12 +5,27 @@ public class Message {
     private final String body;
     private final String from;
     private final String to;
+    private String id;
 
-    public Message(MessageBuilder messageBuilder) {
+    Message(MessageBuilder messageBuilder) {
         subject = messageBuilder.subject;
         body = messageBuilder.body;
         from = messageBuilder.sentFrom;
         to = messageBuilder.sentTo;
+        id = messageBuilder.id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (!subject.equals(message.subject)) return false;
+        if (!body.equals(message.body)) return false;
+        if (!from.equals(message.from)) return false;
+        return to.equals(message.to);
     }
 
     public String getSubject() {
@@ -29,11 +44,27 @@ public class Message {
         return to;
     }
 
+    public boolean hasSameId(String id) {
+        return this.id == id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public static class MessageBuilder {
+        private static final String NO_ID = null;
+
         private String subject;
         private String body;
         private String sentFrom;
         private String sentTo;
+        private String id = NO_ID;
+
+        public MessageBuilder withId(String id) {
+            this.id = id;
+            return this;
+        }
 
         public MessageBuilder withSubject(String subject) {
             this.subject = subject;

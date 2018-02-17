@@ -4,5 +4,7 @@ public interface MessageRepository {
 
     boolean exists(String id);
 
-    void add();
+    void add(Message message);
+
+    boolean exists(Message message);
 }

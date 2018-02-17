@@ -1,9 +1,8 @@
 package com.smalaca.messagesender.service;
 
+import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageRepository;
-import com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,28 @@ public class MessageCrudTest {
         String from = "from";
         String to = "to";
 
-        String id = messageCrud.createNew(subject, body, from, to);
+        Response response = messageCrud.createNew(subject, body, from, to);
 
-        Assert.assertThat(id, any(String.class));
-        Assert.assertTrue(messageRepository.exists(id));
+        Assert.assertTrue(response.isSuccess());
+        Assert.assertThat(response.getMessage(), any(String.class));
+        Assert.assertTrue(messageRepository.exists(response.getMessage()));
+    }
+
+    @Test
+    public void shouldNotCreateNewMessage() {
+        String subject = "subject";
+        String body = "body";
+        String from = "from";
+        String to = "to";
+        messageRepository.add(new Message.MessageBuilder()
+                .withBody(body)
+                .withSubject(subject)
+                .withFrom(from)
+                .withTo(to)
+                .build());
+
+        Response response = messageCrud.createNew(subject, body, from, to);
+
+        Assert.assertFalse(response.isSuccess());
     }
 }
