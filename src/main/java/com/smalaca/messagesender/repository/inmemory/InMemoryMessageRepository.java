@@ -7,7 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryMessageRepository implements MessageRepository {
-    private final List<Message> messages = new ArrayList<>();
+    private final List<Message> messages;
+
+    public InMemoryMessageRepository() {
+        this(new ArrayList<>());
+    }
+
+    public InMemoryMessageRepository(List<Message> messages) {
+        this.messages = messages;
+    }
 
     public boolean exists(String id) {
         return messages

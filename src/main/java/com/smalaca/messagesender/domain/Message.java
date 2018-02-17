@@ -1,11 +1,28 @@
 package com.smalaca.messagesender.domain;
 
 public class Message {
-    private final String subject;
-    private final String body;
-    private final String from;
-    private final String to;
+    private String subject;
+    private String body;
+    private String from;
+    private String to;
     private String id;
+
+    Message(String subject, String body) {
+        this.subject = subject;
+        this.body = body;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     Message(MessageBuilder messageBuilder) {
         subject = messageBuilder.subject;
@@ -46,10 +63,6 @@ public class Message {
 
     public boolean hasSameId(String id) {
         return this.id == id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public static class MessageBuilder {
