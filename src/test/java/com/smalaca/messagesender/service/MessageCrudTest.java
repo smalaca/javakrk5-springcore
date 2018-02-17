@@ -33,16 +33,10 @@ public class MessageCrudTest {
 
     @Test
     public void shouldNotCreateNewMessage() {
-        String subject = "subject";
-        String body = "body";
-        String from = "from";
-        String to = "to";
-        messageRepository.add(new Message.MessageBuilder()
-                .withBody(body)
-                .withSubject(subject)
-                .withFrom(from)
-                .withTo(to)
-                .build());
+        String subject = "some subject";
+        String body = "some body";
+        String from = "";
+        String to = "";
 
         Response response = messageCrud.createNew(subject, body, from, to);
 
