@@ -9,6 +9,12 @@ public class Message {
     private String to = NO_VALUE;
     private String id = NO_VALUE;
 
+    public static Message aMessage(String subject, String body, String from) {
+        Message message = new Message(subject, body);
+        message.setFrom(from);
+        return message;
+    }
+
     public Message(String subject, String body) {
         this.subject = subject;
         this.body = body;

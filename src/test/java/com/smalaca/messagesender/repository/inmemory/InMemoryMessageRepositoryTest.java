@@ -64,4 +64,12 @@ public class InMemoryMessageRepositoryTest {
 
         assertFalse(repository.exists(message));
     }
+
+    @Test
+    public void shouldRecognizeThatFourthMessageExist() {
+        Message message = new Message("another", "message");
+        message.setFrom("smalaca");
+
+        assertTrue(repository.exists(message));
+    }
 }

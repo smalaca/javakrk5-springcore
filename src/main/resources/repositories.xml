@@ -36,6 +36,11 @@ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
                 <ref bean="message1"/>
                 <ref bean="message2"/>
                 <ref bean="message3"/>
+                <bean class="com.smalaca.messagesender.domain.Message" factory-method="aMessage">
+                    <constructor-arg name="subject" value="another"/>
+                    <constructor-arg name="body" value="message"/>
+                    <constructor-arg name="from" value="smalaca"/>
+                </bean>
             </list>
         </constructor-arg>
     </bean>
