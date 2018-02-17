@@ -75,13 +75,11 @@ public class Message {
     }
 
     public static class MessageBuilder {
-        private static final String NO_ID = NO_VALUE;
-
-        private String subject;
-        private String body;
-        private String sentFrom;
-        private String sentTo;
-        private String id = NO_ID;
+        private String subject = NO_VALUE;
+        private String body = NO_VALUE;
+        private String sentFrom = NO_VALUE;
+        private String sentTo = NO_VALUE;
+        private String id = NO_VALUE;
 
         public MessageBuilder withId(String id) {
             this.id = id;

@@ -28,6 +28,7 @@ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
         <property name="from" value="smalaca"/>
     </bean>
 
+    <bean id="messageFactory" class="com.smalaca.messagesender.domain.MessageFactory"/>
     <bean
             id="messageRepository"
             class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository">
@@ -40,6 +41,10 @@ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
                     <constructor-arg name="subject" value="another"/>
                     <constructor-arg name="body" value="message"/>
                     <constructor-arg name="from" value="smalaca"/>
+                </bean>
+                <bean factory-bean="messageFactory" factory-method="aMessage">
+                    <constructor-arg name="subject" value="yet another"/>
+                    <constructor-arg name="body" value="message"/>
                 </bean>
             </list>
         </constructor-arg>
