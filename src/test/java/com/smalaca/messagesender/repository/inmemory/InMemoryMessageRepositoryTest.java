@@ -31,7 +31,7 @@ public class InMemoryMessageRepositoryTest {
 
     @Test
     public void shouldRecognizeThatSecodeMessageExist() {
-        Message message = new Message("some", "some");
+        Message message = new Message("some subject", "some body");
         message.setId("123456");
 
         assertTrue(repository.exists(message));
@@ -47,7 +47,7 @@ public class InMemoryMessageRepositoryTest {
 
     @Test
     public void shouldRecognizeThatThirdMessageExist() {
-        Message message = new Message("some subject 2", "some body 2");
+        Message message = new Message("some subject", "some body");
         message.setId("123456");
         message.setTo("javakrk5");
         message.setFrom("smalaca");
