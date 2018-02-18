@@ -1,6 +1,7 @@
 package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.Message;
+import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
 
 public class MessageCrud {
@@ -11,13 +12,7 @@ public class MessageCrud {
     }
 
     public Response createNew(MessageDto messageDto) {
-        Message message = new Message.MessageBuilder()
-                .withBody(messageDto.getBody())
-                .withSubject(messageDto.getSubject())
-                .withFrom(messageDto.getFrom())
-                .withTo(messageDto.getTo())
-                .build();
-
+        Message message = new MessageFactory().createFrom(messageDto);
 
         if (!messageRepository.exists(message)) {
             message.setId("1");
