@@ -14,14 +14,17 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/repositories.xml")
 public class InMemoryMessageRepositoryTest {
+    private static final String SOME_SUBJECT = "some subject";
+    private static final String SOME_BODY = "some body";
+
     @Autowired private InMemoryMessageRepository repository;
     private MessageFactory factory = new MessageFactory();
 
     @Test
     public void shouldRecognizeThatFirstMessageExist() {
         MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some subject");
-        messageDto.setBody("some body");
+        messageDto.setSubject(SOME_SUBJECT);
+        messageDto.setBody(SOME_BODY);
 
         assertTrue(repository.exists(factory.createFrom(messageDto)));
     }
@@ -38,8 +41,8 @@ public class InMemoryMessageRepositoryTest {
     @Test
     public void shouldRecognizeThatSecodeMessageExist() {
         MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some");
-        messageDto.setBody("some");
+        messageDto.setSubject(SOME_SUBJECT);
+        messageDto.setBody(SOME_BODY);
 
         assertTrue(repository.exists(factory.createFrom(messageDto, "123456")));
     }
@@ -56,8 +59,8 @@ public class InMemoryMessageRepositoryTest {
     @Test
     public void shouldRecognizeThatThirdMessageExist() {
         MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some subject 2");
-        messageDto.setBody("some body 2");
+        messageDto.setSubject(SOME_SUBJECT);
+        messageDto.setBody(SOME_BODY);
         messageDto.setTo("javakrk5");
         messageDto.setFrom("smalaca");
 
