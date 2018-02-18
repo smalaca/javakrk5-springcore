@@ -9,7 +9,5 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <import resource="repositories.xml"/>
 
-    <bean class="com.smalaca.messagesender.service.MessageCrud">
-        <constructor-arg ref="messageRepository"/>
-    </bean>
+    <context:component-scan base-package="com.smalaca.messagesender.service"/>
 </beans>
