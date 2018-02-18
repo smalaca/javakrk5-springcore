@@ -1,13 +1,11 @@
 package com.smalaca.messagesender.domain;
 
 public class Message {
-    private static final String NO_VALUE = "";
-
-    private String subject = NO_VALUE;
-    private String body = NO_VALUE;
-    private String from = NO_VALUE;
-    private String to = NO_VALUE;
-    private String id = NO_VALUE;
+    private String subject;
+    private String body;
+    private String from;
+    private String to;
+    private String id;
 
     public void setId(String id) {
         this.id = id;
@@ -56,13 +54,11 @@ public class Message {
     }
 
     static class MessageBuilder {
-        private static final String NO_ID = NO_VALUE;
-
         private String subject;
         private String body;
         private String sentFrom;
         private String sentTo;
-        private String id = NO_ID;
+        private String id;
 
         MessageBuilder withId(String id) {
             this.id = id;
