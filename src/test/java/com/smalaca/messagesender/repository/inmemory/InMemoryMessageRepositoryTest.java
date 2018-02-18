@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/repositories.xml")
+@ContextConfiguration(locations = {"/repositories.xml", "/fake-messages.xml"})
 public class InMemoryMessageRepositoryTest {
     private static final String SOME_SUBJECT = "some subject";
     private static final String SOME_BODY = "some body";
