@@ -1,10 +1,12 @@
 package com.smalaca.messagesender.service;
 
 public class MessageDto {
-    private String body;
-    private String subject;
-    private String from;
-    private String to;
+    private static final String NO_VALUE = "";
+
+    private String body = NO_VALUE;
+    private String subject = NO_VALUE;
+    private String from = NO_VALUE;
+    private String to = NO_VALUE;
 
     public String getBody() {
         return body;

@@ -3,39 +3,49 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-    <bean
-            id="message1"
-            class="com.smalaca.messagesender.domain.Message">
-        <constructor-arg name="subject" value="some subject"/>
-        <constructor-arg name="body" value="some body"/>
-    </bean>
-
-    <bean
-            id="message2"
-            class="com.smalaca.messagesender.domain.Message">
-        <constructor-arg name="subject" value="some"/>
-        <constructor-arg name="body" value="some"/>
-        <property name="id" value="123456"/>
-    </bean>
-
-    <bean
-            id="message3"
-            class="com.smalaca.messagesender.domain.Message">
-        <constructor-arg name="subject" value="some subject 2"/>
-        <constructor-arg name="body" value="some body 2"/>
-        <property name="id" value="123456"/>
-        <property name="to" value="javakrk5"/>
-        <property name="from" value="smalaca"/>
-    </bean>
+    <bean id="messageFactory" class="com.smalaca.messagesender.domain.MessageFactory"/>
 
     <bean
             id="messageRepository"
             class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository">
         <constructor-arg>
             <list>
-                <ref bean="message1"/>
-                <ref bean="message2"/>
-                <ref bean="message3"/>
+                <bean factory-bean="messageFactory" factory-method="createFrom">
+                    <constructor-arg>
+                        <bean class="com.smalaca.messagesender.service.MessageDto">
+                            <property name="subject" value="some subject"/>
+                            <property name="body" value="some body"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
+                <bean factory-bean="messageFactory" factory-method="createFrom">
+                    <constructor-arg>
+                        <bean class="com.smalaca.messagesender.service.MessageDto">
+                            <property name="subject" value="some"/>
+                            <property name="body" value="some"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg value="123456"/>
+                </bean>
+                <bean factory-bean="messageFactory" factory-method="createFrom">
+                    <constructor-arg>
+                        <bean class="com.smalaca.messagesender.service.MessageDto">
+                            <property name="subject" value="some subject 2"/>
+                            <property name="body" value="some body 2"/>
+                            <property name="to" value="javakrk5"/>
+                            <property name="from" value="smalaca"/>
+                        </bean>
+                    </constructor-arg>
+                    <constructor-arg value="123456"/>
+                </bean>
+                <bean factory-bean="messageFactory" factory-method="createFrom">
+                    <constructor-arg>
+                        <bean class="com.smalaca.messagesender.service.MessageDto">
+                            <property name="body" value="nice body"/>
+                            <property name="subject" value="hot topic"/>
+                        </bean>
+                    </constructor-arg>
+                </bean>
             </list>
         </constructor-arg>
     </bean>

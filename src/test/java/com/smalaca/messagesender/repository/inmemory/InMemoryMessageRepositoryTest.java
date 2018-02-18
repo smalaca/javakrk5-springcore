@@ -56,6 +56,13 @@ public class InMemoryMessageRepositoryTest {
     }
 
     @Test
+    public void shouldRecognizeThatFourthMessageExist() {
+        Message message = new Message("hot topic", "nice body");
+
+        assertTrue(repository.exists(message));
+    }
+
+    @Test
     public void shouldRecognizeThatMessageSimilarToThirdDoeasExist() {
         Message message = new Message("some subject 2", "some body 2");
         message.setId("123456");
