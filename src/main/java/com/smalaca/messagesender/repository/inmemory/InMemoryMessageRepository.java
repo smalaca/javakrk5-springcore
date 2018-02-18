@@ -8,23 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryMessageRepository implements MessageRepository {
-    private List<Message> messages;
-
-    public InMemoryMessageRepository(List<Message> messages) {
-        this.messages = messages;
-    }
+    @Autowired(required = false) private List<Message> messages;
 
     public boolean exists(String id) {
-        return messages
+        return aMessages()
                 .stream()
                 .anyMatch(message -> message.hasSameId(id));
     }
 
     public void add(Message message) {
-        messages.add(message);
+        aMessages().add(message);
     }
 
     public boolean exists(Message message) {
-        return messages.contains(message);
+        return aMessages().contains(message);
+    }
+
+    private List<Message> aMessages() {
+        if (messages == null) {
+            messages = new ArrayList<>();
+        }
+
+        return messages;
     }
 }

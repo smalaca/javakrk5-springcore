@@ -1,10 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-http://www.springframework.org/schema/util
-http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
     <bean id="messageFactory" class="com.smalaca.messagesender.domain.MessageFactory"/>
 
@@ -18,25 +15,23 @@ http://www.springframework.org/schema/util/spring-util-2.5.xsd">
         <property name="from" value="smalaca"/>
     </bean>
 
-    <util:list id="messages">
-        <bean factory-bean="messageFactory" factory-method="createFrom">
-            <constructor-arg ref="templateMessage"/>
-        </bean>
-        <bean factory-bean="messageFactory" factory-method="createFrom">
-            <constructor-arg ref="templateMessage"/>
-            <constructor-arg value="123456"/>
-        </bean>
-        <bean factory-bean="messageFactory" factory-method="createFrom">
-            <constructor-arg ref="messageWithParent"/>
-            <constructor-arg value="123456"/>
-        </bean>
-        <bean factory-bean="messageFactory" factory-method="createFrom">
-            <constructor-arg>
-                <bean class="com.smalaca.messagesender.service.MessageDto">
-                    <property name="body" value="nice body"/>
-                    <property name="subject" value="hot topic"/>
-                </bean>
-            </constructor-arg>
-        </bean>
-    </util:list>
+    <bean factory-bean="messageFactory" factory-method="createFrom">
+        <constructor-arg ref="templateMessage"/>
+    </bean>
+    <bean factory-bean="messageFactory" factory-method="createFrom">
+        <constructor-arg ref="templateMessage"/>
+        <constructor-arg value="123456"/>
+    </bean>
+    <bean factory-bean="messageFactory" factory-method="createFrom">
+        <constructor-arg ref="messageWithParent"/>
+        <constructor-arg value="123456"/>
+    </bean>
+    <bean factory-bean="messageFactory" factory-method="createFrom">
+        <constructor-arg>
+            <bean class="com.smalaca.messagesender.service.MessageDto">
+                <property name="body" value="nice body"/>
+                <property name="subject" value="hot topic"/>
+            </bean>
+        </constructor-arg>
+    </bean>
 </beans>
