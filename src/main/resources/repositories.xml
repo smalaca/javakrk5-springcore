@@ -5,37 +5,30 @@ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
     <bean id="messageFactory" class="com.smalaca.messagesender.domain.MessageFactory"/>
 
+    <bean id="templateMessage" class="com.smalaca.messagesender.service.MessageDto">
+        <property name="subject" value="some subject"/>
+        <property name="body" value="some body"/>
+    </bean>
+
+    <bean id="messageWithParent" class="com.smalaca.messagesender.service.MessageDto" parent="templateMessage">
+        <property name="to" value="javakrk5"/>
+        <property name="from" value="smalaca"/>
+    </bean>
+
     <bean
             id="messageRepository"
             class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository">
         <constructor-arg>
             <list>
                 <bean factory-bean="messageFactory" factory-method="createFrom">
-                    <constructor-arg>
-                        <bean class="com.smalaca.messagesender.service.MessageDto">
-                            <property name="subject" value="some subject"/>
-                            <property name="body" value="some body"/>
-                        </bean>
-                    </constructor-arg>
+                    <constructor-arg ref="templateMessage"/>
                 </bean>
                 <bean factory-bean="messageFactory" factory-method="createFrom">
-                    <constructor-arg>
-                        <bean class="com.smalaca.messagesender.service.MessageDto">
-                            <property name="subject" value="some subject"/>
-                            <property name="body" value="some body"/>
-                        </bean>
-                    </constructor-arg>
+                    <constructor-arg ref="templateMessage"/>
                     <constructor-arg value="123456"/>
                 </bean>
                 <bean factory-bean="messageFactory" factory-method="createFrom">
-                    <constructor-arg>
-                        <bean class="com.smalaca.messagesender.service.MessageDto">
-                            <property name="subject" value="some subject"/>
-                            <property name="body" value="some body"/>
-                            <property name="to" value="javakrk5"/>
-                            <property name="from" value="smalaca"/>
-                        </bean>
-                    </constructor-arg>
+                    <constructor-arg ref="messageWithParent"/>
                     <constructor-arg value="123456"/>
                 </bean>
                 <bean factory-bean="messageFactory" factory-method="createFrom">
