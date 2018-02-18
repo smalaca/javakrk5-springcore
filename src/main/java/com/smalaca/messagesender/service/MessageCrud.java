@@ -10,14 +10,14 @@ public class MessageCrud {
         this.messageRepository = messageRepository;
     }
 
-    public Response createNew(
-            String subject, String body, String from, String to) {
+    public Response createNew(MessageDto messageDto) {
         Message message = new Message.MessageBuilder()
-                .withBody(body)
-                .withSubject(subject)
-                .withFrom(from)
-                .withTo(to)
+                .withBody(messageDto.getBody())
+                .withSubject(messageDto.getSubject())
+                .withFrom(messageDto.getFrom())
+                .withTo(messageDto.getTo())
                 .build();
+
 
         if (!messageRepository.exists(message)) {
             message.setId("1");
