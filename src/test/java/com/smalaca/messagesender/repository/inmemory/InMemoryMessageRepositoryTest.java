@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/messages-as-beans.xml")
+@ContextConfiguration(locations = {"/repositories.xml", "/messages-as-beans.xml"})
 public class InMemoryMessageRepositoryTest {
     @Autowired private InMemoryMessageRepository repository;
 
