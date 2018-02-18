@@ -9,19 +9,6 @@ public class Message {
     private String to = NO_VALUE;
     private String id = NO_VALUE;
 
-    public Message(String subject, String body) {
-        this.subject = subject;
-        this.body = body;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
