@@ -90,6 +90,16 @@ public class MessageCrudControllerTest {
     }
 
     @Test
+    public void shouldRecognizeThatMessageWithGivenIdDoesNotExist() throws Exception {
+        MockHttpServletResponse result = mvc.perform(
+                MockMvcRequestBuilders.get("/message/find-by/{id}", NOT_EXISTING_ID)
+                        .accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
+
+        assertEquals(HttpStatus.NOT_FOUND.value(), result.getStatus());
+        assertEquals("Message with id: " + NOT_EXISTING_ID + " does not exist.", result.getContentAsString());
+    }
+
+    @Test
     public void shouldDeleteWithBothParameters() throws Exception {
         String name = "smalaca";
         String uniqueIdentifier = "13";

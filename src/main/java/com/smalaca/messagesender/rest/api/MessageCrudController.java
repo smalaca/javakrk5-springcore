@@ -44,6 +44,10 @@ public class MessageCrudController {
 
     @RequestMapping("/find-by/{id}")
     public MessageDto findById(@PathVariable String id) {
+        if (FORBIDDEN_ID.equals(id)) {
+            throw new MessageWithGivenIdDoesNotExistException(id);
+        }
+
         MessageDto messageDto = new MessageDto();
         messageDto.setSubject("subject");
         messageDto.setBody("body");
