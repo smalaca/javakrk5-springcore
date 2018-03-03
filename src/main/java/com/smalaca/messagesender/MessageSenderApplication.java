@@ -5,12 +5,13 @@ import com.smalaca.messagesender.service.MessageDto;
 import com.smalaca.messagesender.service.Response;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MessageSenderApplication {
     public static void main(String[] args) {
-        ApplicationContext context =
-                new AnnotationConfigApplicationContext(
-                MessageSenderApplicationSpringConfiguration.class);
+        System.setProperty("spring.profiles.active", "production");
+        ApplicationContext context = new ClassPathXmlApplicationContext("message-sender.xml");
         MessageCrud messageCrud = (MessageCrud) context.getBean("messageCrud");
         MessageDto messageDto = aMassageDto();
 
