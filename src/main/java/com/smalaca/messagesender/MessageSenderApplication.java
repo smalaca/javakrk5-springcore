@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @ImportResource({"classpath*:message-sender.xml"})
 public class MessageSenderApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(MessageSenderApplication.class, args);
     }

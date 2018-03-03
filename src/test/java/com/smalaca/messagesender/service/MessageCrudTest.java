@@ -39,6 +39,7 @@ public class MessageCrudTest {
 
     @Test
     public void shouldNotCreateNewMessage() {
+
         String subject = "subject";
         String body = "body";
         String from = "from";
@@ -55,4 +56,50 @@ public class MessageCrudTest {
 
         Assert.assertFalse(response.isSuccess());
     }
+
+    @Test
+    public void shouldDeletePreviouslyCreatedNewMessage() {
+
+        String subject = "subject";
+        String body = "body";
+        String from = "from";
+        String to = "to";
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setBody(body);
+        messageDto.setSubject(subject);
+        messageDto.setFrom(from);
+        messageDto.setTo(to);
+
+        messageCrud.createNew(messageDto);
+        Assert.assertTrue(messageRepository.exists("1"));
+
+        Response response = messageCrud.deleteMessage("1");
+        Assert.assertTrue(response.isSuccess());
+        Assert.assertThat(response.getMessage(), any(String.class));
+        Assert.assertFalse(messageRepository.exists("1"));
+    }
+    @Test
+    public void shouldNotDeletePreviouslyCreatedNewMessage() {
+
+        String subject = "subject";
+        String body = "body";
+        String from = "from";
+        String to = "to";
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setBody(body);
+        messageDto.setSubject(subject);
+        messageDto.setFrom(from);
+        messageDto.setTo(to);
+
+        messageCrud.createNew(messageDto);
+        Assert.assertTrue(messageRepository.exists("1"));
+
+        Response response = messageCrud.deleteMessage("2");
+        Assert.assertFalse(response.isSuccess());
+        Assert.assertThat(response.getMessage(), any(String.class));
+        Assert.assertTrue(messageRepository.exists("1"));
+    }
+
 }

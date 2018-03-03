@@ -34,8 +34,8 @@ public class InMemoryMessageRepository implements MessageRepository {
     }
 
     public void delete(String messageId) {
-        int index=-1;
-        for (Message message: messages) {
+        int index = -1;
+        for (Message message : messages) {
             if (message.hasSameId(messageId)) {
                 index = messages.indexOf(message);
             }

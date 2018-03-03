@@ -1,7 +1,7 @@
 package com.smalaca.messagesender.rest.api;
 
 import com.smalaca.messagesender.service.MessageCrud;
-import com.smalaca.messagesender.service.MissingIdException;
+import com.smalaca.messagesender.service.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,16 +17,8 @@ public class MessageCrudController {
         this.messageCrud = messageCrud;
     }
 
-
     @RequestMapping("/message/delete")
-    public void delete(@RequestParam(name="id") String uniqueId) {
-        try {
-            messageCrud.deleteMessage(uniqueId);
-        } catch (MissingIdException e) {
-            e.getMessage();
-        }
+    public Response delete(@RequestParam(name="id", defaultValue = "NO_ID") String uniqueId) {
+        return messageCrud.deleteMessage(uniqueId);
     }
-
-    //MissingIdException() extends RuntimeException
-
 }

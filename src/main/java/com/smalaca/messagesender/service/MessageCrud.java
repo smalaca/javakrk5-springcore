@@ -3,6 +3,7 @@ package com.smalaca.messagesender.service;
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +29,13 @@ public class MessageCrud {
         return Response.aFailureResponse("Message already exists");
     }
 
-    public void deleteMessage(String messageId) {
-
+    public Response deleteMessage(String messageId) {
+        if (messageId.equals("NO_ID")) return Response.aFailureResponse("Requested parameter 'id' to proceed.");
         if (messageRepository.exists(messageId)) {
             messageRepository.delete(messageId);
+            return Response.aSuccessfulResponseWith("Message with requested id successfully deleted.");
+        } else {
+            return Response.aFailureResponse("Message with requested id does no exists!");
         }
-        throw new MissingIdException("Sorry, no such message Sahib!");
     }
 }
