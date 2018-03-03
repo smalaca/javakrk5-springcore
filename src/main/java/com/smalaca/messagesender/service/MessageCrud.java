@@ -27,4 +27,12 @@ public class MessageCrud {
 
         return Response.aFailureResponse("Message already exists");
     }
+
+    public void deleteMessage(String messageId) {
+
+        if (messageRepository.exists(messageId)) {
+            messageRepository.delete(messageId);
+        }
+        throw new MissingIdException("Sorry, no such message Sahib!");
+    }
 }
