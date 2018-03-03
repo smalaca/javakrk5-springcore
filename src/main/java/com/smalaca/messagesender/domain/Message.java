@@ -6,6 +6,7 @@ public class Message {
     private final String from;
     private final String to;
     private String id;
+    private String MerikScott;
 
     Message(MessageBuilder messageBuilder) {
         subject = messageBuilder.subject;
