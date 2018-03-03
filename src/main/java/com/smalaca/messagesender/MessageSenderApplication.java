@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MessageSenderApplication {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("message-sender.xml");
-        MessageCrud messageCrud = (MessageCrud) context.getBean("messageCrud");
+        MessageCrud messageCrud = (MessageCrud)     context.getBean("messageCrud");
         String subject = "subject";
         String body = "body";
         String from = "from";
