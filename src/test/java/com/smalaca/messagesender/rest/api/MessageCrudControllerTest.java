@@ -48,6 +48,17 @@ public class MessageCrudControllerTest {
     }
 
     @Test
+    public void shouldNotFoundUserWithGivenId() throws Exception {
+        String uniqueIdentifier = "69";
+        MockHttpServletResponse result = mvc.perform(
+                MockMvcRequestBuilders.get("/message/get")
+                        .param("id", uniqueIdentifier)
+                        .accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
+
+        assertEquals(HttpStatus.NOT_FOUND.value(), result.getStatus());
+    }
+
+    @Test
     public void shouldReadWithIdInPath() throws Exception {
         String uniqueIdentifier = "13";
         MockHttpServletResponse result = mvc.perform(

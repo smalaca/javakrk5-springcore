@@ -3,11 +3,15 @@ package com.smalaca.messagesender.rest.api;
 import com.smalaca.messagesender.service.MessageCrud;
 import com.smalaca.messagesender.service.MessageDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/message")
 public class MessageCrudController {
+    private static final String FORBIDDEN_ID = "69";
+
     private final MessageCrud messageCrud;
 
     @Autowired
@@ -21,8 +25,12 @@ public class MessageCrudController {
     }
 
     @RequestMapping("/get")
-    public String get(@RequestParam String id) {
-        return "Message with id: " + id;
+    public ResponseEntity<String> get(@RequestParam String id) {
+        if (FORBIDDEN_ID.equals(id)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>("Message with id: " + id, HttpStatus.OK);
     }
 
     @RequestMapping("/find/{id}")
