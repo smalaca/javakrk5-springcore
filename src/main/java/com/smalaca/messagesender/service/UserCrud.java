@@ -15,10 +15,13 @@ public class UserCrud {
     public boolean createUser(UserDto userDto) {
         User user = new UserFactory().createFrom(userDto);
 
-        try{
+        if ((user.getLogin() == "") || (user.getEmail() == "" && user.getSlack() == "" && user.getTwitter() == ""))
+            return false;
+
+        try {
             userRepository.add(user);
             return true;
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return false;
         }
     }

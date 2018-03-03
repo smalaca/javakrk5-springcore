@@ -21,10 +21,10 @@ public class UserControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void shouldCheckIfCreated() throws Exception {
+    public void shouldCreateNewUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/createUser").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("valid")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
     }
 
 
