@@ -1,4 +1,6 @@
-package com.smalaca.messagesender.domain;
+package com.smalaca.messagesender.repository.inmemory;
+
+import com.smalaca.messagesender.domain.Message;
 
 public interface MessageRepository {
 
