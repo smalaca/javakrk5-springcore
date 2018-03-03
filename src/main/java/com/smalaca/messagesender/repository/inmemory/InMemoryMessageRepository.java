@@ -32,4 +32,14 @@ public class InMemoryMessageRepository implements MessageRepository {
     public boolean exists(Message message) {
         return messages.contains(message);
     }
+
+    public void delete(String messageId) {
+        int index=-1;
+        for (Message message: messages) {
+            if (message.hasSameId(messageId)) {
+                index = messages.indexOf(message);
+            }
+        }
+        messages.remove(index);
+    }
 }
