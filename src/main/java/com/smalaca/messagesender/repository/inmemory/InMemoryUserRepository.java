@@ -10,7 +10,7 @@ import java.util.Map;
 public class InMemoryUserRepository implements UserRepository {
     private Map<String, User> users;
 
-    public InMemoryUserRepository(HashMap<String, User> users) {
+    public InMemoryUserRepository(Map<String, User> users) {
         this.users = users;
     }
 
@@ -29,7 +29,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean delete(User user) {
-        if (users.containsKey(user.getLogin()) && user.equals(users.get(users.get(user.getLogin())))) {
+        if (users.containsKey(user.getLogin()) && user.equals(users.get(user.getLogin()))) {
             users.remove(user.getLogin());
             return true;
         }

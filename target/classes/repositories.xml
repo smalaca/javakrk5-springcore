@@ -6,7 +6,8 @@ http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 http://www.springframework.org/schema/util
 http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-    <util:list id="messages"></util:list>
+    <util:list id="messages"/>
+    <util:map id="users"/>
 
     <bean
             id="messageRepository"
@@ -14,5 +15,7 @@ http://www.springframework.org/schema/util/spring-util-2.5.xsd">
         <constructor-arg ref="messages"/>
     </bean>
 
-    <bean id="userRepository" class="com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository"/>
+    <bean id="userRepository" class="com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository">
+        <constructor-arg ref="users"/>
+    </bean>
 </beans>
