@@ -10,7 +10,31 @@ http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
     <bean
             id="messageRepository"
+            init-method="runBeforeUsage"
+            destroy-method="runBeforeDie"
+            scope="prototype"
             class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository">
         <constructor-arg ref="messages"/>
     </bean>
+
+
+    <bean class="A">
+        <constructor-arg>
+            <bean
+                    init-method="runBeforeUsage"
+                    destroy-method="runBeforeDie"
+                    class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository">
+                <constructor-arg ref="messages"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean class="B">
+        <constructor-arg ref="messageRepository"/>
+    </bean>
+    <bean class="C">
+        <constructor-arg ref="messageRepository"/>
+    </bean>
+
+
+
 </beans>

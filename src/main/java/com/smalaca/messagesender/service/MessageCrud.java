@@ -12,6 +12,7 @@ public class MessageCrud {
 
     @Autowired
     public MessageCrud(MessageRepository messageRepository) {
+        System.out.println("Creation of the MessageCrud");
         this.messageRepository = messageRepository;
     }
 

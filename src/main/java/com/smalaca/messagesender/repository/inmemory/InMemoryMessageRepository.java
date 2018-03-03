@@ -16,7 +16,16 @@ public class InMemoryMessageRepository implements MessageRepository {
     }
 
     public InMemoryMessageRepository(List<Message> messages) {
+        System.out.println("Creation of the InMemoryMessageRepository");
         this.messages = messages;
+    }
+
+    public void runBeforeUsage() {
+        System.out.println("init method");
+    }
+
+    public void runBeforeDie() {
+        System.out.println("I'm going to die");
     }
 
     public boolean exists(String id) {
