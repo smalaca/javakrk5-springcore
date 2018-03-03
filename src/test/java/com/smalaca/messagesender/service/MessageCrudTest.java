@@ -1,5 +1,7 @@
 package com.smalaca.messagesender.service;
 
+import com.smalaca.messagesender.MessageSenderApplication;
+import com.smalaca.messagesender.MessageSenderApplicationSpringConfiguration;
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
@@ -13,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.hamcrest.CoreMatchers.any;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/message-sender.xml")
+@ContextConfiguration(classes = {MessageSenderApplicationSpringConfiguration.class})
 public class MessageCrudTest {
     @Autowired private MessageRepository messageRepository;
     @Autowired private MessageCrud messageCrud;

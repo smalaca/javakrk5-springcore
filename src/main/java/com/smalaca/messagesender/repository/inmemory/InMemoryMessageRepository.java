@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
 public class InMemoryMessageRepository implements MessageRepository {
     private List<Message> messages;
 
