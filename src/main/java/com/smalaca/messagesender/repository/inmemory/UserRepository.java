@@ -8,7 +8,7 @@ public interface UserRepository {
 
     boolean delete(User user);
 
-    User getUserByLogin(String login);
+    User getUserByLogin(String login);  
 
     boolean exists(String login);
 
