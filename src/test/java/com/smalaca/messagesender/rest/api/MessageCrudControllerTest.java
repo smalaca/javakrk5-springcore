@@ -23,6 +23,7 @@ public class MessageCrudControllerTest {
     private static final String MESSAGE_FROM = "from@me";
     private static final String MESSAGE_TO = "to@you";
     private static final String DUMMY_VALUE = "dummy";
+    public static final String NOT_EXISTING_ID = "69";
 
     @Autowired private MockMvc mvc;
 
@@ -48,11 +49,10 @@ public class MessageCrudControllerTest {
     }
 
     @Test
-    public void shouldNotFoundUserWithGivenId() throws Exception {
-        String uniqueIdentifier = "69";
+    public void shouldNotGetUserWithGivenId() throws Exception {
         MockHttpServletResponse result = mvc.perform(
                 MockMvcRequestBuilders.get("/message/get")
-                        .param("id", uniqueIdentifier)
+                        .param("id", NOT_EXISTING_ID)
                         .accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
 
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getStatus());
@@ -67,6 +67,15 @@ public class MessageCrudControllerTest {
 
         assertEquals(HttpStatus.OK.value(), result.getStatus());
         assertEquals("Found message with id: " + uniqueIdentifier, result.getContentAsString());
+    }
+
+    @Test
+    public void shouldNotFoundUserWithGivenId() throws Exception {
+        MockHttpServletResponse result = mvc.perform(
+                MockMvcRequestBuilders.get("/message/find/{id}", NOT_EXISTING_ID)
+                        .accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
+
+        assertEquals(HttpStatus.NOT_FOUND.value(), result.getStatus());
     }
 
     @Test

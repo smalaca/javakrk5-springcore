@@ -35,6 +35,10 @@ public class MessageCrudController {
 
     @RequestMapping("/find/{id}")
     public String find(@PathVariable String id) {
+        if (FORBIDDEN_ID.equals(id)) {
+            throw new MessageDoesNotExistException(id);
+        }
+
         return "Found message with id: " + id;
     }
 
