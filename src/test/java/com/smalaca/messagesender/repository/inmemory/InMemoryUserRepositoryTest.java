@@ -17,8 +17,6 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/repositories.xml"})
 public class InMemoryUserRepositoryTest {
-    @Rule
-    public ExpectedException thrown= ExpectedException.none();
 
     private UserFactory factory = new UserFactory();
 
@@ -42,17 +40,13 @@ public class InMemoryUserRepositoryTest {
         assertTrue(inMemoryUserRepository.exists(user.getLogin()));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void shouldNotAddTwiceTheSameUser() {
         UserDto userDto = new UserDto();
         userDto.setLogin("franek");
         userDto.setEmail("franek@gmail.com");
         User user = factory.createFrom(userDto);
         inMemoryUserRepository.add(user);
-        inMemoryUserRepository.add(user);
-
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("user already in the repository!");
         inMemoryUserRepository.add(user);
     }
 }
