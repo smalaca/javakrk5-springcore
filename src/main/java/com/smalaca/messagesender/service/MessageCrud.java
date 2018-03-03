@@ -1,23 +1,22 @@
 package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.Message;
+import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MessageCrud {
     private final MessageRepository messageRepository;
 
+    @Autowired
     public MessageCrud(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
 
-    public Response createNew(
-            String subject, String body, String from, String to) {
-        Message message = new Message.MessageBuilder()
-                .withBody(body)
-                .withSubject(subject)
-                .withFrom(from)
-                .withTo(to)
-                .build();
+    public Response createNew(MessageDto messageDto) {
+        Message message = new MessageFactory().createFrom(messageDto);
 
         if (!messageRepository.exists(message)) {
             message.setId("1");
@@ -27,5 +26,13 @@ public class MessageCrud {
         }
 
         return Response.aFailureResponse("Message already exists");
+    }
+
+    public void deleteMessage(String messageId) {
+
+        if (messageRepository.exists(messageId)) {
+            messageRepository.delete(messageId);
+        }
+        throw new MissingIdException("Sorry, no such message Sahib!");
     }
 }

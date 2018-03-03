@@ -7,4 +7,6 @@ public interface MessageRepository {
     void add(Message message);
 
     boolean exists(Message message);
+
+    void delete(String messageId);
 }
