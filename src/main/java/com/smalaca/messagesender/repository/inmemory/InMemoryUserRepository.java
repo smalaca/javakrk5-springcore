@@ -1,17 +1,27 @@
 package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.Map;
 
+@Repository
 public class InMemoryUserRepository implements UserRepository {
-    private HashMap<String, User> users = new HashMap<>();
+    private Map<String, User> users;
+
+    public InMemoryUserRepository(HashMap<String, User> users) {
+        this.users = users;
+    }
+
+    public InMemoryUserRepository() {
+        users = new HashMap<>();
+    }
 
     @Override
     public void add(User user) {
-        if (!users.values().contains(user)) {
-            users.put(UUID.randomUUID().toString(), user);
+        if (!users.containsKey(user.getLogin())) {
+            users.put(user.getLogin(), user);
         } else {
             throw new IllegalArgumentException("user already in the repository!");
         }
@@ -19,21 +29,28 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean delete(User user) {
+        if (users.containsKey(user.getLogin()) && user.equals(users.get(users.get(user.getLogin())))) {
+            users.remove(user.getLogin());
+            return true;
+        }
         return false;
     }
 
     @Override
     public User getUserByLogin(String login) {
-        return null;
+        if (users.containsKey(login)) {
+            return users.get(login);
+        }
+        throw new IllegalArgumentException("login not in the repository!");
     }
 
     @Override
     public boolean exists(String login) {
-        return false;
+        return users.containsKey(login);
     }
 
     @Override
     public boolean exists(User user) {
-        return false;
+        return users.containsValue(user);
     }
 }

@@ -1,5 +1,7 @@
 package com.smalaca.messagesender.domain;
 
+import java.util.Objects;
+
 public class User {
     private int id;
     private String login;
@@ -68,12 +70,20 @@ public class User {
 
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId() == user.getId() &&
+                Objects.equals(getLogin(), user.getLogin()) &&
+                Objects.equals(getEmail(), user.getEmail()) &&
+                Objects.equals(getSlack(), user.getSlack()) &&
+                Objects.equals(getTwitter(), user.getTwitter());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public int hashCode() {
+
+        return Objects.hash(getId(), getLogin(), getEmail(), getSlack(), getTwitter());
     }
 }
