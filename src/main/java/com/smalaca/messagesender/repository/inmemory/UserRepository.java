@@ -12,5 +12,7 @@ public interface UserRepository {
 
     boolean exists(String login);
 
+
+    
     boolean exists(User user);
 }
