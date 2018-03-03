@@ -2,12 +2,21 @@ package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryMessageRepository implements MessageRepository {
-    private final List<Message> messages = new ArrayList<>();
+    private List<Message> messages;
+
+    public InMemoryMessageRepository() {
+        this(new ArrayList<>());
+    }
+
+    public InMemoryMessageRepository(List<Message> messages) {
+        this.messages = messages;
+    }
 
     public boolean exists(String id) {
         return messages

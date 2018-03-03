@@ -1,6 +1,9 @@
 package com.smalaca.messagesender.service;
 
+import com.smalaca.messagesender.MessageSenderApplication;
+import com.smalaca.messagesender.MessageSenderApplicationSpringConfiguration;
 import com.smalaca.messagesender.domain.Message;
+import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.hamcrest.CoreMatchers.any;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/message-sender.xml")
+@ContextConfiguration(classes = {MessageSenderApplicationSpringConfiguration.class})
 public class MessageCrudTest {
     @Autowired private MessageRepository messageRepository;
     @Autowired private MessageCrud messageCrud;
@@ -24,7 +27,13 @@ public class MessageCrudTest {
         String from = "from";
         String to = "to";
 
-        Response response = messageCrud.createNew(subject, body, from, to);
+        MessageDto messageDto = new MessageDto();
+        messageDto.setBody(body);
+        messageDto.setSubject(subject);
+        messageDto.setFrom(from);
+        messageDto.setTo(to);
+
+        Response response = messageCrud.createNew(messageDto);
 
         Assert.assertTrue(response.isSuccess());
         Assert.assertThat(response.getMessage(), any(String.class));
@@ -37,14 +46,15 @@ public class MessageCrudTest {
         String body = "body";
         String from = "from";
         String to = "to";
-        messageRepository.add(new Message.MessageBuilder()
-                .withBody(body)
-                .withSubject(subject)
-                .withFrom(from)
-                .withTo(to)
-                .build());
+        MessageDto messageDto = new MessageDto();
+        messageDto.setBody(body);
+        messageDto.setSubject(subject);
+        messageDto.setFrom(from);
+        messageDto.setTo(to);
 
-        Response response = messageCrud.createNew(subject, body, from, to);
+        messageRepository.add(new MessageFactory().createFrom(messageDto));
+
+        Response response = messageCrud.createNew(messageDto);
 
         Assert.assertFalse(response.isSuccess());
     }
