@@ -9,4 +9,7 @@ public interface MessageRepository {
     void add(Message message);
 
     boolean exists(Message message);
+
+    Message getMessageById(String id);
+
 }
