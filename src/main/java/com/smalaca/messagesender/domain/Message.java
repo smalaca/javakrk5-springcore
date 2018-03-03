@@ -29,7 +29,7 @@ public class Message {
         if (!subject.equals(message.subject)) return false;
         if (!body.equals(message.body)) return false;
         if (!from.equals(message.from)) return false;
-        if (!id.equals(message.id)) return false;
+        if (!id.equals(message.id) && id != "") return false;
         return to.equals(message.to);
     }
 
