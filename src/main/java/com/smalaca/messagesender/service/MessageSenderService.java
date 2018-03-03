@@ -2,14 +2,17 @@ package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.User;
+import com.smalaca.messagesender.exceptions.NoMessageException;
 import com.smalaca.messagesender.repository.inmemory.MessageRepository;
 import com.smalaca.messagesender.repository.inmemory.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
-public class MessageSenderService{
+public class MessageSenderService {
 
 
     @Autowired
@@ -19,15 +22,15 @@ public class MessageSenderService{
     public MailSender emailSender;
 
 
-    public Response sendMessageViaEmail(String messageId){
+    public Response sendMessageViaEmail(String messageId) {
 
-        Message message = messageRepository.getMessageById(messageId);
-
-        Response response = emailSender.sendEmailSender(message);
-
-        return response;
+        try {
+            Message message = messageRepository.getMessageById(messageId);
+            return emailSender.sendEmailSender(message);
+        } catch (NoSuchElementException e) {
+                throw new NoMessageException(messageId);
+        }
     }
-
 
 
 }
