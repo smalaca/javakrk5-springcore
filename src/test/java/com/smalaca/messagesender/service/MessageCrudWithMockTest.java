@@ -1,5 +1,6 @@
 package com.smalaca.messagesender.service;
 
+import com.smalaca.messagesender.MessageSenderApplicationSpringConfiguration;
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageRepository;
 import org.junit.Assert;
@@ -17,7 +18,7 @@ import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Matchers.isA;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/message-sender.xml", "/mocked-repositories.xml"})
+@ContextConfiguration(classes = {MessageSenderApplicationSpringConfiguration.class, MockedRepositories.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class MessageCrudWithMockTest {
     private static final String MESSAGE_FROM = "from";
