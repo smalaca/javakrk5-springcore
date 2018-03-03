@@ -13,4 +13,10 @@ http://www.springframework.org/schema/util/spring-util-2.5.xsd">
             class="com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository">
         <constructor-arg ref="messages"/>
     </bean>
+
+    <bean
+        id="userRepository"
+        class="com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository">
+
+    </bean>
 </beans>

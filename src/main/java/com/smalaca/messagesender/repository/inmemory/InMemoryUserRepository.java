@@ -34,6 +34,6 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean exists(User user) {
-        return false;
+        return true;
     }
 }
