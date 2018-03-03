@@ -23,6 +23,7 @@
     <properties>
         <junit.version>4.12</junit.version>
         <spring-framework.version>4.2.4.RELEASE</spring-framework.version>
+        <mockito-core.version>1.10.19</mockito-core.version>
     </properties>
 
     <dependencies>
@@ -42,6 +43,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring-framework.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
