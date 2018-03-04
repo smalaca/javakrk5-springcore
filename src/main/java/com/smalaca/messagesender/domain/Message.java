@@ -50,7 +50,7 @@ public class Message {
     }
 
     public boolean hasSameId(String id) {
-        return this.id == id;
+        return this.id.equals(id);
     }
 
     static class MessageBuilder {
