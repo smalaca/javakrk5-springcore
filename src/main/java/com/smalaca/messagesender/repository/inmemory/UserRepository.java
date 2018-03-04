@@ -16,5 +16,5 @@ public interface UserRepository {
 
     boolean isBlocked(String login);
 
-    void blockUser(String login);
+    boolean blockUser(String login);
 }
