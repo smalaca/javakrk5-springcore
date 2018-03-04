@@ -60,6 +60,8 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public void updateUser(UserDto userDto) {
         User user = getUserByLogin(userDto.getLogin());
+        if (new UserFactory().createFrom(userDto).equals(user))
+            throw new UserAlreadyExistException(user.getLogin());
         users.put(user.getLogin(), new UserFactory().createFrom(userDto));
     }
 }
