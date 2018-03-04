@@ -15,7 +15,7 @@ public class UserController {
     @Autowired
     UserCrud userCrud;
 
-    @RequestMapping("/createUser")
+    @RequestMapping("/user/create")
     public String createUser(@ModelAttribute UserDto userDto) {
         System.out.println("User Controller");
         if (userCrud.createUser(userDto)) {
@@ -25,7 +25,7 @@ public class UserController {
             return "User Creation Failed!";
     }
 
-    @RequestMapping("/blockUser")
+    @RequestMapping("/user/block")
     public String blockUser(@ModelAttribute String login) {
         if (userCrud.blockUser(login)) {
             return "User Blocked";

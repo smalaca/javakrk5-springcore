@@ -22,23 +22,23 @@ public class UserControllerTest {
 
     @Test
     public void shouldCreateNewUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
     }
 
     @Test
     public void shouldBlockUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
-        mvc.perform(MockMvcRequestBuilders.get("/blockUser?login=andrzej"))
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/block?login=andrzej"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Blocked")));
     }
 
     @Test
     public void shouldNotBlockUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
-        mvc.perform(MockMvcRequestBuilders.get("/blockUser?login=andrew"))
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/block?login=andrew"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Block Failed!")));
     }
