@@ -62,5 +62,4 @@ public class InMemoryUserRepository implements UserRepository {
         User user = getUserByLogin(userDto.getLogin());
         users.put(user.getLogin(), new UserFactory().createFrom(userDto));
     }
-
 }
