@@ -30,9 +30,4 @@ public class UserController {
         return null;
     }
 
-    @RequestMapping("/blockUser")
-    public String unblockUser(@ModelAttribute String login) {
-        return null;
-    }
-
 }
