@@ -2,7 +2,7 @@ package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
-import com.smalaca.messagesender.repository.inmemory.MessageRepository;
+import com.smalaca.messagesender.domain.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

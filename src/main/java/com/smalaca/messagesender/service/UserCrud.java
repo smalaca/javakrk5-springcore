@@ -2,7 +2,8 @@ package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.User;
 import com.smalaca.messagesender.domain.UserFactory;
-import com.smalaca.messagesender.repository.inmemory.UserRepository;
+import com.smalaca.messagesender.domain.UserRepository;
+import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +26,11 @@ public class UserCrud {
         try {
             userRepository.add(user);
             return true;
-        } catch (IllegalArgumentException e) {
+        } catch (UserAlreadyExistException e) {
+            e.getMessage();
             return false;
         }
     }
 
-    public boolean blockUser(UserDto userDto) {
-
-        return false;
-    }
 
 }

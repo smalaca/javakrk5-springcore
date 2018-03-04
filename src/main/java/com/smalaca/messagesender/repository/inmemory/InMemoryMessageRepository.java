@@ -1,6 +1,7 @@
 package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.Message;
+import com.smalaca.messagesender.domain.MessageRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

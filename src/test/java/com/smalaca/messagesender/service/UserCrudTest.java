@@ -1,7 +1,7 @@
 package com.smalaca.messagesender.service;
 
 
-import com.smalaca.messagesender.repository.inmemory.UserRepository;
+import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/users.xml")
+@ContextConfiguration("/users-services.xml")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserCrudTest {
     @Autowired

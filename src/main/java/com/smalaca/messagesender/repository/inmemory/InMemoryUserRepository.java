@@ -1,6 +1,9 @@
 package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.User;
+import com.smalaca.messagesender.domain.UserRepository;
+import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
+import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -24,17 +27,16 @@ public class InMemoryUserRepository implements UserRepository {
         if (!users.containsKey(user.getLogin())) {
             users.put(user.getLogin(), user);
         } else {
-            throw new IllegalArgumentException("user already in the repository!");
+            throw new UserAlreadyExistException("user already in the repository!");
         }
     }
 
     @Override
-    public boolean delete(User user) {
+    public void delete(User user) {
         if (users.containsKey(user.getLogin()) && user.equals(users.get(user.getLogin()))) {
             users.remove(user.getLogin());
-            return true;
-        }
-        return false;
+        } else
+            throw new UserDoesntExistException("User doesn't exist");
     }
 
     @Override

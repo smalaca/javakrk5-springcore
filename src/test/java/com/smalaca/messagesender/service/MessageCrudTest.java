@@ -1,7 +1,7 @@
 package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.MessageFactory;
-import com.smalaca.messagesender.repository.inmemory.MessageRepository;
+import com.smalaca.messagesender.domain.MessageRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

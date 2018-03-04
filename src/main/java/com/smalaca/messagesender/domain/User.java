@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class User {
     private int id;
-    private String login;
-    private String email;
-    private String slack;
-    private String twitter;
+    private final String login;
+    private final String email;
+    private final String slack;
+    private final String twitter;
 
     public int getId() {
         return id;
