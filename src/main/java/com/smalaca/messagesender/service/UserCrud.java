@@ -31,11 +31,14 @@ public class UserCrud {
     }
 
     public boolean updateUser(UserDto userDto) {
-        if (userRepository.exists(userDto.getLogin())) {
-            User tmpUser = new UserFactory().createFrom(userDto);
-            if (isValidUser(tmpUser) && !tmpUser.equals(userRepository.getUserByLogin(userDto.getLogin()))) {
+
+        User tmpUser = new UserFactory().createFrom(userDto);
+        if (isValidUser(tmpUser)) {
+            try {
                 userRepository.updateUser(userDto);
                 return true;
+            } catch (UserDoesntExistException | UserAlreadyExistException e) {
+                return false;
             }
         }
         return false;
