@@ -1,7 +1,9 @@
 package com.smalaca.messagesender.service;
 
+import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
+import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
 import com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -57,23 +59,23 @@ public class MessageCrudTest {
     @Test
     public void shouldDeletePreviouslyCreatedNewMessage() {
         MessageDto messageDto = getMessageDto();
-        messageCrud.createNew(messageDto);
+        Response responseFromCreation = messageCrud.createNew(messageDto);
 
-        Response response = messageCrud.deleteMessage("1");
+        Response response = messageCrud.deleteMessage(responseFromCreation.getMessage());
 
         Assert.assertTrue(response.isSuccess());
-        Assert.assertFalse(messageRepository.exists("1"));
+        Assert.assertFalse(messageRepository.exists(responseFromCreation.getMessage()));
     }
 
     @Test
     public void shouldNotDeletePreviouslyCreatedNewMessage() {
 
         MessageDto messageDto = getMessageDto();
-        messageCrud.createNew(messageDto);
+        Response responseFromCreation = messageCrud.createNew(messageDto);
 
-        Response response = messageCrud.deleteMessage("2");
+        Response response = messageCrud.deleteMessage(responseFromCreation.getMessage().toUpperCase());
+
         Assert.assertFalse(response.isSuccess());
-        Assert.assertThat(response.getMessage(), any(String.class));
-        Assert.assertTrue(messageRepository.exists("1"));
+        Assert.assertTrue(messageRepository.exists(responseFromCreation.getMessage()));
     }
 }

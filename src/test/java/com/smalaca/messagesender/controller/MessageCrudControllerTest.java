@@ -41,7 +41,7 @@ public class MessageCrudControllerTest {
                 .andReturn().getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("{\"success\":false,\"message\":\"Message with requested id does no exists!\"}", response.getContentAsString());
+        assertEquals("{\"success\":false,\"message\":\"Message with requested id does not exist.\"}", response.getContentAsString());
     }
 
     @Test
