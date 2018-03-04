@@ -1,6 +1,7 @@
 package com.smalaca.messagesender.domain;
 
 import com.smalaca.messagesender.domain.User;
+import com.smalaca.messagesender.service.UserDto;
 
 public interface UserRepository {
 
@@ -13,4 +14,6 @@ public interface UserRepository {
     boolean isBlocked(String login);
 
     boolean blockUser(String login);
+
+    void updateUser(UserDto userDto);
 }
