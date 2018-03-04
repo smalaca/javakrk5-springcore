@@ -58,6 +58,6 @@ public class UserCrud {
     }
 
     public boolean isUserBlocked(String login) {
-        return userRepository.getUserByLogin(login).isBlocked();
+        return userRepository.isBlocked(login);
     }
 }
