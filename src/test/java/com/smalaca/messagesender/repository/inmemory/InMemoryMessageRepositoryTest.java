@@ -3,6 +3,7 @@ package com.smalaca.messagesender.repository.inmemory;
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
+import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.service.MessageDto;
 import org.junit.Assert;
 import org.junit.Before;
