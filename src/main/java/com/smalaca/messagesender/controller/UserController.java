@@ -23,5 +23,14 @@ public class UserController {
             return "User Creation Failed!";
     }
 
+    @RequestMapping("/blockUser")
+    public String blockUser(@ModelAttribute String login) {
+        return null;
+    }
+
+    @RequestMapping("/blockUser")
+    public String unblockUser(@ModelAttribute String login) {
+        return null;
+    }
 
 }
