@@ -2,17 +2,20 @@ package com.smalaca.messagesender.service;
 
 
 import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
-import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class UserCrudTest {
+    public static final String LOGIN = "login";
+    public static final String EMAIL = "email";
+    public static final String TWITTER = "twitter";
+    public static final String SLACK = "slack";
     private InMemoryUserRepository userRepository = new InMemoryUserRepository();
     private UserCrud userCrud = new UserCrud(userRepository);
 
     @Test
     public void shouldNotCreateUserWithOnlyLogin() {
-        String login = "login";
+        String login = LOGIN;
 
         UserDto userDto = new UserDto();
 
@@ -25,8 +28,8 @@ public class UserCrudTest {
 
     @Test
     public void shouldCreateUserWithLoginAndEmail() {
-        String login = "login";
-        String email = "email";
+        String login = LOGIN;
+        String email = EMAIL;
 
         UserDto userDto = new UserDto();
 
@@ -41,7 +44,7 @@ public class UserCrudTest {
     @Test
     public void shouldCreateUserWithLoginAndTwitter() {
         String login = "login6";
-        String twitter = "twitter";
+        String twitter = TWITTER;
 
         UserDto userDto = new UserDto();
 
@@ -71,9 +74,9 @@ public class UserCrudTest {
     @Test
     public void shouldCreateUserWithAllFields() {
         String login = "login1";
-        String email = "email";
-        String twitter = "twitter";
-        String slack = "slack";
+        String email = EMAIL;
+        String twitter = TWITTER;
+        String slack = SLACK;
 
         UserDto userDto = new UserDto();
 
@@ -90,9 +93,9 @@ public class UserCrudTest {
     @Test
     public void shouldReturnFalseWhenTryToAddUserWithAlreadyExistingLogin() {
         String login = "login2";
-        String email = "email";
-        String twitter = "twitter";
-        String slack = "slack";
+        String email = EMAIL;
+        String twitter = TWITTER;
+        String slack = SLACK;
 
         UserDto userDto = new UserDto();
 
@@ -149,26 +152,20 @@ public class UserCrudTest {
 
     @Test
     public void shouldReturnTrueWhenTryToBlockNotBLockedUser(){
-        String login = "login";
-        String email = "email";
-        String twitter = "twitter";
-        String slack = "slack";
-
         UserDto userDto = new UserDto();
-
-        userDto.setLogin(login);
-        userDto.setEmail(email);
-        userDto.setTwitter(twitter);
-        userDto.setSlack(slack);
+        userDto.setLogin(LOGIN);
+        userDto.setEmail(EMAIL);
+        userDto.setTwitter(TWITTER);
+        userDto.setSlack(SLACK);
 
         userCrud.createUser(userDto);
 
-        Assert.assertTrue(userCrud.blockUser(login));
+        Assert.assertTrue(userCrud.blockUser(LOGIN));
     }
 
     @Test
     public void shouldReturnFalseWhenTryToBlockNonExistingUser(){
-        Assert.assertFalse(userCrud.blockUser("login"));
+        Assert.assertFalse(userCrud.blockUser(LOGIN));
     }
 
     @Test
@@ -179,41 +176,62 @@ public class UserCrudTest {
 
     @Test
     public void shouldReturnTrueWhenQueryForBlockedUser(){
-        String login = "login";
-        String email = "email";
-        String twitter = "twitter";
-        String slack = "slack";
-
         UserDto userDto = new UserDto();
 
-        userDto.setLogin(login);
-        userDto.setEmail(email);
-        userDto.setTwitter(twitter);
-        userDto.setSlack(slack);
+        userDto.setLogin(LOGIN);
+        userDto.setEmail(EMAIL);
+        userDto.setTwitter(TWITTER);
+        userDto.setSlack(SLACK);
 
         userCrud.createUser(userDto);
-        userCrud.blockUser(login);
+        userCrud.blockUser(LOGIN);
 
-        Assert.assertTrue(userCrud.isUserBlocked(login));
+        Assert.assertTrue(userCrud.isUserBlocked(LOGIN));
     }
 
     @Test
     public void shouldReturnFalseWhenQueryForNonBlockedUser(){
-        String login = "login";
-        String email = "email";
-        String twitter = "twitter";
-        String slack = "slack";
-
         UserDto userDto = new UserDto();
 
-        userDto.setLogin(login);
-        userDto.setEmail(email);
-        userDto.setTwitter(twitter);
-        userDto.setSlack(slack);
-
+        userDto.setLogin(LOGIN);
+        userDto.setEmail(EMAIL);
+        userDto.setTwitter(TWITTER);
+        userDto.setSlack(SLACK);
         userCrud.createUser(userDto);
 
-        Assert.assertFalse(userCrud.isUserBlocked(login));
+        Assert.assertFalse(userCrud.isUserBlocked(LOGIN));
+    }
+
+    @Test
+    public void shouldUpdateUser() {
+        UserDto userDto = new UserDto();
+
+        userDto.setLogin(LOGIN);
+        userDto.setEmail(EMAIL);
+        userDto.setTwitter(TWITTER);
+        userDto.setSlack(SLACK);
+
+        userCrud.createUser(userDto);
+        userDto.setEmail("a@a.com");
+
+        Assert.assertTrue(userCrud.updateUser(userDto));
+    }
+
+    @Test
+    public void shouldNotUpdateUser() {
+        UserDto userDto = new UserDto();
+
+        userDto.setLogin(LOGIN);
+        userDto.setEmail(EMAIL);
+        userDto.setTwitter(TWITTER);
+        userDto.setSlack(SLACK);
+
+        userCrud.createUser(userDto);
+        userDto.setEmail("");
+        userDto.setSlack("");
+        userDto.setTwitter("");
+
+        Assert.assertFalse(userCrud.updateUser(userDto));
     }
 
 }
