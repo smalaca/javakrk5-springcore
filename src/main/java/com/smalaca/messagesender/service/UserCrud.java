@@ -5,7 +5,6 @@ import com.smalaca.messagesender.domain.UserFactory;
 import com.smalaca.messagesender.domain.UserRepository;
 import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
 import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
-import com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository;
 import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +21,28 @@ public class UserCrud {
 
     public boolean createUser(UserDto userDto) {
         User user = new UserFactory().createFrom(userDto);
-
-        if ((user.getLogin().equals("")) || user.getEmail().equals("") && user.getTwitter().equals("") && user.getSlack().equals(""))
-            return false;
-
+        if (!isValidUser(user)) return false;
         try {
             userRepository.add(user);
             return true;
         } catch (UserAlreadyExistException e) {
             return false;
         }
+    }
+
+    public boolean updateUser(UserDto userDto) {
+        if (userRepository.exists(userDto.getLogin())) {
+            User tmpUser = new UserFactory().createFrom(userDto);
+            if (isValidUser(tmpUser) && !tmpUser.equals(userRepository.getUserByLogin(userDto.getLogin()))) {
+                userRepository.updateUser(userDto);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isValidUser(User user) {
+        return !user.getLogin().equals("") && (!user.getEmail().equals("") || !user.getTwitter().equals("") || !user.getSlack().equals(""));
     }
 
     public boolean blockUser(String login) {
@@ -44,6 +55,6 @@ public class UserCrud {
     }
 
     public boolean isUserBlocked(String login) {
-        return userRepository.getUserByLogin(login).isBlocked();
+        return userRepository.isBlocked(login);
     }
 }

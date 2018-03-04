@@ -7,10 +7,6 @@ import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import com.smalaca.messagesender.service.UserDto;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 
@@ -66,5 +62,31 @@ public class InMemoryUserRepositoryTest {
     @Test
     public void shouldReturnFalseWhenQueryForIsBlockedFieldOfNewUser() {
         Assert.assertFalse(inMemoryUserRepository.isBlocked(exampleUser().getLogin()));
+    }
+
+    @Test
+    public void shouldUpdateUserIfPresent() {
+        UserDto userDtoUpdate = new UserDto();
+        userDtoUpdate.setLogin("franek");
+        userDtoUpdate.setEmail("newEmail@gmail.com");
+        userDtoUpdate.setSlack("newSlack");
+
+        inMemoryUserRepository.updateUser(userDtoUpdate);
+
+        User updatedUser = inMemoryUserRepository.getUserByLogin("franek");
+
+        Assert.assertEquals(updatedUser.getLogin(), userDtoUpdate.getLogin());
+        Assert.assertEquals(updatedUser.getSlack(), userDtoUpdate.getSlack());
+        Assert.assertEquals(updatedUser.getEmail(), userDtoUpdate.getEmail());
+    }
+
+    @Test(expected = UserDoesntExistException.class)
+    public void shouldThrowUserDoesntExistExceptionWhenTryToUpdateUserWhichDoesntExist() {
+        UserDto userDtoUpdate = new UserDto();
+        userDtoUpdate.setLogin("franioo");
+        userDtoUpdate.setEmail("newEmail@gmail.com");
+        userDtoUpdate.setSlack("newSlack");
+
+        inMemoryUserRepository.updateUser(userDtoUpdate);
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserControllerTest {
 
+
     @Autowired
     private MockMvc mvc;
 
@@ -60,6 +61,57 @@ public class UserControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/user/block?login=andrew"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Block Failed!")));
+    }
+
+    @Test
+    public void shouldThrow4xxErrorWhenNoLoginAddedToBlockUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/block"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    public void shouldUpdateUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=emailtest").accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
+
+        mvc.perform(MockMvcRequestBuilders.get("/user/update?login=andrzej&email=email&twitter=twitter&slack=slack").accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Updated")));
+    }
+
+    @Test
+    public void shouldNotUpdateUserWhenWrongLoginPassed() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/update?login=andrzej&email=email&twitter=twitter&slack=slack").accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Update Failed!")));
+    }
+
+    @Test
+    public void shouldNotUpdateUserWhenEmptyStringAsLoginPassed() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/update?login=&email=email&twitter=twitter&slack=slack").accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Update Failed!")));
+    }
+
+    @Test
+    public void shouldNotUpdateUserWhenOnlyLoginWasPassed() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email&twitter=twitter&slack=slack").accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
+
+        mvc.perform(MockMvcRequestBuilders.get("/user/update?login=andrzej").accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Update Failed!")));
+
+    }
+
+    @Test
+    public void shouldNotUpdateUserWhenNoParamsPassed() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/update").accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Update Failed!")));
     }
 
 
