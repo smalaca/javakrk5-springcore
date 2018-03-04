@@ -29,4 +29,10 @@ public class UserCrud {
             return false;
         }
     }
+
+    public boolean blockUser(UserDto userDto) {
+
+        return false;
+    }
+
 }
