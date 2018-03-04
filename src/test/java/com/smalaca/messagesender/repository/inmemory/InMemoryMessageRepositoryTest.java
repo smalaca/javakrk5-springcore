@@ -2,132 +2,64 @@ package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
+import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
 import com.smalaca.messagesender.service.MessageDto;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.junit.Assert.*;
+import java.util.UUID;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/repositories.xml", "/fake-messages.xml"})
+@ContextConfiguration(locations = {"/repositories.xml"})
 public class InMemoryMessageRepositoryTest {
+
     private static final String SOME_SUBJECT = "some subject";
     private static final String SOME_BODY = "some body";
+    public static final String TO_SOMEONE = "javakrk5";
+    public static final String FROM_SOMEONE = "smalaca";
 
     @Autowired private InMemoryMessageRepository repository;
     private MessageFactory factory = new MessageFactory();
 
-    @Test
-    public void shouldRecognizeThatFirstMessageExist() {
+    private Message setMessageAndAddToRepository() {
         MessageDto messageDto = new MessageDto();
         messageDto.setSubject(SOME_SUBJECT);
         messageDto.setBody(SOME_BODY);
+        messageDto.setTo(TO_SOMEONE);
+        messageDto.setFrom(FROM_SOMEONE);
 
-        assertTrue(repository.exists(factory.createFrom(messageDto)));
+        Message message = factory.createFrom(messageDto, UUID.randomUUID().toString());
+        repository.add(message);
+        return message;
     }
 
     @Test
-    public void shouldRecognizeThatMessageSimilarToFirstDoesNotExist() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some subject");
-        messageDto.setBody("some body");
+    public void shouldRecognizeThatMessageExist() {
 
-        assertFalse(repository.exists(factory.createFrom(messageDto, "some id")));
-    }
+        Message message = setMessageAndAddToRepository();
 
-    @Test
-    public void shouldRecognizeThatSecodeMessageExist() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject(SOME_SUBJECT);
-        messageDto.setBody(SOME_BODY);
-
-        assertTrue(repository.exists(factory.createFrom(messageDto, "123456")));
-    }
-
-    @Test
-    public void shouldRecognizeThatMessageSimilarToSecondDoesNotExist() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some");
-        messageDto.setBody("some");
-
-        assertFalse(repository.exists(factory.createFrom(messageDto, "1234567")));
-    }
-
-    @Test
-    public void shouldRecognizeThatThirdMessageExist() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject(SOME_SUBJECT);
-        messageDto.setBody(SOME_BODY);
-        messageDto.setTo("javakrk5");
-        messageDto.setFrom("smalaca");
-
-        assertTrue(repository.exists(factory.createFrom(messageDto, "123456")));
-    }
-
-    @Test
-    public void shouldRecognizeThatFourthMessageExist() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("hot topic");
-        messageDto.setBody("nice body");
-
-        assertTrue(repository.exists(factory.createFrom(messageDto)));
-    }
-
-    @Test
-    public void shouldRecognizeThatMessageSimilarToThirdDoesNotExist() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some subject 2");
-        messageDto.setBody("some body 2");
-        messageDto.setTo("smalaca");
-        messageDto.setFrom("javakrk5");
-
-        assertFalse(repository.exists(factory.createFrom(messageDto, "123456")));
+        assertTrue(repository.exists(message));
     }
 
     @Test
     public void shouldDeletePreviouslyCreatedNewMessage(){
 
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some subject 2");
-        messageDto.setBody("some body 2");
-        messageDto.setTo("smalaca");
-        messageDto.setFrom("javakrk5");
+        Message message = setMessageAndAddToRepository();
+        String messageId = message.getId();
 
-        Message message = factory.createFrom(messageDto, "777");
-        repository.add(message);
+        repository.delete(messageId);
 
-        Assert.assertTrue(repository.exists("777"));
-
-        repository.delete("777");
-
-        Assert.assertFalse(repository.exists("777"));
+        Assert.assertFalse(repository.exists(messageId));
     }
 
-    @Test
-    public void shouldNotDeletePreviouslyCreatedNewMessage(){
-
-        MessageDto messageDto = new MessageDto();
-        messageDto.setSubject("some subject 2");
-        messageDto.setBody("some body 2");
-        messageDto.setTo("smalaca");
-        messageDto.setFrom("javakrk5");
-
-        Message message = factory.createFrom(messageDto, "777");
-        repository.add(message);
-
-        Assert.assertTrue(repository.exists("777"));
-
-        try {
-            repository.delete("778");
-            fail("Should not delete 778");
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            assertEquals("-1", exception.getMessage());
-        }
-
-        Assert.assertTrue(repository.exists("777"));
+    @Test(expected = MessageDoesNotExistException.class)
+    public void shouldReturnMessageDoesNotExistException() {
+        repository.delete("1234");
     }
 }

@@ -2,6 +2,7 @@ package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageRepository;
+import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -41,8 +42,11 @@ public class InMemoryMessageRepository implements MessageRepository {
                 index = messages.indexOf(message);
             }
         }
-
-        messages.remove(index);
+        if (index!= -1){
+            messages.remove(index);
+        } else{
+            throw new MessageDoesNotExistException ("Message with requested id does not exist.");
+        }
     }
 
     public List<Message> getMessages() {

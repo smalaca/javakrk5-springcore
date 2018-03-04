@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MessageCrud {
@@ -22,7 +23,7 @@ public class MessageCrud {
         Message message = new MessageFactory().createFrom(messageDto);
 
         if (!messageRepository.exists(message)) {
-            message.setId("1");
+            message.setId(UUID.randomUUID().toString());
             messageRepository.add(message);
 
             return Response.aSuccessfulResponseWith("1");
