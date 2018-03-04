@@ -114,5 +114,12 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Update Failed!")));
     }
 
+    @Test
+    public void shouldProduceErrorWhenAccessingBlockWithoutParameters() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/block"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("empty login not allowed here!")));
+    }
+
 
 }
