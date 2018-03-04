@@ -20,11 +20,11 @@ public class UserController {
         if (userCrud.createUser(userDto))
             return "User Created";
         else
-            return "User Creation Failed";
+            return "User Creation Failed!";
     }
 
     @RequestMapping("/user/block")
-    public String blockUser(@ModelAttribute String login) {
+    public String blockUser(@RequestParam String login) {
         if (userCrud.blockUser(login)) {
             return "User Blocked";
         }

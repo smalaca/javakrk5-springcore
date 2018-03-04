@@ -2,18 +2,12 @@ package com.smalaca.messagesender.service;
 
 
 import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
-import com.smalaca.messagesender.repository.inmemory.UserRepository;
+import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 public class UserCrudTest {
-    private UserRepository userRepository = new InMemoryUserRepository();
+    private InMemoryUserRepository userRepository = new InMemoryUserRepository();
     private UserCrud userCrud = new UserCrud(userRepository);
 
     @Test

@@ -32,29 +32,16 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public void delete(User user) {
-        if (users.containsKey(user.getLogin()) && user.equals(users.get(user.getLogin()))) {
-            users.remove(user.getLogin());
-        } else
-            throw new UserDoesntExistException("User doesn't exist");
-    }
-
-    @Override
     public User getUserByLogin(String login) {
         if (users.containsKey(login)) {
             return users.get(login);
         }
-        throw new IllegalArgumentException("login not in the repository!");
+        throw new UserDoesntExistException(login);
     }
 
     @Override
     public boolean exists(String login) {
         return users.containsKey(login);
-    }
-
-    @Override
-    public boolean exists(User user) {
-        return users.containsValue(user);
     }
 
     @Override
@@ -64,14 +51,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean blockUser(String login) {
-        User user = null;
-        try {
-            user = getUserByLogin(login);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        user.blockUser();
-        users.put(login, user);
+        getUserByLogin(login).blockUser();
         return true;
     }
 }
