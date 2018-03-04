@@ -22,26 +22,26 @@ public class UserControllerTest {
 
     @Test
     public void shouldCreateNewUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
     }
 
     @Test
     public void shouldNotCreateNewUserWhenNoParametersPassed() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/user/create").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Creation Failed!")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Creation Failed")));
     }
 
     @Test
     public void shouldNotCreateNewUserWhenTryToAddSameUserAgain() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej1&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
-        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej1&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Creation Failed!")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Creation Failed")));
     }
 
 

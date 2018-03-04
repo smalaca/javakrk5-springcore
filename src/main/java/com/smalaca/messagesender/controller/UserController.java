@@ -13,24 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-   private UserCrud userCrud;
+    private UserCrud userCrud;
 
     @RequestMapping("/user/create")
     public String createUser(@ModelAttribute UserDto userDto) {
-        if (userCrud.createUser(userDto)) {
+        if (userCrud.createUser(userDto))
             return "User Created";
-        } else
-            return "User Creation Failed!";
+        else
+            return "User Creation Failed";
     }
 
     @RequestMapping("/blockUser")
     public String blockUser(@ModelAttribute String login) {
         return null;
     }
-
-    @RequestMapping("/blockUser")
-    public String unblockUser(@ModelAttribute String login) {
-        return null;
-    }
-
 }

@@ -27,7 +27,7 @@ public class UserCrud {
             userRepository.add(user);
             return true;
         } catch (UserAlreadyExistException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
             return false;
         }
     }
