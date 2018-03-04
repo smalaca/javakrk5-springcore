@@ -1,4 +1,4 @@
-package com.smalaca.messagesender.rest.api;
+package com.smalaca.messagesender.controller;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;

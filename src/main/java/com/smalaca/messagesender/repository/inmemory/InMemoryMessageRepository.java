@@ -41,13 +41,8 @@ public class InMemoryMessageRepository implements MessageRepository {
                 index = messages.indexOf(message);
             }
         }
-        try {
-            messages.remove(index);
-        }
-        catch (ArrayIndexOutOfBoundsException e){
-            e = new ArrayIndexOutOfBoundsException("ERROR: No message found with such id!");
-            System.out.println(e.getMessage());
-        }
+
+        messages.remove(index);
     }
 
     public List<Message> getMessages() {

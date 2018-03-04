@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/repositories.xml", "/fake-messages.xml"})
@@ -122,7 +121,12 @@ public class InMemoryMessageRepositoryTest {
 
         Assert.assertTrue(repository.exists("777"));
 
-        repository.delete("778");
+        try {
+            repository.delete("778");
+            fail("Should not delete 778");
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            assertEquals("-1", exception.getMessage());
+        }
 
         Assert.assertTrue(repository.exists("777"));
     }

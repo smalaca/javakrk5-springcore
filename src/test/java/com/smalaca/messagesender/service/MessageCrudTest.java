@@ -2,6 +2,7 @@ package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
+import com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,13 +12,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.CoreMatchers.any;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/message-sender.xml")
 public class MessageCrudTest {
-    public static final String SUBJECT = "subject";
-    public static final String BODY = "body";
-    public static final String FROM = "from";
-    public static final String TO = "to";
+    private static final String SUBJECT = "subject";
+    private static final String BODY = "body";
+    private static final String FROM = "from";
+    private static final String TO = "to";
 
     private MessageDto getMessageDto() {
         MessageDto messageDto = new MessageDto();
@@ -28,8 +27,8 @@ public class MessageCrudTest {
         return messageDto;
     }
 
-    @Autowired private MessageRepository messageRepository;
-    @Autowired private MessageCrud messageCrud;
+    private MessageRepository messageRepository = new InMemoryMessageRepository();
+    private MessageCrud messageCrud = new MessageCrud(messageRepository);
 
     @Test
     public void shouldCreateNewMessage() {
@@ -57,15 +56,15 @@ public class MessageCrudTest {
 
     @Test
     public void shouldDeletePreviouslyCreatedNewMessage() {
-
         MessageDto messageDto = getMessageDto();
         messageCrud.createNew(messageDto);
 
         Response response = messageCrud.deleteMessage("1");
+
         Assert.assertTrue(response.isSuccess());
-        Assert.assertThat(response.getMessage(), any(String.class));
         Assert.assertFalse(messageRepository.exists("1"));
     }
+
     @Test
     public void shouldNotDeletePreviouslyCreatedNewMessage() {
 
