@@ -14,7 +14,7 @@ public interface UserRepository {
 
     boolean exists(User user);
 
-    boolean isBlocked();
+    boolean isBlocked(String login);
 
     void blockUser(String login);
 }
