@@ -35,13 +35,4 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User blocked")));
     }
 
-    @Test
-    public void shouldUnblockUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
-        mvc.perform(MockMvcRequestBuilders.get("/blockUser?login=andrzej"));
-        mvc.perform(MockMvcRequestBuilders.get("/unblockUser?login=andrzej"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User unblocked")));
-    }
-
 }
