@@ -96,7 +96,7 @@ public class InMemoryMessageRepositoryTest {
     }
 
     @Test
-    public void shouldGetMessageById() {
+    public void shouldGetMessageByID() {
         MessageDto messageDto = new MessageDto();
         Response response = messageCrud.createNew(messageDto);
         Message message = messageRepository.getMessageById("1");
