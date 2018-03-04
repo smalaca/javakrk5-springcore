@@ -31,15 +31,12 @@ public class UserCrud {
     }
 
     public boolean updateUser(UserDto userDto) {
-        try {
-            User user = userRepository.getUserByLogin(userDto.getLogin());
+        if (userRepository.exists(userDto.getLogin())) {
             User tmpUser = new UserFactory().createFrom(userDto);
             if (isValidUser(tmpUser)) {
                 userRepository.updateUser(userDto);
                 return true;
             }
-        } catch (UserDoesntExistException e) {
-            return false;
         }
         return false;
     }
