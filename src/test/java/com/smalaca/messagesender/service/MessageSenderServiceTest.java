@@ -1,18 +1,17 @@
 package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.exceptions.NoMessageException;
-import com.smalaca.messagesender.repository.inmemory.MessageRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/message-sender.xml")
+@SpringBootTest
 public class MessageSenderServiceTest {
 
     @Autowired

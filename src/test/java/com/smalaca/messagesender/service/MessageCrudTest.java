@@ -6,14 +6,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.CoreMatchers.any;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/message-sender.xml")
-public class MessageCrudTest {
+@SpringBootTest public class MessageCrudTest {
     @Autowired private MessageRepository messageRepository;
     @Autowired private MessageCrud messageCrud;
 
