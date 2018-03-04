@@ -63,7 +63,15 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public void blockUser(String login) {
-        getUserByLogin(login).blockUser();
+    public boolean blockUser(String login) {
+        User user = null;
+        try {
+            user = getUserByLogin(login);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        user.blockUser();
+        users.put(login, user);
+        return true;
     }
 }

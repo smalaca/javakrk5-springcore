@@ -1,7 +1,8 @@
 package com.smalaca.messagesender.service;
 
 
-import com.smalaca.messagesender.domain.UserRepository;
+import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
+import com.smalaca.messagesender.repository.inmemory.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,14 +12,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/users-services.xml")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserCrudTest {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-        UserCrud userCrud;
+    private UserRepository userRepository = new InMemoryUserRepository();
+    private UserCrud userCrud = new UserCrud(userRepository);
 
     @Test
     public void shouldNotCreateUserWithOnlyLogin() {
@@ -158,7 +154,7 @@ public class UserCrudTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenTryToBlockExistingUser(){
+    public void shouldReturnTrueWhenTryToBlockNotBLockedUser(){
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -187,7 +183,8 @@ public class UserCrudTest {
 
     }
 
-    @Test void shouldReturnTrueWhenQueryForBlockedUser(){
+    @Test
+    public void shouldReturnTrueWhenQueryForBlockedUser(){
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -206,7 +203,8 @@ public class UserCrudTest {
         Assert.assertTrue(userCrud.isUserBlocked(login));
     }
 
-    @Test void shouldReturnFalseWhenQueryForNonBlockedUser(){
+    @Test
+    public void shouldReturnFalseWhenQueryForNonBlockedUser(){
         String login = "login";
         String email = "email";
         String twitter = "twitter";
