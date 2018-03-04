@@ -3,6 +3,7 @@ package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +155,73 @@ public class UserCrudTest {
 
 
         Assert.assertFalse(isUserCreated);
+    }
+
+    @Test
+    public void shouldReturnTrueWhenTryToBlockExistingUser(){
+        String login = "login";
+        String email = "email";
+        String twitter = "twitter";
+        String slack = "slack";
+
+        UserDto userDto = new UserDto();
+
+        userDto.setLogin(login);
+        userDto.setEmail(email);
+        userDto.setTwitter(twitter);
+        userDto.setSlack(slack);
+
+        userCrud.createUser(userDto);
+
+        Assert.assertTrue(userCrud.blockUser(login));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTryToBlockNonExistingUser(){
+        Assert.assertFalse(userCrud.blockUser("login"));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTryToBlockUserPassingEmptyStringAsLogin(){
+        Assert.assertFalse(userCrud.blockUser(""));
+
+    }
+
+    @Test void shouldReturnTrueWhenQueryForBlockedUser(){
+        String login = "login";
+        String email = "email";
+        String twitter = "twitter";
+        String slack = "slack";
+
+        UserDto userDto = new UserDto();
+
+        userDto.setLogin(login);
+        userDto.setEmail(email);
+        userDto.setTwitter(twitter);
+        userDto.setSlack(slack);
+
+        userCrud.createUser(userDto);
+        userCrud.blockUser(login);
+
+        Assert.assertTrue(userCrud.isUserBlocked(login));
+    }
+
+    @Test void shouldReturnFalseWhenQueryForNonBlockedUser(){
+        String login = "login";
+        String email = "email";
+        String twitter = "twitter";
+        String slack = "slack";
+
+        UserDto userDto = new UserDto();
+
+        userDto.setLogin(login);
+        userDto.setEmail(email);
+        userDto.setTwitter(twitter);
+        userDto.setSlack(slack);
+
+        userCrud.createUser(userDto);
+
+        Assert.assertFalse(userCrud.isUserBlocked(login));
     }
 
 }
