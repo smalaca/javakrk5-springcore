@@ -33,7 +33,7 @@ public class UserCrud {
     public boolean updateUser(UserDto userDto) {
         if (userRepository.exists(userDto.getLogin())) {
             User tmpUser = new UserFactory().createFrom(userDto);
-            if (isValidUser(tmpUser)) {
+            if (isValidUser(tmpUser) && !tmpUser.equals(userRepository.getUserByLogin(userDto.getLogin()))) {
                 userRepository.updateUser(userDto);
                 return true;
             }
