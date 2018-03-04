@@ -1,6 +1,6 @@
 package com.smalaca.messagesender.domain;
 
-import com.smalaca.messagesender.domain.Message;
+import java.util.List;
 
 public interface MessageRepository {
 
@@ -9,4 +9,8 @@ public interface MessageRepository {
     void add(Message message);
 
     boolean exists(Message message);
+
+    void delete(String messageId);
+
+    List<Message> getMessages();
 }

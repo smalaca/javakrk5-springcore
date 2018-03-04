@@ -32,4 +32,25 @@ public class InMemoryMessageRepository implements MessageRepository {
     public boolean exists(Message message) {
         return messages.contains(message);
     }
+
+    @Override
+    public void delete(String messageId) {
+        int index = -1;
+        for (Message message : messages) {
+            if (message.hasSameId(messageId)) {
+                index = messages.indexOf(message);
+            }
+        }
+        try {
+            messages.remove(index);
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            e = new ArrayIndexOutOfBoundsException("ERROR: No message found with such id!");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
 }
