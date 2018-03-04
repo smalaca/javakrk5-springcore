@@ -33,6 +33,7 @@ public class InMemoryMessageRepository implements MessageRepository {
         return messages.contains(message);
     }
 
+    @Override
     public void delete(String messageId) {
         int index = -1;
         for (Message message : messages) {
@@ -40,6 +41,16 @@ public class InMemoryMessageRepository implements MessageRepository {
                 index = messages.indexOf(message);
             }
         }
-        messages.remove(index);
+        try {
+            messages.remove(index);
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            e = new ArrayIndexOutOfBoundsException("ERROR: No message found with such id!");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public List<Message> getMessages() {
+        return messages;
     }
 }

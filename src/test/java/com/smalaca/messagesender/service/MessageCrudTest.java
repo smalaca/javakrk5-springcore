@@ -14,21 +14,27 @@ import static org.hamcrest.CoreMatchers.any;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/message-sender.xml")
 public class MessageCrudTest {
+    public static final String SUBJECT = "subject";
+    public static final String BODY = "body";
+    public static final String FROM = "from";
+    public static final String TO = "to";
+
+    private MessageDto getMessageDto() {
+        MessageDto messageDto = new MessageDto();
+        messageDto.setBody(BODY);
+        messageDto.setSubject(SUBJECT);
+        messageDto.setFrom(FROM);
+        messageDto.setTo(TO);
+        return messageDto;
+    }
+
     @Autowired private MessageRepository messageRepository;
     @Autowired private MessageCrud messageCrud;
 
     @Test
     public void shouldCreateNewMessage() {
-        String subject = "subject";
-        String body = "body";
-        String from = "from";
-        String to = "to";
 
-        MessageDto messageDto = new MessageDto();
-        messageDto.setBody(body);
-        messageDto.setSubject(subject);
-        messageDto.setFrom(from);
-        messageDto.setTo(to);
+        MessageDto messageDto = getMessageDto();
 
         Response response = messageCrud.createNew(messageDto);
 
@@ -40,15 +46,7 @@ public class MessageCrudTest {
     @Test
     public void shouldNotCreateNewMessage() {
 
-        String subject = "subject";
-        String body = "body";
-        String from = "from";
-        String to = "to";
-        MessageDto messageDto = new MessageDto();
-        messageDto.setBody(body);
-        messageDto.setSubject(subject);
-        messageDto.setFrom(from);
-        messageDto.setTo(to);
+        MessageDto messageDto = getMessageDto();
 
         messageRepository.add(new MessageFactory().createFrom(messageDto));
 
@@ -60,19 +58,8 @@ public class MessageCrudTest {
     @Test
     public void shouldDeletePreviouslyCreatedNewMessage() {
 
-        String subject = "subject";
-        String body = "body";
-        String from = "from";
-        String to = "to";
-
-        MessageDto messageDto = new MessageDto();
-        messageDto.setBody(body);
-        messageDto.setSubject(subject);
-        messageDto.setFrom(from);
-        messageDto.setTo(to);
-
+        MessageDto messageDto = getMessageDto();
         messageCrud.createNew(messageDto);
-        Assert.assertTrue(messageRepository.exists("1"));
 
         Response response = messageCrud.deleteMessage("1");
         Assert.assertTrue(response.isSuccess());
@@ -82,24 +69,12 @@ public class MessageCrudTest {
     @Test
     public void shouldNotDeletePreviouslyCreatedNewMessage() {
 
-        String subject = "subject";
-        String body = "body";
-        String from = "from";
-        String to = "to";
-
-        MessageDto messageDto = new MessageDto();
-        messageDto.setBody(body);
-        messageDto.setSubject(subject);
-        messageDto.setFrom(from);
-        messageDto.setTo(to);
-
+        MessageDto messageDto = getMessageDto();
         messageCrud.createNew(messageDto);
-        Assert.assertTrue(messageRepository.exists("1"));
 
         Response response = messageCrud.deleteMessage("2");
         Assert.assertFalse(response.isSuccess());
         Assert.assertThat(response.getMessage(), any(String.class));
         Assert.assertTrue(messageRepository.exists("1"));
     }
-
 }

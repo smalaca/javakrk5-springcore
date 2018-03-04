@@ -5,11 +5,15 @@ public class Response {
     private static final boolean FAILURE = false;
 
     private final boolean success;
-    private final String message;
+    private String message;
 
     private Response(boolean isSuccess, String message) {
         this.success = isSuccess;
         this.message = message;
+    }
+
+    public Response(boolean success) {
+        this.success = success;
     }
 
     static Response aSuccessfulResponseWith(String message) {
@@ -26,5 +30,9 @@ public class Response {
 
     public String getMessage() {
         return message;
+    }
+
+    public static Response aSuccessfulResponse() {
+        return new Response(SUCCESS);
     }
 }

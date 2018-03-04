@@ -49,8 +49,10 @@ public class Message {
         return to;
     }
 
+    public String getId() {return  id;}
+
     public boolean hasSameId(String id) {
-        return this.id == id;
+        return this.id.equals(id);
     }
 
     static class MessageBuilder {

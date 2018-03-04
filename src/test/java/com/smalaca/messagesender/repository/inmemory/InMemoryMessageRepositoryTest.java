@@ -1,7 +1,9 @@
 package com.smalaca.messagesender.repository.inmemory;
 
+import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.service.MessageDto;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +87,43 @@ public class InMemoryMessageRepositoryTest {
         messageDto.setFrom("javakrk5");
 
         assertFalse(repository.exists(factory.createFrom(messageDto, "123456")));
+    }
+
+    @Test
+    public void shouldDeletePreviouslyCreatedNewMessage(){
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setSubject("some subject 2");
+        messageDto.setBody("some body 2");
+        messageDto.setTo("smalaca");
+        messageDto.setFrom("javakrk5");
+
+        Message message = factory.createFrom(messageDto, "777");
+        repository.add(message);
+
+        Assert.assertTrue(repository.exists("777"));
+
+        repository.delete("777");
+
+        Assert.assertFalse(repository.exists("777"));
+    }
+
+    @Test
+    public void shouldNotDeletePreviouslyCreatedNewMessage(){
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setSubject("some subject 2");
+        messageDto.setBody("some body 2");
+        messageDto.setTo("smalaca");
+        messageDto.setFrom("javakrk5");
+
+        Message message = factory.createFrom(messageDto, "777");
+        repository.add(message);
+
+        Assert.assertTrue(repository.exists("777"));
+
+        repository.delete("778");
+
+        Assert.assertTrue(repository.exists("777"));
     }
 }

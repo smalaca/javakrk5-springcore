@@ -7,6 +7,8 @@ import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MessageCrud {
     private final MessageRepository messageRepository;
@@ -30,12 +32,15 @@ public class MessageCrud {
     }
 
     public Response deleteMessage(String messageId) {
-        if (messageId.equals("NO_ID")) return Response.aFailureResponse("Requested parameter 'id' to proceed.");
         if (messageRepository.exists(messageId)) {
             messageRepository.delete(messageId);
-            return Response.aSuccessfulResponseWith("Message with requested id successfully deleted.");
+            return Response.aSuccessfulResponse();
         } else {
             return Response.aFailureResponse("Message with requested id does no exists!");
         }
+    }
+
+    public List<Message> getAllMessages() {
+        return messageRepository.getMessages();
     }
 }
