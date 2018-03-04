@@ -11,12 +11,12 @@ import java.util.NoSuchElementException;
 @Service
 public class MessageSenderService {
     private final MessageRepository messageRepository;
-    private final FakeMailSender emailSenderFake;
+    private final MailSender emailSender;
 
     @Autowired
-    public MessageSenderService(MessageRepository messageRepository, FakeMailSender emailSenderFake) {
+    public MessageSenderService(MessageRepository messageRepository, MailSender emailSender) {
         this.messageRepository = messageRepository;
-        this.emailSenderFake = emailSenderFake;
+        this.emailSender = emailSender;
     }
 
 
@@ -24,15 +24,11 @@ public class MessageSenderService {
 
         try {
             Message message = messageRepository.getMessageById(messageId);
-            return emailSenderFake.sendEmailSender(message);
+            return emailSender.sendEmailSender(message);
         } catch (NoSuchElementException e) {
-            throw new NoMessageException(messageId);
+                throw new NoMessageException(messageId);
         }
     }
 
-    public Response sendMessageViaEmialWasSuccess() {
-        return Response.aSuccessfulResponse();
-
-    }
 
 }

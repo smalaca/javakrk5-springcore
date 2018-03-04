@@ -34,8 +34,8 @@ public class MailSenderTest {
         messageDto.setBody("body");
 
         Response response = messageCrud.createNew(messageDto);
-        Message message = messageRepository.getMessageById("1");
 
+        Message message = messageRepository.getMessageById("1");
         Assert.assertTrue(mailSender.sendEmailSender(message).isSuccess());
     }
 

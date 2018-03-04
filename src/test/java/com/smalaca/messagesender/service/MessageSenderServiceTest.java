@@ -1,8 +1,5 @@
 package com.smalaca.messagesender.service;
 
-import com.smalaca.messagesender.domain.Message;
-import com.smalaca.messagesender.domain.MessageFactory;
-import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.exceptions.NoMessageException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,8 +17,6 @@ public class MessageSenderServiceTest {
     @Autowired
     private MessageSenderService messageSenderService;
     @Autowired
-    MessageRepository messageRepository;
-    @Autowired
     private MessageCrud messageCrud;
 
     @Test
@@ -33,11 +28,7 @@ public class MessageSenderServiceTest {
         messageDto.setTo("java5krk");
         messageCrud.createNew(messageDto);
 
-
-        Message message = new MessageFactory().createFrom(messageDto, "1");
-        messageRepository.add(message);
         Response response = messageSenderService.sendMessageViaEmail("1");
-
         Assert.assertTrue(response.isSuccess());
     }
 
