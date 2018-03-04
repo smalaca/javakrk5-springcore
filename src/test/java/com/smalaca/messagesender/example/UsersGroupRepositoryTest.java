@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -56,10 +57,6 @@ public class UsersGroupRepositoryTest {
         assertNotEquals(usersGroupsAsString, updated.toString());
     }
 
-    private UsersGroup someUsersGroup() {
-        return new UsersGroup(SOME_NAME, SOME_DESCRIPTION);
-    }
-
     @Test
     public void shouldReturnNoGroupsIfEmpty() {
         Iterable<UsersGroup> usersGroups = repository.findAll();
@@ -82,5 +79,42 @@ public class UsersGroupRepositoryTest {
 
     private UsersGroup randomUsersGroup() {
         return new UsersGroup(SOME_NAME, UUID.randomUUID().toString());
+    }
+
+    @Test
+    public void shouldNotFindUserByName() {
+        UsersGroup result = repository.findByName(SOME_NAME);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void shouldFindUserByName() {
+        UsersGroup usersGroup = repository.save(someUsersGroup());
+
+        UsersGroup result = repository.findByName(SOME_NAME);
+
+        assertEquals(usersGroup.toString(), result.toString());
+    }
+
+    @Test
+    public void shouldNotFindUserByDescription() {
+        Optional<UsersGroup> result = repository.findByDescription(SOME_DESCRIPTION);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void shouldFindUserByDescription() {
+        UsersGroup usersGroup = repository.save(someUsersGroup());
+
+        Optional<UsersGroup> result = repository.findByDescription(SOME_DESCRIPTION);
+
+        assertTrue(result.isPresent());
+        assertEquals(usersGroup.toString(), result.get().toString());
+    }
+
+    private UsersGroup someUsersGroup() {
+        return new UsersGroup(SOME_NAME, SOME_DESCRIPTION);
     }
 }
