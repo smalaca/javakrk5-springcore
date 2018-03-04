@@ -57,11 +57,11 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public boolean isBlocked(String login) {
-        return false;
+        return getUserByLogin(login).isBlocked();
     }
 
     @Override
     public void blockUser(String login) {
-
+        getUserByLogin(login).blockUser();
     }
 }
