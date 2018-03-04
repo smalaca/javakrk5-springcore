@@ -29,6 +29,14 @@ public class User {
         return twitter;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void blockUser(){
+        isBlocked = true;
+    }
+
     public User(UserBuilder userBuilder) {
         login = userBuilder.login;
         email = userBuilder.email;

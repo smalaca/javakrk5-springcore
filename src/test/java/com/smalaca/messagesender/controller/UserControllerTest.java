@@ -44,5 +44,21 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Creation Failed")));
     }
 
+    @Test
+    public void shouldBlockUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/block?login=andrzej"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Blocked")));
+    }
+
+    @Test
+    public void shouldNotBlockUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/block?login=andrew"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Block Failed!")));
+    }
+
 
 }

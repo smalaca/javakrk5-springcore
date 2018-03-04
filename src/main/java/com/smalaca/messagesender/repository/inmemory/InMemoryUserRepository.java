@@ -56,4 +56,14 @@ public class InMemoryUserRepository implements UserRepository {
     public boolean exists(User user) {
         return users.containsValue(user);
     }
+
+    @Override
+    public boolean isBlocked(String login) {
+        return getUserByLogin(login).isBlocked();
+    }
+
+    @Override
+    public void blockUser(String login) {
+        getUserByLogin(login).blockUser();
+    }
 }

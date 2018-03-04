@@ -32,5 +32,9 @@ public class UserCrud {
         }
     }
 
+    public boolean blockUser(String login) {
+
+        return false;
+    }
 
 }
