@@ -30,7 +30,7 @@ public class UserCrud {
         }
     }
 
-    public boolean blockUser(UserDto userDto) {
+    public boolean blockUser(String login) {
 
         return false;
     }

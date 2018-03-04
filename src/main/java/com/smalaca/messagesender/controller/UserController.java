@@ -27,7 +27,10 @@ public class UserController {
 
     @RequestMapping("/blockUser")
     public String blockUser(@ModelAttribute String login) {
-        return null;
+        if (userCrud.blockUser(login)) {
+            return "User Blocked";
+        }
+        return "User Block Failed!";
     }
 
 }
