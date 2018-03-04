@@ -3,49 +3,38 @@ package com.smalaca.messagesender.repository.inmemory;
 import com.smalaca.messagesender.domain.User;
 import com.smalaca.messagesender.domain.UserFactory;
 import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
+import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import com.smalaca.messagesender.service.UserDto;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/repositories.xml"})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class InMemoryUserRepositoryTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    private UserFactory factory = new UserFactory();
 
     @Before
     public void addUser() {
         inMemoryUserRepository.add(exampleUser());
     }
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    private UserFactory factory = new UserFactory();
-
-    @Autowired
-    private InMemoryUserRepository inMemoryUserRepository;
+    private InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
 
     @Test
     public void shouldNotFindUser() {
-
         assertFalse(inMemoryUserRepository.exists("wojciech"));
     }
 
     @Test
     public void shouldFindUser() {
         User user = exampleUser();
-
-        assertTrue(inMemoryUserRepository.exists(user));
         assertTrue(inMemoryUserRepository.exists(user.getLogin()));
     }
 
@@ -60,5 +49,22 @@ public class InMemoryUserRepositoryTest {
     public void shouldNotAddTwiceTheSameUser() {
         User user = exampleUser();
         inMemoryUserRepository.add(user);
+    }
+
+    @Test
+    public void shouldBlockUser() {
+        inMemoryUserRepository.blockUser(exampleUser().getLogin());
+
+        Assert.assertTrue(inMemoryUserRepository.isBlocked(exampleUser().getLogin()));
+    }
+
+    @Test(expected = UserDoesntExistException.class)
+    public void shouldThrowUserDoesntExistExceptionWhenTryToBlockWithIllegalLogin() {
+        inMemoryUserRepository.blockUser("tralalala");
+    }
+
+    @Test
+    public void shouldReturnFalseWhenQueryForIsBlockedFieldOfNewUser() {
+        Assert.assertFalse(inMemoryUserRepository.isBlocked(exampleUser().getLogin()));
     }
 }

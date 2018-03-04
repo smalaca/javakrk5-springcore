@@ -8,6 +8,7 @@ public class User {
     private final String email;
     private final String slack;
     private final String twitter;
+    private boolean isBlocked = false;
 
     public int getId() {
         return id;
@@ -27,6 +28,14 @@ public class User {
 
     public String getTwitter() {
         return twitter;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void blockUser() {
+        isBlocked = true;
     }
 
     public User(UserBuilder userBuilder) {
