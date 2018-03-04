@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,10 +23,8 @@ public class InMemoryMessageRepositoryTest {
     private static final String SOME_BODY = "some body";
 
     @Autowired
-    private MessageRepository messageRepository;
-    @Autowired
-    private MessageCrud messageCrud;
-    @Autowired private InMemoryMessageRepository repository;
+    private MessageRepository repository;
+
     private MessageFactory factory = new MessageFactory();
 
     @Test
@@ -98,10 +97,10 @@ public class InMemoryMessageRepositoryTest {
     @Test
     public void shouldGetMessageByID() {
         MessageDto messageDto = new MessageDto();
-        Response response = messageCrud.createNew(messageDto);
-        Message message = messageRepository.getMessageById("1");
+        repository.add(new MessageFactory().createFrom(messageDto, "1"));
+        Message message = repository.getMessageById("1");
 
-        Assert.assertNotNull(messageRepository.getMessageById("1"));
+        Assert.assertNotNull(repository.getMessageById("1"));
 
 
     }
