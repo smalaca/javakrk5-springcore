@@ -9,13 +9,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserCrud {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    UserRepository userRepository;
+    public UserCrud(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public boolean createUser(UserDto userDto) {
         User user = new UserFactory().createFrom(userDto);
 
-        if ((user.getLogin() == "") || (user.getEmail() == "" && user.getSlack() == "" && user.getTwitter() == ""))
+        if ((user.getLogin().equals("")) || user.getEmail().equals("") && user.getTwitter().equals("") && user.getSlack().equals(""))
             return false;
 
         try {

@@ -19,7 +19,6 @@ public class InMemoryUserRepository implements UserRepository {
         users = new HashMap<>();
     }
 
-    // Wydaje mi sie że ta walidacja powinna byc w serwisie
     @Override
     public void add(User user) {
         if (!users.containsKey(user.getLogin())) {
