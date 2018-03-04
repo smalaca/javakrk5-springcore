@@ -22,7 +22,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldCreateNewUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/createUser").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/createUser?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
     }
