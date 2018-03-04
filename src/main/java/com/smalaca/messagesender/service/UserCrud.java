@@ -20,9 +20,9 @@ public class UserCrud {
     }
 
     public boolean createUser(UserDto userDto) {
-        User user = new UserFactory().createFrom(userDto);
-        if (!isValidUser(user)) return false;
+        if (!isValidUser(userDto)) return false;
         try {
+            User user = new UserFactory().createFrom(userDto);
             userRepository.add(user);
             return true;
         } catch (UserAlreadyExistException e) {
@@ -31,9 +31,7 @@ public class UserCrud {
     }
 
     public boolean updateUser(UserDto userDto) {
-
-        User tmpUser = new UserFactory().createFrom(userDto);
-        if (isValidUser(tmpUser)) {
+        if (isValidUser(userDto)) {
             try {
                 userRepository.updateUser(userDto);
                 return true;
@@ -44,8 +42,8 @@ public class UserCrud {
         return false;
     }
 
-    private boolean isValidUser(User user) {
-        return !user.getLogin().equals("") && (!user.getEmail().equals("") || !user.getTwitter().equals("") || !user.getSlack().equals(""));
+    private boolean isValidUser(UserDto userDto) {
+        return !userDto.getLogin().equals("") && (!userDto.getEmail().equals("") || !userDto.getTwitter().equals("") || !userDto.getSlack().equals(""));
     }
 
     public boolean blockUser(String login) {
