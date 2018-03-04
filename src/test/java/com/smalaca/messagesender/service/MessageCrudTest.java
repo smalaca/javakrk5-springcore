@@ -1,6 +1,5 @@
 package com.smalaca.messagesender.service;
 
-import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
 import org.junit.Assert;
