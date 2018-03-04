@@ -1,7 +1,11 @@
 package com.smalaca.messagesender.repository.inmemory;
 
+import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
+import com.smalaca.messagesender.service.MessageCrud;
 import com.smalaca.messagesender.service.MessageDto;
+import com.smalaca.messagesender.service.Response;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,10 @@ public class InMemoryMessageRepositoryTest {
     private static final String SOME_SUBJECT = "some subject";
     private static final String SOME_BODY = "some body";
 
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private MessageCrud messageCrud;
     @Autowired private InMemoryMessageRepository repository;
     private MessageFactory factory = new MessageFactory();
 
@@ -85,5 +93,16 @@ public class InMemoryMessageRepositoryTest {
         messageDto.setFrom("javakrk5");
 
         assertFalse(repository.exists(factory.createFrom(messageDto, "123456")));
+    }
+
+    @Test
+    public void shouldGetMessageById() {
+        MessageDto messageDto = new MessageDto();
+        Response response = messageCrud.createNew(messageDto);
+        Message message = messageRepository.getMessageById("1");
+
+        Assert.assertNotNull(messageRepository.getMessageById("1"));
+
+
     }
 }
