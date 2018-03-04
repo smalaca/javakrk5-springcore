@@ -1,11 +1,15 @@
 package com.smalaca.messagesender.domain;
 
 public class Message {
-    private final String subject;
-    private final String body;
-    private final String from;
-    private final String to;
+    private String subject;
+    private String body;
+    private String from;
+    private String to;
     private String id;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     Message(MessageBuilder messageBuilder) {
         subject = messageBuilder.subject;
@@ -25,6 +29,7 @@ public class Message {
         if (!subject.equals(message.subject)) return false;
         if (!body.equals(message.body)) return false;
         if (!from.equals(message.from)) return false;
+        if (!id.equals(message.id) && id != "") return false;
         return to.equals(message.to);
     }
 
@@ -45,48 +50,42 @@ public class Message {
     }
 
     public boolean hasSameId(String id) {
-        return this.id == id;
+        return this.id.equals(id);
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public static class MessageBuilder {
-        private static final String NO_ID = null;
-
+    static class MessageBuilder {
         private String subject;
         private String body;
         private String sentFrom;
         private String sentTo;
-        private String id = NO_ID;
+        private String id;
 
-        public MessageBuilder withId(String id) {
+        MessageBuilder withId(String id) {
             this.id = id;
             return this;
         }
 
-        public MessageBuilder withSubject(String subject) {
+        MessageBuilder withSubject(String subject) {
             this.subject = subject;
             return this;
         }
 
-        public MessageBuilder withBody(String body) {
+        MessageBuilder withBody(String body) {
             this.body = body;
             return this;
         }
 
-        public MessageBuilder withFrom(String sentFrom) {
+        MessageBuilder withFrom(String sentFrom) {
             this.sentFrom = sentFrom;
             return this;
         }
 
-        public MessageBuilder withTo(String sentTo) {
+        MessageBuilder withTo(String sentTo) {
             this.sentTo = sentTo;
             return this;
         }
 
-        public Message build() {
+        Message build() {
             return new Message(this);
         }
     }
