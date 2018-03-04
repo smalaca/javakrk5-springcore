@@ -234,4 +234,18 @@ public class UserCrudTest {
         Assert.assertFalse(userCrud.updateUser(userDto));
     }
 
+    @Test
+    public void shouldNotUpdateUserWhenNoChange() {
+        UserDto userDto = new UserDto();
+
+        userDto.setLogin(LOGIN);
+        userDto.setEmail(EMAIL);
+        userDto.setTwitter(TWITTER);
+        userDto.setSlack(SLACK);
+
+        userCrud.createUser(userDto);
+
+        Assert.assertFalse(userCrud.updateUser(userDto));
+    }
+
 }
