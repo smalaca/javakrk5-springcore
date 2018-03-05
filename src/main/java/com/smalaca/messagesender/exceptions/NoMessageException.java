@@ -4,12 +4,7 @@ public class NoMessageException extends RuntimeException {
     private final String messageId;
 
     public NoMessageException(String messageId) {
-        super("Message " + messageId + " doesn't exist");
+        super(messageId);
         this.messageId = messageId;
     }
-
-    public String getMessageId() {
-        return messageId;
-    }
-
 }
