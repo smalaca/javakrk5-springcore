@@ -39,21 +39,24 @@ public class MessageSenderControllerTest {
 
         mvc.perform(MockMvcRequestBuilders.get("/send/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("sent")));
+                .andReturn();
+
+
     }
 
-    @Test
-    public void shouldReturnStatusErrorWhenSendMessage() throws Exception {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setBody("some body");
-        messageDto.setSubject("some subject");
-        messageDto.setFrom("msiek");
-        messageDto.setTo("java5krk");
-
-//        messageCrud.createNew(messageDto);
-
+//    @Test
+//    public void shouldReturnStatusErrorWhenSendMessage() throws Exception {
+//        MessageDto messageDto = new MessageDto();
+//        messageDto.setBody("some body");
+//        messageDto.setSubject("some subject");
+//        messageDto.setFrom("msiek");
+//        messageDto.setTo("java5krk");
+//
+//        repository.add(new MessageFactory().createFrom(messageDto, "1"));
+//
 //        mvc.perform(MockMvcRequestBuilders.get("/send/1").accept(MediaType.APPLICATION_JSON))
 //                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("sent")));
-    }
+//                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo()));
+//    }
+
 }

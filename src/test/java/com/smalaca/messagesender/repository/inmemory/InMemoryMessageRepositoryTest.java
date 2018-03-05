@@ -2,7 +2,6 @@ package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
-import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
 import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.service.MessageDto;
 import org.junit.Assert;
@@ -46,6 +45,19 @@ public class InMemoryMessageRepositoryTest {
         Message message = setMessageAndAddToRepository();
 
         assertTrue(repository.exists(message));
+    }
+
+    @Test
+    public void shouldGetMessageByID() {
+        MessageDto messageDto = new MessageDto();
+        repository.add(new MessageFactory().createFrom(messageDto, "1"));
+        repository.getMessageById("1");
+        repository.add(factory.createFrom(messageDto, "1"));
+        repository.getMessageById("1");
+
+        Assert.assertNotNull(repository.getMessageById("1"));
+
+
     }
 
     @Test
