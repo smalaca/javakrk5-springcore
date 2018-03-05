@@ -42,10 +42,10 @@ public class InMemoryMessageRepository implements MessageRepository {
                 index = messages.indexOf(message);
             }
         }
-        if (index!= -1){
+        if (index != -1) {
             messages.remove(index);
-        } else{
-            throw new MessageDoesNotExistException (messageId);
+        } else {
+            throw new MessageDoesNotExistException(messageId);
         }
     }
 
