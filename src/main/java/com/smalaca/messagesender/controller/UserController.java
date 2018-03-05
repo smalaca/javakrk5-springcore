@@ -25,10 +25,10 @@ public class UserController {
 
     @RequestMapping("/block")
     public ResponseEntity<String> blockUser(@ModelAttribute UserDto userDto) {
-        if (userDto.getLogin().equals("")) {
+        if (!userDto.hasLogin()) {
             return new ResponseEntity<>("empty login not allowed here!", HttpStatus.BAD_REQUEST);
         }
-        if (userCrud.blockUser(userDto.getLogin())) {
+        if (userCrud.blockUser(userDto)) {
             return new ResponseEntity<>("User Blocked", HttpStatus.OK);
         }
         return new ResponseEntity<>("User Block Failed!", HttpStatus.OK);

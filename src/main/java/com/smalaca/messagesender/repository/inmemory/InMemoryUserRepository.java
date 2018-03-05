@@ -59,9 +59,13 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public void updateUser(User user) {
-        if (user.equals(getUserByLogin(user.getLogin()))) {
-            throw new UserAlreadyExistException(user.getLogin());
+        if (users.containsKey(user.getLogin())) {
+            if (user.equals(getUserByLogin(user.getLogin()))) {
+                throw new UserAlreadyExistException(user.getLogin());
+            }
+            users.put(user.getLogin(), user);
+        } else {
+            throw new UserDoesntExistException("user not found!");
         }
-        users.put(user.getLogin(), user);
     }
 }

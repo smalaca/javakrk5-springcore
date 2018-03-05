@@ -12,6 +12,10 @@ public class UserDto {
         return login;
     }
 
+    public boolean hasLogin() {
+        return !login.equals("");
+    }
+
     public void setLogin(String login) {
         this.login = login;
     }

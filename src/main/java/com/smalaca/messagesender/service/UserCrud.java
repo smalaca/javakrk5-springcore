@@ -47,9 +47,9 @@ public class UserCrud {
         return !userDto.getLogin().equals("") && (!userDto.getEmail().equals("") || !userDto.getTwitter().equals("") || !userDto.getSlack().equals(""));
     }
 
-    public boolean blockUser(String login) {
+    public boolean blockUser(UserDto userDto) {
         try {
-            userRepository.blockUser(login);
+            userRepository.blockUser(userDto.getLogin());
             return true;
         } catch (UserDoesntExistException e) {
             return false;

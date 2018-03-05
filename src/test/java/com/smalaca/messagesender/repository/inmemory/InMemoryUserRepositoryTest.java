@@ -91,4 +91,15 @@ public class InMemoryUserRepositoryTest {
 
         inMemoryUserRepository.updateUser(newUser);
     }
+
+    @Test(expected = UserAlreadyExistException.class)
+    public void shouldThrowUserAlreadyExistsWhenNoChangeToUserData() {
+        UserDto userDtoUpdate = new UserDto();
+        userDtoUpdate.setLogin("franioo");
+        userDtoUpdate.setEmail("newEmail@gmail.com");
+        userDtoUpdate.setSlack("newSlack");
+        User newUser = factory.createFrom(userDtoUpdate);
+        inMemoryUserRepository.add(newUser);
+        inMemoryUserRepository.updateUser(newUser);
+    }
 }

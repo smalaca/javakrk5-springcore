@@ -160,18 +160,20 @@ public class UserCrudTest {
 
         userCrud.createUser(userDto);
 
-        Assert.assertTrue(userCrud.blockUser(LOGIN));
+        Assert.assertTrue(userCrud.blockUser(userDto));
     }
 
     @Test
     public void shouldReturnFalseWhenTryToBlockNonExistingUser(){
-        Assert.assertFalse(userCrud.blockUser(LOGIN));
+        UserDto userDto = new UserDto();
+        userDto.setLogin(LOGIN);
+        Assert.assertFalse(userCrud.blockUser(userDto));
     }
 
     @Test
     public void shouldReturnFalseWhenTryToBlockUserPassingEmptyStringAsLogin(){
-        Assert.assertFalse(userCrud.blockUser(""));
-
+        UserDto userDto = new UserDto();
+        Assert.assertFalse(userCrud.blockUser(userDto));
     }
 
     @Test
@@ -184,7 +186,7 @@ public class UserCrudTest {
         userDto.setSlack(SLACK);
 
         userCrud.createUser(userDto);
-        userCrud.blockUser(LOGIN);
+        userCrud.blockUser(userDto);
 
         Assert.assertTrue(userCrud.isUserBlocked(LOGIN));
     }
