@@ -45,7 +45,7 @@ public class InMemoryMessageRepository implements MessageRepository {
         if (index!= -1){
             messages.remove(index);
         } else{
-            throw new MessageDoesNotExistException ("Message with requested id does not exist.");
+            throw new MessageDoesNotExistException (messageId);
         }
     }
 

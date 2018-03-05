@@ -38,7 +38,12 @@ public class MessageCrud {
             messageRepository.delete(messageId);
             return Response.aSuccessfulResponse();
         } else {
-            return Response.aFailureResponse("Message with requested id does not exist.");
+            try {
+                messageRepository.delete(messageId);
+            } catch (MessageDoesNotExistException messageDoesNotExistException) {
+                return Response.aFailureResponse(messageDoesNotExistException.getMessage());
+            }
+            return Response.aFailureResponse("Some unexpected error occurred!");
         }
     }
 
