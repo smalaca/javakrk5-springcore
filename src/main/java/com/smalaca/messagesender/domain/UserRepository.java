@@ -15,5 +15,5 @@ public interface UserRepository {
 
     boolean blockUser(String login);
 
-    void updateUser(UserDto userDto);
+    void updateUser(User user);
 }

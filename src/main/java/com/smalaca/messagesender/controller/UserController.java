@@ -11,25 +11,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @RestController
 public class UserController {
-    public static final String FORBIDDEN_LOGIN = "";
 
     @Autowired
     private UserCrud userCrud;
 
     @RequestMapping("/create")
-    public ResponseEntity<String> createUser(@ModelAttribute UserDto userDto) {
+    public String createUser(@ModelAttribute UserDto userDto) {
         if (userCrud.createUser(userDto))
-            return new ResponseEntity<>("User Created", HttpStatus.OK);
+            return "User Created";
         else
-            return new ResponseEntity<>("User Creation Failed!", HttpStatus.OK);
+            return "User Creation Failed!";
     }
 
     @RequestMapping("/block")
-    public ResponseEntity<String> blockUser(@RequestParam(value = "login", defaultValue = FORBIDDEN_LOGIN) String login) {
-        if (login.equals(FORBIDDEN_LOGIN)) {
+    public ResponseEntity<String> blockUser(@ModelAttribute UserDto userDto) {
+        if (userDto.getLogin().equals("")) {
             return new ResponseEntity<>("empty login not allowed here!", HttpStatus.BAD_REQUEST);
         }
-        if (userCrud.blockUser(login)) {
+        if (userCrud.blockUser(userDto.getLogin())) {
             return new ResponseEntity<>("User Blocked", HttpStatus.OK);
         }
         return new ResponseEntity<>("User Block Failed!", HttpStatus.OK);
