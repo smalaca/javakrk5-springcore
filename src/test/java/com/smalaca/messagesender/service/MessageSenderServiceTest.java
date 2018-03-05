@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.fail;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class MessageSenderServiceTest {
@@ -32,21 +30,26 @@ public class MessageSenderServiceTest {
         Assert.assertTrue(response.isSuccess());
     }
 
-    @Test
+    @Test(expected = NoMessageException.class)
     public void shouldReturnExceptionIfSendMessageViaMailUnsuccessful() {
-        Assert.assertTrue(true);
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setBody("some body");
+        messageDto.setSubject("some subject");
+        messageDto.setFrom("msiek");
+        messageDto.setTo("java5krk");
+
+        messageCrud.createNew(messageDto);
+        Response response = messageSenderService.sendMessageViaEmail(null);
+        Assert.assertEquals(response.isSuccess(), false);
+
     }
 
-    @Test
-    public void shouldThrowExceptionWhenMessageIsNull() {
-        String messageId = "not existing id";
-        try {
-            messageSenderService.sendMessageViaEmail(messageId);
-            fail("Expected NoMessageException");
-        } catch (NoMessageException e) {
-            e.printStackTrace();
-            // success
-        }
-    }
+    @Test(expected = NoMessageException.class)
+    public void shouldThrowExceptionWhenMessageIsNull() throws Exception {
 
+        MessageDto messageDto = null;
+        if (messageDto == null)
+            throw new NoMessageException("Message is empty");
+    }
 }
