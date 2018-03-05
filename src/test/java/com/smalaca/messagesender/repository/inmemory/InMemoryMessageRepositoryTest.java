@@ -2,6 +2,7 @@ package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
+import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.service.MessageDto;
 import com.smalaca.messagesender.domain.MessageRepository;
 import org.junit.Assert;
@@ -24,7 +25,9 @@ public class InMemoryMessageRepositoryTest {
     public static final String TO_SOMEONE = "javakrk5";
     public static final String FROM_SOMEONE = "smalaca";
 
-    @Autowired private InMemoryMessageRepository repository;
+    @Autowired
+    private MessageRepository repository;
+
     private MessageFactory factory = new MessageFactory();
 
     private Message setMessageAndAddToRepository() {
@@ -45,6 +48,19 @@ public class InMemoryMessageRepositoryTest {
         Message message = setMessageAndAddToRepository();
 
         assertTrue(repository.exists(message));
+    }
+
+    @Test
+    public void shouldGetMessageByID() {
+        MessageDto messageDto = new MessageDto();
+        repository.add(new MessageFactory().createFrom(messageDto, "1"));
+        repository.getMessageById("1");
+        repository.add(factory.createFrom(messageDto, "1"));
+        repository.getMessageById("1");
+
+        Assert.assertNotNull(repository.getMessageById("1"));
+
+
     }
 
     @Test
