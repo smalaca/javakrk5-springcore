@@ -33,7 +33,8 @@ public class UserCrud {
     public boolean updateUser(UserDto userDto) {
         if (isValidUser(userDto)) {
             try {
-                userRepository.updateUser(userDto);
+                User user = new UserFactory().createFrom(userDto);
+                userRepository.updateUser(user);
                 return true;
             } catch (UserDoesntExistException | UserAlreadyExistException e) {
                 return false;

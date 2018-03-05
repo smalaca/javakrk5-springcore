@@ -70,8 +70,9 @@ public class InMemoryUserRepositoryTest {
         userDtoUpdate.setLogin("franek");
         userDtoUpdate.setEmail("newEmail@gmail.com");
         userDtoUpdate.setSlack("newSlack");
+        User newUser = factory.createFrom(userDtoUpdate);
 
-        inMemoryUserRepository.updateUser(userDtoUpdate);
+        inMemoryUserRepository.updateUser(newUser);
 
         User updatedUser = inMemoryUserRepository.getUserByLogin("franek");
 
@@ -86,7 +87,8 @@ public class InMemoryUserRepositoryTest {
         userDtoUpdate.setLogin("franioo");
         userDtoUpdate.setEmail("newEmail@gmail.com");
         userDtoUpdate.setSlack("newSlack");
+        User newUser = factory.createFrom(userDtoUpdate);
 
-        inMemoryUserRepository.updateUser(userDtoUpdate);
+        inMemoryUserRepository.updateUser(newUser);
     }
 }
