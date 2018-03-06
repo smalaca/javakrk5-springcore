@@ -1,15 +1,10 @@
 package com.smalaca.messagesender.service;
 
 import com.smalaca.messagesender.domain.Message;
-import org.springframework.stereotype.Component;
 
-@Component
-public class MailSender {
+public interface MailSender {
 
-
-    public Response sendEmailSender(Message message){
-
-        return Response.aSuccessfulResponseWith("OK");
-    }
-
+    public Response sendEmailSender(Message message);
+    public Response isSuccessfullSended();
+    public Response isNotSuccessFullSended();
 }
