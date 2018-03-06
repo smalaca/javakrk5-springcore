@@ -207,6 +207,38 @@ public class UsersGroupRepositoryTest {
         assertThat(result, Matchers.contains(usersGroup2, usersGroup1, usersGroup3));
     }
 
+    @Test
+    public void shouldCountAllMatchingCriteria() {
+        repository.save(usersGroupWithName(SOME_NAME));
+        repository.save(usersGroupWithName(SOME_VALUE));
+        repository.save(usersGroupWithName(ANOTHER_NAME));
+
+        long result = repository.count(UsersGroupSpecification.nameContains("%name%"));
+
+        assertEquals(2, result);
+    }
+
+    @Test
+    public void shouldFindAllMatchingCriteria() {
+        UsersGroup usersGroup1 = repository.save(usersGroupWithName(SOME_NAME));
+        repository.save(usersGroupWithName(SOME_VALUE));
+        UsersGroup usersGroup2 = repository.save(usersGroupWithName(ANOTHER_NAME));
+
+        List<UsersGroup> result = repository.findAll(UsersGroupSpecification.nameContains("%name%"));
+
+        assertThat(result, Matchers.containsInAnyOrder(usersGroup1, usersGroup2));
+    }
+
+    @Test
+    public void shouldFindUsersGroupByCriteria() {
+        UsersGroup persisted = repository.save(usersGroupWithName(SOME_NAME));
+        repository.save(usersGroupWithName(ANOTHER_NAME));
+
+        UsersGroup result = repository.findOne(UsersGroupSpecification.nameIs(SOME_NAME));
+
+        assertEquals(persisted, result);
+    }
+
     private UsersGroup usersGroupWithName(String name) {
         return usersGroup(name, SOME_DESCRIPTION);
     }

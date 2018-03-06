@@ -1,5 +1,6 @@
 package com.smalaca.messagesender.example;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -7,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface UsersGroupRepository extends CrudRepository<UsersGroup, Long> {
+public interface UsersGroupRepository extends CrudRepository<UsersGroup, Long>, JpaSpecificationExecutor<UsersGroup> {
 
     UsersGroup findByName(String name);
 
