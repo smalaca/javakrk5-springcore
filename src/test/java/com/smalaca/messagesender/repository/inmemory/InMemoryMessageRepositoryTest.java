@@ -22,8 +22,8 @@ public class InMemoryMessageRepositoryTest {
 
     private static final String SOME_SUBJECT = "some subject";
     private static final String SOME_BODY = "some body";
-    public static final String TO_SOMEONE = "javakrk5";
-    public static final String FROM_SOMEONE = "smalaca";
+    private static final String TO_SOMEONE = "javakrk5";
+    private static final String FROM_SOMEONE = "smalaca";
 
     @Autowired
     private MessageRepository repository;

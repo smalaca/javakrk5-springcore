@@ -4,7 +4,7 @@ import com.smalaca.messagesender.domain.Message;
 
 public interface MailSender {
 
-    public Response sendEmailSender(Message message);
-    public Response isSuccessfullSended();
-    public Response isNotSuccessFullSended();
+    Response sendEmailSender(Message message);
+    Response isSuccessfullSended();
+    Response isNotSuccessFullSended();
 }
