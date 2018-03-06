@@ -3,17 +3,17 @@ package com.smalaca.messagesender.repository.inmemory;
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
+import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
 import com.smalaca.messagesender.service.MessageDto;
-import com.smalaca.messagesender.domain.MessageRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import java.util.UUID;
-import static org.junit.Assert.assertFalse;
+
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,20 +59,6 @@ public class InMemoryMessageRepositoryTest {
         repository.getMessageById("1");
 
         Assert.assertNotNull(repository.getMessageById("1"));
-
-
-    }
-
-    @Test
-    public void shouldGetMessageByID() {
-        MessageDto messageDto = new MessageDto();
-        repository.add(new MessageFactory().createFrom(messageDto, "1"));
-        repository.getMessageById("1");
-        repository.add(factory.createFrom(messageDto, "1"));
-        repository.getMessageById("1");
-
-        Assert.assertNotNull(repository.getMessageById("1"));
-
 
     }
 
