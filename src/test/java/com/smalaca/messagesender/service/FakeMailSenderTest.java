@@ -2,6 +2,7 @@ package com.smalaca.messagesender.service;
 
 
 import com.smalaca.messagesender.domain.Message;
+import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class FakeMailSenderTest {
     @Autowired
     FakeMailSender fakeMailSender;
-
     @Autowired
     MessageCrud messageCrud;
     @Autowired
@@ -29,10 +29,9 @@ public class FakeMailSenderTest {
         messageDto.setTo("to");
         messageDto.setFrom("from");
         messageDto.setBody("body");
+        messageCrud.createNew(messageDto);
 
-        Response response = messageCrud.createNew(messageDto);
-
-        Message message = messageRepository.getMessageById("1");
+        Message message = new MessageFactory().createFrom(messageDto, "1");
         Assert.assertTrue(fakeMailSender.sendEmailSender(message).isSuccess());
     }
 }
