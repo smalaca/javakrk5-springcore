@@ -86,14 +86,14 @@ public class UsersGroupRepositoryTest {
     }
 
     @Test
-    public void shouldNotFindUserByName() {
+    public void shouldNotFindUsersGroupByName() {
         UsersGroup result = repository.findByName(SOME_NAME);
 
         assertNull(result);
     }
 
     @Test
-    public void shouldFindUserByName() {
+    public void shouldFindUsersGroupByName() {
         UsersGroup usersGroup = repository.save(someUsersGroup());
 
         UsersGroup result = repository.findByName(SOME_NAME);
@@ -102,14 +102,39 @@ public class UsersGroupRepositoryTest {
     }
 
     @Test
-    public void shouldNotFindUserByDescription() {
+    public void shouldFindDescriptionOfTheUsersGroupByName() {
+        repository.save(someUsersGroup());
+
+        String result = repository.findDescriptionByName(SOME_NAME);
+
+        assertEquals(SOME_DESCRIPTION, result);
+    }
+
+    @Test
+    public void shouldNotFindIdOfNonExistingUsersGroup() {
+        Optional<String> result = repository.findIdByName(SOME_NAME);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void shouldFindIdOfTheUsersGroupByName() {
+        UsersGroup persisted = repository.save(someUsersGroup());
+
+        Optional<String> result = repository.findIdByName(SOME_NAME);
+
+        assertEquals(persisted.getId(), result.get());
+    }
+
+    @Test
+    public void shouldNotFindUsersGroupByDescription() {
         Optional<UsersGroup> result = repository.findByDescription(SOME_DESCRIPTION);
 
         assertFalse(result.isPresent());
     }
 
     @Test
-    public void shouldFindUserByDescription() {
+    public void shouldFindUsersGroupByDescription() {
         UsersGroup usersGroup = repository.save(someUsersGroup());
 
         Optional<UsersGroup> result = repository.findByDescription(SOME_DESCRIPTION);
@@ -132,7 +157,7 @@ public class UsersGroupRepositoryTest {
     }
 
     @Test
-    public void shouldFindAllByNameOrDescription() {
+    public void shouldFindAllUsersGroupsByNameOrDescription() {
         UsersGroup usersGroup1 = usersGroup(SOME_VALUE, SOME_DESCRIPTION);
         UsersGroup usersGroup2 = usersGroup(SOME_NAME, SOME_DESCRIPTION);
         UsersGroup usersGroup3 = usersGroup(SOME_NAME, DIFFERENT_DESCRIPTION);
@@ -149,7 +174,7 @@ public class UsersGroupRepositoryTest {
     }
 
     @Test
-    public void shouldFindFirst3ByNameContainsOrderByNameAsc() {
+    public void shouldFindFirst3UsersGroupsByNameContainsOrderByNameAsc() {
         UsersGroup usersGroup1 = usersGroupWithName(SOME_NAME);
         UsersGroup usersGroup2 = usersGroupWithName(DIFFERENT_NAME);
         UsersGroup usersGroup3 = usersGroupWithName(ANOTHER_NAME);
@@ -166,7 +191,7 @@ public class UsersGroupRepositoryTest {
     }
 
     @Test
-    public void shouldFindFirst3ByNameContainsOrderByDescriptionDesc() {
+    public void shouldFindFirst3UsersGroupsByNameContainsOrderByDescriptionDesc() {
         UsersGroup usersGroup1 = usersGroup(SOME_NAME, DIFFERENT_DESCRIPTION);
         UsersGroup usersGroup2 = usersGroup(DIFFERENT_NAME, YET_ANOTHER_DESCRIPTION);
         UsersGroup usersGroup3 = usersGroup(ANOTHER_NAME, SOME_DESCRIPTION);
