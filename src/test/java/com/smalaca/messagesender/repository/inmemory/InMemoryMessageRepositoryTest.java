@@ -62,4 +62,17 @@ public class InMemoryMessageRepositoryTest {
     public void shouldReturnMessageDoesNotExistException() {
         repository.delete("1234");
     }
+
+    @Test
+    public void shouldReturnListOfMessagesThatIsNotEmpty() {
+
+        setMessageAndAddToRepository();
+        Assert.assertFalse(repository.getAllMessages().isEmpty());
+    }
+
+    @Test
+    public void shouldReturnListOfMessagesWithNoElement() {
+
+        Assert.assertTrue(repository.getAllMessages().isEmpty());
+    }
 }
