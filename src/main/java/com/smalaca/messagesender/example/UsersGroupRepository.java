@@ -15,5 +15,7 @@ public interface UsersGroupRepository extends CrudRepository<UsersGroup, Long> {
 
     long countByName(String name);
 
-    List<UsersGroup> findFirst3ByNameOrderByNameAsc(String name, String description);
+    List<UsersGroup> findFirst3ByNameContainsOrderByNameAsc(String namePart);
+
+    List<UsersGroup> findFirst3ByNameContainsOrderByDescriptionDesc(String namePart);
 }

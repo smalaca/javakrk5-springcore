@@ -1,5 +1,6 @@
 package com.smalaca.messagesender.example;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,20 +8,23 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
 public class UsersGroupRepositoryTest {
-    private static final String SOME_NAME = "name";
-    private static final String SOME_DESCRIPTION = "description";
-    private static final String DIFFERENT_NAME = "different name";
     private static final Long NOT_EXISITING_ID = 13L;
+    private static final String SOME_VALUE = "value";
+    private static final String SOME_NAME = "name";
+    private static final String DIFFERENT_NAME = "different name";
+    private static final String ANOTHER_NAME = "another name";
+    private static final String YET_ANOTHER_NAME = "yet another name";
+    private static final String SOME_DESCRIPTION = "description";
+    private static final String DIFFERENT_DESCRIPTION = "different description";
+    private static final String ANOTHER_DESCRIPTION = "another description";
+    private static final String YET_ANOTHER_DESCRIPTION = "yet another description";
 
     @Autowired private UsersGroupRepository repository;
 
@@ -78,7 +82,7 @@ public class UsersGroupRepositoryTest {
     }
 
     private UsersGroup randomUsersGroup() {
-        return new UsersGroup(SOME_NAME, UUID.randomUUID().toString());
+        return usersGroup(SOME_NAME, UUID.randomUUID().toString());
     }
 
     @Test
@@ -114,7 +118,79 @@ public class UsersGroupRepositoryTest {
         assertEquals(usersGroup.toString(), result.get().toString());
     }
 
+    @Test
+    public void shouldCountUsersGroupsByName() {
+        repository.save(someUsersGroup());
+        repository.save(usersGroupWithName(DIFFERENT_NAME));
+        repository.save(someUsersGroup());
+        repository.save(usersGroupWithName(ANOTHER_NAME));
+        repository.save(someUsersGroup());
+
+        long result = repository.countByName(SOME_NAME);
+
+        assertEquals(3, result);
+    }
+
+    @Test
+    public void shouldFindAllByNameOrDescription() {
+        UsersGroup usersGroup1 = usersGroup(SOME_VALUE, SOME_DESCRIPTION);
+        UsersGroup usersGroup2 = usersGroup(SOME_NAME, SOME_DESCRIPTION);
+        UsersGroup usersGroup3 = usersGroup(SOME_NAME, DIFFERENT_DESCRIPTION);
+        repository.save(usersGroup1);
+        repository.save(usersGroup2);
+        repository.save(usersGroup(ANOTHER_NAME, SOME_VALUE));
+        repository.save(usersGroup3);
+        repository.save(usersGroup(DIFFERENT_NAME, DIFFERENT_DESCRIPTION));
+
+        List<UsersGroup> result = repository.findByNameOrDescription(SOME_NAME, SOME_DESCRIPTION);
+
+        assertEquals(3, result.size());
+        assertThat(result, Matchers.contains(usersGroup1, usersGroup2, usersGroup3));
+    }
+
+    @Test
+    public void shouldFindFirst3ByNameContainsOrderByNameAsc() {
+        UsersGroup usersGroup1 = usersGroupWithName(SOME_NAME);
+        UsersGroup usersGroup2 = usersGroupWithName(DIFFERENT_NAME);
+        UsersGroup usersGroup3 = usersGroupWithName(ANOTHER_NAME);
+        repository.save(usersGroupWithName(YET_ANOTHER_NAME));
+        repository.save(usersGroup1);
+        repository.save(usersGroup2);
+        repository.save(usersGroupWithName(SOME_VALUE));
+        repository.save(usersGroup3);
+
+        List<UsersGroup> result = repository.findFirst3ByNameContainsOrderByNameAsc("name");
+
+        assertEquals(3, result.size());
+        assertThat(result, Matchers.contains(usersGroup3, usersGroup2, usersGroup1));
+    }
+
+    @Test
+    public void shouldFindFirst3ByNameContainsOrderByDescriptionDesc() {
+        UsersGroup usersGroup1 = usersGroup(SOME_NAME, DIFFERENT_DESCRIPTION);
+        UsersGroup usersGroup2 = usersGroup(DIFFERENT_NAME, YET_ANOTHER_DESCRIPTION);
+        UsersGroup usersGroup3 = usersGroup(ANOTHER_NAME, SOME_DESCRIPTION);
+        repository.save(usersGroup(YET_ANOTHER_NAME, ANOTHER_DESCRIPTION));
+        repository.save(usersGroup1);
+        repository.save(usersGroup(SOME_VALUE, SOME_VALUE));
+        repository.save(usersGroup2);
+        repository.save(usersGroup3);
+
+        List<UsersGroup> result = repository.findFirst3ByNameContainsOrderByDescriptionDesc("name");
+
+        assertEquals(3, result.size());
+        assertThat(result, Matchers.contains(usersGroup2, usersGroup1, usersGroup3));
+    }
+
+    private UsersGroup usersGroupWithName(String name) {
+        return usersGroup(name, SOME_DESCRIPTION);
+    }
+
     private UsersGroup someUsersGroup() {
-        return new UsersGroup(SOME_NAME, SOME_DESCRIPTION);
+        return usersGroup(SOME_NAME, SOME_DESCRIPTION);
+    }
+
+    private UsersGroup usersGroup(String name, String description) {
+        return new UsersGroup(name, description);
     }
 }
