@@ -13,4 +13,7 @@ public interface MessageRepository {
     void delete(String messageId);
 
     List<Message> getMessages();
+
+    Message getMessageById(String id);
+
 }
