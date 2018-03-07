@@ -24,7 +24,7 @@ public class MessageSenderService {
 
         try {
             Message message = messageRepository.getMessageById(messageId);
-            return emailSenderFake.sendEmailSender(message);
+            return emailSenderFake.sendMessage(message);
         } catch (NoSuchElementException e) {
             throw new NoMessageException(messageId);
         }

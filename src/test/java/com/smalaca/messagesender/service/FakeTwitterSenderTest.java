@@ -11,15 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class FakeMailSenderTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class FakeTwitterSenderTest {
+
     @Autowired
-    FakeMailSender fakeMailSender;
+    MessageRepository messageRepository;
+    @Autowired
+    FakeTwitterSender fakeTwitterSender;
     @Autowired
     MessageCrud messageCrud;
-    @Autowired
-    private MessageRepository messageRepository;
 
     private final String SUBJECT = "Subject";
     private final String BODY = "Body";
@@ -27,16 +28,17 @@ public class FakeMailSenderTest {
     private final String TO = "to";
 
     @Test
-    public void shouldReturnTrueWhenMessageIsSuccess() {
+    public void shouldReturnTrueIfTwittIsSendSuccessfully() {
 
         MessageDto messageDto = new MessageDto();
         messageDto.setSubject(SUBJECT);
-        messageDto.setTo(TO);
-        messageDto.setFrom(FROM);
         messageDto.setBody(BODY);
+        messageDto.setFrom(FROM);
+        messageDto.setFrom(TO);
+
         messageCrud.createNew(messageDto);
 
         Message message = new MessageFactory().createFrom(messageDto, "1");
-        Assert.assertTrue(fakeMailSender.sendMessage(message).isSuccess());
+        Assert.assertEquals(fakeTwitterSender.sendMessage(message).isSuccess(), true);
     }
 }

@@ -1,6 +1,5 @@
 package com.smalaca.messagesender.service;
 
-
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
@@ -13,30 +12,34 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class FakeMailSenderTest {
-    @Autowired
-    FakeMailSender fakeMailSender;
-    @Autowired
-    MessageCrud messageCrud;
-    @Autowired
-    private MessageRepository messageRepository;
+public class FakeSlackSenderTest {
+
 
     private final String SUBJECT = "Subject";
     private final String BODY = "Body";
     private final String FROM = "from";
     private final String TO = "to";
 
+    @Autowired
+    FakeSlackSender fakeSlackSender;
+    @Autowired
+    private MessageCrud messageCrud;
+    @Autowired
+    private MessageRepository messageRepository;
+
     @Test
-    public void shouldReturnTrueWhenMessageIsSuccess() {
+    public void shouldReturnTrueIfSlackMessegeWasSuccessfullSended() {
 
         MessageDto messageDto = new MessageDto();
         messageDto.setSubject(SUBJECT);
-        messageDto.setTo(TO);
-        messageDto.setFrom(FROM);
         messageDto.setBody(BODY);
+        messageDto.setFrom(FROM);
+        messageDto.setTo(TO);
+
         messageCrud.createNew(messageDto);
 
         Message message = new MessageFactory().createFrom(messageDto, "1");
-        Assert.assertTrue(fakeMailSender.sendMessage(message).isSuccess());
+
+        Assert.assertEquals(fakeSlackSender.sendMessage(message).isSuccess(), true);
     }
 }
