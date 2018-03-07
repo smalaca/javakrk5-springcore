@@ -253,5 +253,21 @@ public class UserCrudTest {
         Assert.assertEquals(userCrud.showAllUsers().size(), 1);
     }
 
+    @Test
+    public void shouldShowUser() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("login");
+        userDto.setEmail("email");
+        userRepository.add(new UserFactory().createFrom(userDto));
 
+        User user = userCrud.showUser(userDto.getLogin());
+        Assert.assertEquals(user, new UserFactory().createFrom(userDto));
+    }
+
+    @Test
+    public void showReturnNullIfUserNotPresent() {
+
+        User user = userCrud.showUser("login");
+        Assert.assertNull(user);
+    }
 }
