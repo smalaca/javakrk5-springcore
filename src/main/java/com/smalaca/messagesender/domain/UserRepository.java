@@ -1,7 +1,5 @@
 package com.smalaca.messagesender.domain;
 
-import com.smalaca.messagesender.domain.User;
-
 public interface UserRepository {
 
     void add(User user);
