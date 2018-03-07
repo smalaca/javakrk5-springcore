@@ -3,16 +3,12 @@ package com.smalaca.messagesender.domain;
 import java.util.Objects;
 
 public class User {
-    private int id;
     private final String login;
     private final String email;
     private final String slack;
     private final String twitter;
     private boolean isBlocked = false;
 
-    public int getId() {
-        return id;
-    }
 
     public String getLogin() {
         return login;

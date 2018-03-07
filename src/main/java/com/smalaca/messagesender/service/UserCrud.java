@@ -11,6 +11,8 @@ import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.smalaca.messagesender.service.Response.aFailureResponse;
 import static com.smalaca.messagesender.service.Response.aSuccessfulResponse;
 import static com.smalaca.messagesender.service.Response.aSuccessfulResponseWith;
@@ -55,5 +57,9 @@ public class UserCrud {
     private void isUserValid(User user) {
         if ((user.getLogin().equals("")) || user.getEmail().equals("") && user.getTwitter().equals("") && user.getSlack().equals(""))
             throw new InvalidUserPassed();
+    }
+
+    public List<User> showAllUsers() {
+        return userRepository.showAllUsers();
     }
 }
