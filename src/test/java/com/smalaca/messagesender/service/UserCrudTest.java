@@ -1,6 +1,9 @@
 package com.smalaca.messagesender.service;
 
 
+import com.smalaca.messagesender.domain.User;
+import com.smalaca.messagesender.domain.UserFactory;
+import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
 import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
@@ -148,7 +151,7 @@ public class UserCrudTest {
     }
 
     @Test
-    public void shouldReturnTrueWhenTryToBlockNotBLockedUser(){
+    public void shouldReturnTrueWhenTryToBlockNotBLockedUser() {
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -167,18 +170,18 @@ public class UserCrudTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenTryToBlockNonExistingUser(){
+    public void shouldReturnFalseWhenTryToBlockNonExistingUser() {
         Assert.assertFalse(userCrud.blockUser("login").isSuccess());
     }
 
     @Test
-    public void shouldReturnFalseWhenTryToBlockUserPassingEmptyStringAsLogin(){
+    public void shouldReturnFalseWhenTryToBlockUserPassingEmptyStringAsLogin() {
         Assert.assertFalse(userCrud.blockUser("").isSuccess());
 
     }
 
     @Test
-    public void shouldReturnTrueWhenQueryForBlockedUser(){
+    public void shouldReturnTrueWhenQueryForBlockedUser() {
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -198,7 +201,7 @@ public class UserCrudTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenQueryForNonBlockedUser(){
+    public void shouldReturnFalseWhenQueryForNonBlockedUser() {
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -215,5 +218,40 @@ public class UserCrudTest {
 
         Assert.assertFalse(userCrud.isUserBlocked(login));
     }
+
+    @Test
+    public void shouldUpdateUserIfExist() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("login");
+        userDto.setEmail("email");
+
+        userRepository.add(new UserFactory().createFrom(userDto));
+        userDto.setEmail("emailNew");
+
+
+        Assert.assertEquals(userCrud.updateUser(userDto).getMessage(), "User login updated");
+    }
+
+    @Test
+    public void shouldNotupdateUserIfNoPresent() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("login");
+        userDto.setEmail("email");
+        Assert.assertEquals(userCrud.updateUser(userDto).getMessage(), "login - USER DOESN'T EXIST ,can't update.");
+    }
+
+    @Test
+    public void AfterUpdateUserListOfAllUsersShouldStillHaveSize1() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("login");
+        userDto.setEmail("email");
+
+        userRepository.add(new UserFactory().createFrom(userDto));
+        userDto.setEmail("emailNew");
+        userCrud.updateUser(userDto);
+
+        Assert.assertEquals(userCrud.showAllUsers().size(), 1);
+    }
+
 
 }

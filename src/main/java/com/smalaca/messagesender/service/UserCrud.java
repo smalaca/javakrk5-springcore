@@ -62,4 +62,18 @@ public class UserCrud {
     public List<User> showAllUsers() {
         return userRepository.showAllUsers();
     }
+
+    public Response updateUser(UserDto userDto) {
+        User user;
+
+        try {
+            user = userRepository.getUserByLogin(userDto.getLogin());
+        } catch (UserDoesntExistException e) {
+            return aFailureResponse(e.getMessage() + " ,can't update.");
+        }
+
+        if (userRepository.updateUser(user, userDto))
+            return aSuccessfulResponseWith("User " + user.getLogin() + " updated");
+        return aFailureResponse("Unexpected Problem");
+    }
 }
