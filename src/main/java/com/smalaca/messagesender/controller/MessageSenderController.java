@@ -17,8 +17,7 @@ public class MessageSenderController {
     private final MessageSenderService messageSenderService;
     private final MessageCrud messageCrud;
     private final MessageRepository messageRepository;
-
-
+    
     @Autowired
     public MessageSenderController(
             MessageSenderService messageSenderService, MessageCrud messageCrud, MessageRepository messageRepository) {
