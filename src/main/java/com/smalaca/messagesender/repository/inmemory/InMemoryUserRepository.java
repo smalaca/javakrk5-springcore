@@ -1,9 +1,11 @@
 package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.User;
+import com.smalaca.messagesender.domain.UserFactory;
 import com.smalaca.messagesender.domain.UserRepository;
 import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
 import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
+import com.smalaca.messagesender.service.UserDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -63,5 +65,10 @@ public class InMemoryUserRepository implements UserRepository<User> {
         return users.values().stream()
                 .filter(user -> user.isBlocked() == false)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean updateUser(User user, UserDto userDto) {
+        return users.replace(userDto.getLogin(), user, new UserFactory().createFrom(userDto));
     }
 }

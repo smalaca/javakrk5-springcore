@@ -35,5 +35,9 @@ public class UserController {
         return userCrud.showAllUsers();
     }
 
+    @RequestMapping("/user/update")
+    public Response updateUser(@ModelAttribute UserDto userDto) {
+        return userCrud.updateUser(userDto);
+    }
 
 }

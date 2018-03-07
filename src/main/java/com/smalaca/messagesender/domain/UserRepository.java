@@ -1,6 +1,7 @@
 package com.smalaca.messagesender.domain;
 
 import com.smalaca.messagesender.domain.User;
+import com.smalaca.messagesender.service.UserDto;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface UserRepository<T> {
     boolean blockUser(String login);
 
     List<T> showAllUsers();
+
+    boolean updateUser(User user, UserDto userDto);
 }
