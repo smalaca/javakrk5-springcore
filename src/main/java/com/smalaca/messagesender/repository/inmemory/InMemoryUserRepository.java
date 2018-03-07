@@ -6,11 +6,14 @@ import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
 import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryUserRepository implements UserRepository {
+public class InMemoryUserRepository implements UserRepository<User> {
     private Map<String, User> users;
 
     public InMemoryUserRepository(Map<String, User> users) {
@@ -53,5 +56,12 @@ public class InMemoryUserRepository implements UserRepository {
     public boolean blockUser(String login) {
         getUserByLogin(login).blockUser();
         return true;
+    }
+
+    @Override
+    public List<User> showAllUsers() {
+        return users.values().stream()
+                .filter(user -> user.isBlocked() == false)
+                .collect(Collectors.toList());
     }
 }
