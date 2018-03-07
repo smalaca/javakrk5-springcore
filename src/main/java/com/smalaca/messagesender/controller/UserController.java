@@ -1,6 +1,7 @@
 package com.smalaca.messagesender.controller;
 
 
+import com.smalaca.messagesender.service.Response;
 import com.smalaca.messagesender.service.UserCrud;
 import com.smalaca.messagesender.service.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +17,13 @@ public class UserController {
     private UserCrud userCrud;
 
     @RequestMapping("/user/create")
-    public String createUser(@ModelAttribute UserDto userDto) {
-        if (userCrud.createUser(userDto))
-            return "User Created";
-        else
-            return "User Creation Failed!";
+    public Response createUser(@ModelAttribute UserDto userDto) {
+        return userCrud.createUser(userDto);
     }
 
     @RequestMapping("/user/block")
-    public String blockUser(@RequestParam String login) {
-        if (userCrud.blockUser(login)) {
-            return "User Blocked";
-        }
-        return "User Block Failed!";
+    public Response blockUser(@RequestParam String login) {
+        return userCrud.blockUser(login);
     }
 
 }

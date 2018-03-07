@@ -18,7 +18,7 @@ public class UserCrudTest {
 
         userDto.setLogin(login);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertFalse(isUserCreated);
     }
@@ -33,7 +33,7 @@ public class UserCrudTest {
         userDto.setLogin(login);
         userDto.setEmail(email);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -48,7 +48,7 @@ public class UserCrudTest {
         userDto.setLogin(login);
         userDto.setTwitter(twitter);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -63,7 +63,7 @@ public class UserCrudTest {
         userDto.setLogin(login);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -82,7 +82,7 @@ public class UserCrudTest {
         userDto.setTwitter(twitter);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -101,7 +101,7 @@ public class UserCrudTest {
         userDto.setTwitter(twitter);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         String login1 = "login2";
 
@@ -109,7 +109,7 @@ public class UserCrudTest {
 
         userDto.setLogin(login1);
 
-        boolean isUserCreated1 = userCrud.createUser(userDto);
+        boolean isUserCreated1 = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
         Assert.assertFalse(isUserCreated1);
@@ -122,7 +122,7 @@ public class UserCrudTest {
         UserDto userDto = new UserDto();
         userDto.setLogin(login);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertFalse(isUserCreated);
     }
@@ -141,7 +141,7 @@ public class UserCrudTest {
         userDto.setTwitter(twitter);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
 
         Assert.assertFalse(isUserCreated);
@@ -163,17 +163,17 @@ public class UserCrudTest {
 
         userCrud.createUser(userDto);
 
-        Assert.assertTrue(userCrud.blockUser(login));
+        Assert.assertTrue(userCrud.blockUser(login).isSuccess());
     }
 
     @Test
     public void shouldReturnFalseWhenTryToBlockNonExistingUser(){
-        Assert.assertFalse(userCrud.blockUser("login"));
+        Assert.assertFalse(userCrud.blockUser("login").isSuccess());
     }
 
     @Test
     public void shouldReturnFalseWhenTryToBlockUserPassingEmptyStringAsLogin(){
-        Assert.assertFalse(userCrud.blockUser(""));
+        Assert.assertFalse(userCrud.blockUser("").isSuccess());
 
     }
 
