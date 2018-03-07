@@ -18,6 +18,7 @@ public class MessageSenderController {
     private final MessageCrud messageCrud;
     private final MessageRepository messageRepository;
 
+
     @Autowired
     public MessageSenderController(
             MessageSenderService messageSenderService, MessageCrud messageCrud, MessageRepository messageRepository) {
@@ -28,13 +29,12 @@ public class MessageSenderController {
 
     @RequestMapping(value = "/send/{param}")
     public Response sendMessage(@PathVariable(value = "param") String id) {
-        try {
+        if (!id.isEmpty()) {
+            Response response = messageSenderService.sendMessageViaEmail(id);
+            return response;
+        } else {
+            throw new NoMessageException("Error");
 
-            return messageSenderService.sendMessageViaEmail(id);
-
-
-        } catch (NoMessageException ex) {
-            throw new NoMessageException(" ");
         }
     }
 }
