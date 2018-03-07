@@ -1,5 +1,6 @@
 package com.smalaca.messagesender.controller;
 
+import com.smalaca.messagesender.domain.User;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,5 +63,37 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("andrew - USER DOESN'T EXIST")));
     }
 
+    @Test
+    public void shouldUpdateBlockUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/update?login=andrzej&email=newemail"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("User andrzej updated")));
+    }
+
+    @Test
+    public void shouldNotUpdateBlockUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/update?login=andrzej1&email=newemail"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("andrzej1 - USER DOESN'T EXIST ,can't update.")));
+    }
+
+    @Test
+    public void shouldShowUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/show?login=andrzej"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.notNullValue()));
+    }
+
+
+    @Test
+    public void shouldNotShowUser() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(MockMvcRequestBuilders.get("/user/show?login=andrzej1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("")));
+    }
 
 }

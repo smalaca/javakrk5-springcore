@@ -13,31 +13,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
+@RequestMapping("/user")
 @RestController
 public class UserController {
 
     @Autowired
     private UserCrud userCrud;
 
-    @RequestMapping("/user/create")
+    @RequestMapping("/create")
     public Response createUser(@ModelAttribute UserDto userDto) {
         return userCrud.createUser(userDto);
     }
 
-    @RequestMapping("/user/block")
+    @RequestMapping("/block")
     public Response blockUser(@RequestParam String login) {
         return userCrud.blockUser(login);
     }
 
-    @RequestMapping("/user/show/all")
+    @RequestMapping("/show/all")
     public List<User> showAllUsers() {
         return userCrud.showAllUsers();
     }
 
-    @RequestMapping("/user/update")
+    @RequestMapping("/update")
     public Response updateUser(@ModelAttribute UserDto userDto) {
         return userCrud.updateUser(userDto);
     }
 
+    @RequestMapping("/show")
+    public User showInfoAboutUser(@RequestParam String login) {
+        return userCrud.showUser(login);
+    }
 }

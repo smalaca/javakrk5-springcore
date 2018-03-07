@@ -76,4 +76,12 @@ public class UserCrud {
             return aSuccessfulResponseWith("User " + user.getLogin() + " updated");
         return aFailureResponse("Unexpected Problem");
     }
+
+    public User showUser(String login) {
+        try {
+            return userRepository.getUserByLogin(login);
+        } catch (UserDoesntExistException e) {
+            return null;
+        }
+    }
 }
