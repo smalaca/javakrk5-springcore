@@ -20,18 +20,30 @@ public class InMemoryMessageRepository implements MessageRepository {
         this.messages = messages;
     }
 
+    @Override
     public boolean exists(String id) {
         return messages
                 .stream()
                 .anyMatch(message -> message.hasSameId(id));
     }
 
+    @Override
     public void add(Message message) {
         messages.add(message);
     }
 
+    @Override
     public boolean exists(Message message) {
         return messages.contains(message);
+    }
+
+    @Override
+    public Message getMessageById(String id) {
+        return messages.stream()
+                .filter(message -> message.hasSameId(id))
+                .findAny()
+                .get();
+
     }
 
     @Override
@@ -49,6 +61,7 @@ public class InMemoryMessageRepository implements MessageRepository {
         }
     }
 
+    @Override
     public List<Message> getMessages() {
         return messages;
     }
