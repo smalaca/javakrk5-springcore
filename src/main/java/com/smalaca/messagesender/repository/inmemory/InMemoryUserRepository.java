@@ -63,7 +63,6 @@ public class InMemoryUserRepository implements UserRepository<User> {
     @Override
     public List<User> showAllUsers() {
         return users.values().stream()
-                .filter(user -> user.isBlocked() == false)
                 .collect(Collectors.toList());
     }
 

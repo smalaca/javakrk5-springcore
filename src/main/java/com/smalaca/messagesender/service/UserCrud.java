@@ -3,7 +3,6 @@ package com.smalaca.messagesender.service;
 import com.smalaca.messagesender.domain.User;
 import com.smalaca.messagesender.domain.UserFactory;
 import com.smalaca.messagesender.domain.UserRepository;
-import com.smalaca.messagesender.exceptions.inmemory.InvalidUserPassed;
 import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
 import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository;
@@ -11,6 +10,7 @@ import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.smalaca.messagesender.service.Response.aFailureResponse;
@@ -30,15 +30,15 @@ public class UserCrud {
     public Response createUser(UserDto userDto) {
         User user = new UserFactory().createFrom(userDto);
 
-        try {
-            isUserValid(user);
-            userRepository.add(user);
-            return aSuccessfulResponseWith("User Created");
-        } catch (UserAlreadyExistException e) {
-            return aFailureResponse("User Creation Failed!");
-        } catch (InvalidUserPassed e) {
-            return aFailureResponse(e.getMessage());
-        }
+        if (isUserValid(user)) {
+            try {
+                userRepository.add(user);
+                return aSuccessfulResponseWith("User Created");
+            } catch (UserAlreadyExistException e) {
+                return aFailureResponse("User Creation Failed!");
+            }
+        } else
+            return aFailureResponse("Invalid data passed");
     }
 
     public Response blockUser(String login) {
@@ -54,9 +54,8 @@ public class UserCrud {
         return userRepository.getUserByLogin(login).isBlocked();
     }
 
-    private void isUserValid(User user) {
-        if ((user.getLogin().equals("")) || user.getEmail().equals("") && user.getTwitter().equals("") && user.getSlack().equals(""))
-            throw new InvalidUserPassed();
+    private boolean isUserValid(User user) {
+        return (!((user.getLogin().equals("")) || user.getEmail().equals("") && user.getTwitter().equals("") && user.getSlack().equals("")));
     }
 
     public List<User> showAllUsers() {
@@ -72,16 +71,19 @@ public class UserCrud {
             return aFailureResponse(e.getMessage() + " ,can't update.");
         }
 
-        if (userRepository.updateUser(user, userDto))
-            return aSuccessfulResponseWith("User " + user.getLogin() + " updated");
-        return aFailureResponse("Unexpected Problem");
+        userRepository.updateUser(user, userDto);
+        return aSuccessfulResponseWith("User " + user.getLogin() + " updated");
     }
 
-    public User showUser(String login) {
+    public List<User> showUser(String login) {
+        List<User> userToShow = new ArrayList<>();
+
         try {
-            return userRepository.getUserByLogin(login);
+            userToShow.add(userRepository.getUserByLogin(login));
         } catch (UserDoesntExistException e) {
-            return null;
+            return userToShow;
         }
+        return userToShow;
+
     }
 }

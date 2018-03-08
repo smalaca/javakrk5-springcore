@@ -79,14 +79,14 @@ public class InMemoryUserRepositoryTest {
     }
 
     @Test
-    public void ListOfAllUsersShouldHaveSize1WhenOneUserIsBlocked() {
+    public void ListOfAllUsersShouldHaveSize2WhenOneUserIsBlocked() {
         UserDto userDto = new UserDto();
         userDto.setLogin("loginSowAll");
         userDto.setEmail("emailShowAll");
 
         inMemoryUserRepository.add(new UserFactory().createFrom(userDto));
         inMemoryUserRepository.blockUser(userDto.getLogin());
-        Assert.assertEquals(inMemoryUserRepository.showAllUsers().size(), 1);
+        Assert.assertEquals(inMemoryUserRepository.showAllUsers().size(), 2);
 
     }
 }

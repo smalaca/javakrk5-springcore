@@ -6,10 +6,7 @@ import com.smalaca.messagesender.service.Response;
 import com.smalaca.messagesender.service.UserCrud;
 import com.smalaca.messagesender.service.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,8 +37,8 @@ public class UserController {
         return userCrud.updateUser(userDto);
     }
 
-    @RequestMapping("/show")
-    public User showInfoAboutUser(@RequestParam String login) {
+    @RequestMapping("/show/{login}")
+    public List<User> showInfoAboutUser(@PathVariable String login) {
         return userCrud.showUser(login);
     }
 }

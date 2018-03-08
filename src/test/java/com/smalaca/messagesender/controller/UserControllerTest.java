@@ -34,7 +34,7 @@ public class UserControllerTest {
     public void shouldNotCreateNewUserWhenNoParametersPassed() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/create").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("User should have one of : mail,slack or twitter")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Invalid data passed")));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class UserControllerTest {
     @Test
     public void shouldShowUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
-        mvc.perform(MockMvcRequestBuilders.get("/user/show?login=andrzej"))
+        mvc.perform(MockMvcRequestBuilders.get("/user/show/andrzej"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.notNullValue()));
     }
@@ -91,9 +91,9 @@ public class UserControllerTest {
     @Test
     public void shouldNotShowUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
-        mvc.perform(MockMvcRequestBuilders.get("/user/show?login=andrzej1"))
+        mvc.perform(MockMvcRequestBuilders.get("/user/show/andrzej1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("[]")));
     }
 
 }

@@ -9,6 +9,8 @@ import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class UserCrudTest {
     private InMemoryUserRepository userRepository = new InMemoryUserRepository();
     private UserCrud userCrud = new UserCrud(userRepository);
@@ -260,14 +262,14 @@ public class UserCrudTest {
         userDto.setEmail("email");
         userRepository.add(new UserFactory().createFrom(userDto));
 
-        User user = userCrud.showUser(userDto.getLogin());
-        Assert.assertEquals(user, new UserFactory().createFrom(userDto));
+        List<User> userList = userCrud.showUser(userDto.getLogin());
+        Assert.assertEquals(userList.get(0), new UserFactory().createFrom(userDto));
     }
 
     @Test
-    public void showReturnNullIfUserNotPresent() {
+    public void showReturnEmptyArrayNotPresent() {
 
-        User user = userCrud.showUser("login");
-        Assert.assertNull(user);
+        List<User> userList = userCrud.showUser("login");
+        Assert.assertEquals(userList.size(), 0);
     }
 }
