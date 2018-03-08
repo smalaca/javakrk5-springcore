@@ -52,4 +52,13 @@ public class InMemoryMessageRepository implements MessageRepository {
     public List<Message> getMessages() {
         return messages;
     }
+
+    @Override
+    public Message getMessagesById(String id) {
+
+        return messages.stream()
+                .filter(message -> message.hasSameId(id))
+                .findAny()
+                .get();
+    }
 }
