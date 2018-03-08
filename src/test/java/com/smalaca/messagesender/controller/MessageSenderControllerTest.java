@@ -3,7 +3,6 @@ package com.smalaca.messagesender.controller;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.service.MessageDto;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,6 +28,7 @@ public class MessageSenderControllerTest {
     @Autowired
     private MessageRepository repository;
 
+
     @Test
     public void shouldSendMessageSuccessful() throws Exception {
         MessageDto messageDto = new MessageDto();
@@ -35,8 +36,9 @@ public class MessageSenderControllerTest {
         messageDto.setSubject("some subject");
         messageDto.setFrom("msiek");
         messageDto.setTo("java5krk");
+
         repository.add(new MessageFactory().createFrom(messageDto, "1"));
-        Assert.assertTrue(repository.exists("1"));
+        assertTrue(repository.exists("1"));
 
         MockHttpServletResponse response = mvc.perform(
                 MockMvcRequestBuilders.get("/send/1")
@@ -44,6 +46,7 @@ public class MessageSenderControllerTest {
                 .andReturn().getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("{\"success\":true,\"message\":\"OK\"}", response.getContentAsString());
+        assertEquals("{\"success\":true,\"message\":null}", response.getContentAsString());
+
     }
 }
