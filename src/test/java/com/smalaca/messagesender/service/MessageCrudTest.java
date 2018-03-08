@@ -1,16 +1,10 @@
 package com.smalaca.messagesender.service;
 
-import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
-import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
 import com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.CoreMatchers.any;
 
@@ -85,12 +79,12 @@ public class MessageCrudTest {
         MessageDto messageDto = getMessageDto();
         messageCrud.createNew(messageDto);
 
-        Assert.assertFalse(messageRepository.getAllMessages().isEmpty());
+        Assert.assertFalse(messageRepository.getMessages().isEmpty());
     }
 
     @Test
     public void shouldReturnListOfMessagesWithNoElement() {
 
-        Assert.assertTrue(messageRepository.getAllMessages().isEmpty());
+        Assert.assertTrue(messageRepository.getMessages().isEmpty());
     }
 }
