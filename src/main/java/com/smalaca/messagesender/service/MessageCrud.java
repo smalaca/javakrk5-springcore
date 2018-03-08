@@ -4,7 +4,6 @@ import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +47,14 @@ public class MessageCrud {
     }
 
     public List<Message> getAllMessages() {
-        return messageRepository.getMessages();
+        return messageRepository.getAllMessages();
+    }
+
+
+    public Response updateMessage(String id, MessageDto messageDto) {
+        if (!messageRepository.exists(id))
+            return Response.aFailureResponse("Message doent't exist");
+        messageRepository.update(id, messageDto);
+        return Response.aSuccessfulResponseWith("Message updated");
     }
 }

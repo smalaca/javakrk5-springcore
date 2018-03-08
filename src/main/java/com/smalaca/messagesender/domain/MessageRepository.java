@@ -1,5 +1,7 @@
 package com.smalaca.messagesender.domain;
 
+import com.smalaca.messagesender.service.MessageDto;
+
 import java.util.List;
 
 public interface MessageRepository {
@@ -12,5 +14,7 @@ public interface MessageRepository {
 
     void delete(String messageId);
 
-    List<Message> getMessages();
+    List<Message> getAllMessages();
+
+    void update(String id, MessageDto messageDto);
 }

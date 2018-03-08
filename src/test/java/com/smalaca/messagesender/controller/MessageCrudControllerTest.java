@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class MessageCrudControllerTest {
 
     @Autowired
@@ -94,4 +96,31 @@ public class MessageCrudControllerTest {
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals("[{\"subject\":\"some subject 2\",\"body\":\"some body 2\",\"from\":\"javakrk5\",\"to\":\"smalaca\",\"id\":\"999\"}]", response.getContentAsString());
     }
+
+    @Test
+    public void shouldUpdateMessage() throws Exception {
+        MessageDto messageDto = new MessageDto();
+        messageDto.setSubject("some subject 2");
+        messageDto.setBody("some body 2");
+        messageDto.setTo("smalaca");
+        messageDto.setFrom("javakrk5");
+
+        Message message = factory.createFrom(messageDto, "999");
+        repository.add(message);
+
+        mvc.perform(MockMvcRequestBuilders.get("/message/update/999"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Message updated")));
+    }
+
+    @Test
+    public void shouldNotUpdateMessageWhenNotPresent() throws Exception {
+
+        mvc.perform(MockMvcRequestBuilders.get("/message/update/999"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("Message doent't exist")));
+    }
+
+
+
 }
