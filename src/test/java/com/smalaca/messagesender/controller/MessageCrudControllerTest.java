@@ -74,4 +74,24 @@ public class MessageCrudControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
+
+    @Test
+    public void shouldReceiveResponseWithListOfMessagesThatContainsSpecificMessage() throws Exception {
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setSubject("some subject 2");
+        messageDto.setBody("some body 2");
+        messageDto.setTo("smalaca");
+        messageDto.setFrom("javakrk5");
+
+        Message message = factory.createFrom(messageDto, "999");
+        repository.add(message);
+
+        MockHttpServletResponse response = mvc.perform(
+                MockMvcRequestBuilders.get("/message/all"))
+                .andReturn().getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals("[{\"subject\":\"some subject 2\",\"body\":\"some body 2\",\"from\":\"javakrk5\",\"to\":\"smalaca\",\"id\":\"999\"}]", response.getContentAsString());
+    }
 }

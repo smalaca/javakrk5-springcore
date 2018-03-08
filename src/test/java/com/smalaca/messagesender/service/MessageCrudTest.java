@@ -78,4 +78,19 @@ public class MessageCrudTest {
         Assert.assertFalse(response.isSuccess());
         Assert.assertTrue(messageRepository.exists(responseFromCreation.getMessage()));
     }
+
+    @Test
+    public void shouldReturnListOfMessagesThatIsNotEmpty() {
+
+        MessageDto messageDto = getMessageDto();
+        messageCrud.createNew(messageDto);
+
+        Assert.assertFalse(messageRepository.getAllMessages().isEmpty());
+    }
+
+    @Test
+    public void shouldReturnListOfMessagesWithNoElement() {
+
+        Assert.assertTrue(messageRepository.getAllMessages().isEmpty());
+    }
 }
