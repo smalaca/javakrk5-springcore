@@ -26,24 +26,24 @@ public class UserControllerTest {
     public void shouldCreateNewUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("User Created")));
     }
 
     @Test
     public void shouldNotCreateNewUserWhenNoParametersPassed() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/create").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Creation Failed!")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("User should have one of : mail,slack or twitter")));
     }
 
     @Test
     public void shouldNotCreateNewUserWhenTryToAddSameUserAgain() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej1&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Created")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("User Created")));
         mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej1&email=email").accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Creation Failed!")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("User Creation Failed!")));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class UserControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
         mvc.perform(MockMvcRequestBuilders.get("/user/block?login=andrzej"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Blocked")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("User Blocked")));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class UserControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/user/create?login=andrzej&email=email").accept(MediaType.APPLICATION_JSON));
         mvc.perform(MockMvcRequestBuilders.get("/user/block?login=andrew"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.equalTo("User Block Failed!")));
+                .andExpect(MockMvcResultMatchers.content().string(CoreMatchers.containsString("andrew - USER DOESN'T EXIST")));
     }
 
 

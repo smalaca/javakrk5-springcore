@@ -1,6 +1,9 @@
 package com.smalaca.messagesender.service;
 
 
+import com.smalaca.messagesender.domain.User;
+import com.smalaca.messagesender.domain.UserFactory;
+import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
 import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
@@ -18,7 +21,7 @@ public class UserCrudTest {
 
         userDto.setLogin(login);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertFalse(isUserCreated);
     }
@@ -33,7 +36,7 @@ public class UserCrudTest {
         userDto.setLogin(login);
         userDto.setEmail(email);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -48,7 +51,7 @@ public class UserCrudTest {
         userDto.setLogin(login);
         userDto.setTwitter(twitter);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -63,7 +66,7 @@ public class UserCrudTest {
         userDto.setLogin(login);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -82,7 +85,7 @@ public class UserCrudTest {
         userDto.setTwitter(twitter);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
     }
@@ -101,7 +104,7 @@ public class UserCrudTest {
         userDto.setTwitter(twitter);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         String login1 = "login2";
 
@@ -109,7 +112,7 @@ public class UserCrudTest {
 
         userDto.setLogin(login1);
 
-        boolean isUserCreated1 = userCrud.createUser(userDto);
+        boolean isUserCreated1 = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertTrue(isUserCreated);
         Assert.assertFalse(isUserCreated1);
@@ -122,7 +125,7 @@ public class UserCrudTest {
         UserDto userDto = new UserDto();
         userDto.setLogin(login);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
         Assert.assertFalse(isUserCreated);
     }
@@ -141,14 +144,14 @@ public class UserCrudTest {
         userDto.setTwitter(twitter);
         userDto.setSlack(slack);
 
-        boolean isUserCreated = userCrud.createUser(userDto);
+        boolean isUserCreated = userCrud.createUser(userDto).isSuccess();
 
 
         Assert.assertFalse(isUserCreated);
     }
 
     @Test
-    public void shouldReturnTrueWhenTryToBlockNotBLockedUser(){
+    public void shouldReturnTrueWhenTryToBlockNotBLockedUser() {
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -163,22 +166,22 @@ public class UserCrudTest {
 
         userCrud.createUser(userDto);
 
-        Assert.assertTrue(userCrud.blockUser(login));
+        Assert.assertTrue(userCrud.blockUser(login).isSuccess());
     }
 
     @Test
-    public void shouldReturnFalseWhenTryToBlockNonExistingUser(){
-        Assert.assertFalse(userCrud.blockUser("login"));
+    public void shouldReturnFalseWhenTryToBlockNonExistingUser() {
+        Assert.assertFalse(userCrud.blockUser("login").isSuccess());
     }
 
     @Test
-    public void shouldReturnFalseWhenTryToBlockUserPassingEmptyStringAsLogin(){
-        Assert.assertFalse(userCrud.blockUser(""));
+    public void shouldReturnFalseWhenTryToBlockUserPassingEmptyStringAsLogin() {
+        Assert.assertFalse(userCrud.blockUser("").isSuccess());
 
     }
 
     @Test
-    public void shouldReturnTrueWhenQueryForBlockedUser(){
+    public void shouldReturnTrueWhenQueryForBlockedUser() {
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -198,7 +201,7 @@ public class UserCrudTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenQueryForNonBlockedUser(){
+    public void shouldReturnFalseWhenQueryForNonBlockedUser() {
         String login = "login";
         String email = "email";
         String twitter = "twitter";
@@ -215,5 +218,40 @@ public class UserCrudTest {
 
         Assert.assertFalse(userCrud.isUserBlocked(login));
     }
+
+    @Test
+    public void shouldUpdateUserIfExist() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("login");
+        userDto.setEmail("email");
+
+        userRepository.add(new UserFactory().createFrom(userDto));
+        userDto.setEmail("emailNew");
+
+
+        Assert.assertEquals(userCrud.updateUser(userDto).getMessage(), "User login updated");
+    }
+
+    @Test
+    public void shouldNotupdateUserIfNoPresent() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("login");
+        userDto.setEmail("email");
+        Assert.assertEquals(userCrud.updateUser(userDto).getMessage(), "login - USER DOESN'T EXIST ,can't update.");
+    }
+
+    @Test
+    public void AfterUpdateUserListOfAllUsersShouldStillHaveSize1() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("login");
+        userDto.setEmail("email");
+
+        userRepository.add(new UserFactory().createFrom(userDto));
+        userDto.setEmail("emailNew");
+        userCrud.updateUser(userDto);
+
+        Assert.assertEquals(userCrud.showAllUsers().size(), 1);
+    }
+
 
 }
