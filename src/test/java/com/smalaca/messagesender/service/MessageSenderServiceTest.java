@@ -41,5 +41,5 @@ public class MessageSenderServiceTest {
     public void shouldReturnExceptionIfSendMessageViaMailUnsuccessful() {
         Assert.assertTrue(true);
     }
-    
+
 }

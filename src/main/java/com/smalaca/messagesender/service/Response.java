@@ -39,4 +39,8 @@ public class Response {
     public static Response aSuccessfulResponse() {
         return new Response(SUCCESS);
     }
+
+    public static Response aFailureResponse() {
+        return new Response(FAILURE);
+    }
 }

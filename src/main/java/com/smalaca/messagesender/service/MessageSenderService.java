@@ -6,8 +6,6 @@ import com.smalaca.messagesender.exceptions.NoMessageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-
 @Service
 public class MessageSenderService {
     private final MessageRepository messageRepository;
@@ -20,19 +18,17 @@ public class MessageSenderService {
     }
 
 
-    public Response sendMessageViaEmail(String messageId) {
+    public Response sendMessageViaEmail(String messageId) throws Exception {
 
         try {
-            Message message = messageRepository.getMessageById(messageId);
-            return emailSenderFake.sendMessage(message);
-        } catch (NoSuchElementException e) {
-            throw new NoMessageException(messageId);
+            if (messageRepository.exists(messageId)) {
+                Message message = messageRepository.getMessageById(messageId);
+                emailSenderFake.sendMessage(message);
+                Response.aSuccessfulResponseWith("Mail was send");
+            }
+        } catch (NoMessageException e) {
+            throw new NoMessageException("Error, mail is stoped.");
         }
-    }
-
-    public Response sendMessageViaEmialWasSuccess() {
         return Response.aSuccessfulResponse();
-
     }
-
 }

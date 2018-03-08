@@ -1,6 +1,7 @@
 package com.smalaca.messagesender.controller;
 
 
+import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.exceptions.NoMessageException;
 import com.smalaca.messagesender.service.MessageCrud;
@@ -28,12 +29,15 @@ public class MessageSenderController {
     }
 
     @RequestMapping(value = "/send/{param}")
-    public Response sendMessage(@PathVariable(value = "param") String id) {
-        if (!id.isEmpty()) {
-            Response response = messageSenderService.sendMessageViaEmail(id);
-            return response;
+    public Response sendMessage(@PathVariable(value = "param") String id) throws Exception {
+
+        Message message = messageRepository.getMessageById(id);
+
+        if (!message.getId().isEmpty()) {
+            messageSenderService.sendMessageViaEmail(id);
+            return Response.aSuccessfulResponse();
         } else {
-            throw new NoMessageException("Error");
+            throw new NoMessageException("No message to send.");
         }
     }
 }
