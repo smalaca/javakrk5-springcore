@@ -85,12 +85,12 @@ public class MessageCrudTest {
         MessageDto messageDto = getMessageDto();
         messageCrud.createNew(messageDto);
 
-        Assert.assertFalse(messageRepository.getAllMessages().isEmpty());
+        Assert.assertFalse(messageRepository.getMessages().isEmpty());
     }
 
     @Test
     public void shouldReturnListOfMessagesWithNoElement() {
 
-        Assert.assertTrue(messageRepository.getAllMessages().isEmpty());
+        Assert.assertTrue(messageRepository.getMessages().isEmpty());
     }
 }

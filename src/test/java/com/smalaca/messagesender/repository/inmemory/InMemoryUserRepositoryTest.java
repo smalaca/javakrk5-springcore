@@ -67,4 +67,26 @@ public class InMemoryUserRepositoryTest {
     public void shouldReturnFalseWhenQueryForIsBlockedFieldOfNewUser() {
         Assert.assertFalse(inMemoryUserRepository.isBlocked(exampleUser().getLogin()));
     }
+
+    @Test
+    public void ListOfAllUsersShouldHaveSizeEqualTo2() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("loginSowAll");
+        userDto.setEmail("emailShowAll");
+
+        inMemoryUserRepository.add(new UserFactory().createFrom(userDto));
+        Assert.assertEquals(inMemoryUserRepository.showAllUsers().size(), 2);
+    }
+
+    @Test
+    public void ListOfAllUsersShouldHaveSize2WhenOneUserIsBlocked() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("loginSowAll");
+        userDto.setEmail("emailShowAll");
+
+        inMemoryUserRepository.add(new UserFactory().createFrom(userDto));
+        inMemoryUserRepository.blockUser(userDto.getLogin());
+        Assert.assertEquals(inMemoryUserRepository.showAllUsers().size(), 2);
+
+    }
 }

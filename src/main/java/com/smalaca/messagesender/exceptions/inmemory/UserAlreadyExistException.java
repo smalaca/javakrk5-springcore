@@ -1,15 +1,15 @@
 package com.smalaca.messagesender.exceptions.inmemory;
 
 public class UserAlreadyExistException extends RuntimeException {
+    private final String userName;
 
-
-    public UserAlreadyExistException(String message) {
-        super(message);
+    public UserAlreadyExistException(String userName) {
+        this.userName = userName;
     }
 
     @Override
     public String getMessage() {
-        return "User already exist in repository";
+        return "User" + userName + "  already exist in repository";
     }
 
 
