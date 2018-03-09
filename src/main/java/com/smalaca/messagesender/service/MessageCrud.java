@@ -24,7 +24,7 @@ public class MessageCrud {
         Message message = new MessageFactory().createFrom(messageDto);
 
         if (!messageRepository.exists(message)) {
-            message.setId(UUID.randomUUID().toString());
+            message.setId(new UniqueIdFactory().genarateId());
             messageRepository.add(message);
 
             return Response.aSuccessfulResponseWith(message.getId());
