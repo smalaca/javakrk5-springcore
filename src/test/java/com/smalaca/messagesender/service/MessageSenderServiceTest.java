@@ -43,8 +43,5 @@ public class MessageSenderServiceTest {
 
         Response response = messageSenderService.sendMessageViaEmail("1");
         assertTrue(response.isSuccess());
-
-
     }
-
 }
