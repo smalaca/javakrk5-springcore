@@ -67,12 +67,12 @@ public class InMemoryMessageRepositoryTest {
     public void shouldReturnListOfMessagesThatIsNotEmpty() {
 
         setMessageAndAddToRepository();
-        Assert.assertFalse(repository.getAllMessages().isEmpty());
+        Assert.assertFalse(repository.getMessages().isEmpty());
     }
 
     @Test
     public void shouldReturnListOfMessagesWithNoElement() {
 
-        Assert.assertTrue(repository.getAllMessages().isEmpty());
+        Assert.assertTrue(repository.getMessages().isEmpty());
     }
 }
