@@ -5,7 +5,6 @@ public class NoMessageException extends RuntimeException {
     private String errorName;
 
     public NoMessageException() {
-
     }
 
     public NoMessageException(String errorName) {
