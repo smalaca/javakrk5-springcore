@@ -1,10 +1,8 @@
 package com.smalaca.messagesender.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -17,12 +15,12 @@ public class EmailStat {
     @Column(name = "sentTo")
     private String to;
     private String subject;
-    private Date date;
+    private Timestamp date;
 
     public EmailStat() {
     }
 
-    public EmailStat(String from, String to, String subject, Date date) {
+    public EmailStat(String from, String to, String subject, Timestamp date) {
         this.from = from;
         this.to = to;
         this.subject = subject;

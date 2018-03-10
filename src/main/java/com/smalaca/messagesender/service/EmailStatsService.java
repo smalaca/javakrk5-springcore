@@ -5,6 +5,7 @@ import com.smalaca.messagesender.repository.inmemory.MessageStatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class EmailStatsService {
         this.messageStatsRepository = messageStatsRepository;
     }
 
-    List<EmailStat> findAllBy(){
-        return messageStatsRepository.findAllBy();
+    List<EmailStat> findAll(){
+        return messageStatsRepository.findAll();
     }
 
     List<EmailStat> findAllByFrom(String from){
@@ -34,7 +35,7 @@ public class EmailStatsService {
         return messageStatsRepository.findAllByTo(to);
     }
 
-    List<EmailStat> findAllByDateAfterAndBefore(Date after, Date before){
+    List<EmailStat> findAllByDateAfterAndBefore(Timestamp after, Timestamp before){
         return messageStatsRepository.findAllByDateAfterAndDateBefore(after, before);
     }
 }
