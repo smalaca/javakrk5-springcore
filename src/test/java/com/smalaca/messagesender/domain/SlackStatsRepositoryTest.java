@@ -1,5 +1,6 @@
 package com.smalaca.messagesender.domain;
 
+import com.smalaca.messagesender.exceptions.inmemory.jpa.SlackStatsRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,68 +26,69 @@ public class SlackStatsRepositoryTest {
 
     @Test
     public void shouldAddStat() {
-        Stat stats = new Stat("messageId", "some id", "some other id");
+        SlackStat stats = new SlackStat("messageId", "some id", "some other id");
 
         slackStatsRepository.save(stats);
-        Stat testStat = slackStatsRepository.findOne(stats.getId());
+        SlackStat testSlackStat = slackStatsRepository.findOne(stats.getId());
 
-        Assert.assertEquals(stats, testStat);
+        Assert.assertEquals(stats, testSlackStat);
 
     }
 
     @Test
     public void shouldCheckStatByIdThatExist() {
-        Stat stat = new Stat("messageId", "some id", "some other id");
+        SlackStat stat = new SlackStat("messageId", "some id", "some other id");
         slackStatsRepository.save(stat);
-        Stat slackStat = slackStatsRepository.findOne(stat.getId());
-        Assert.assertNotNull(slackStat);
-        Assert.assertEquals(slackStat, stat);
+        SlackStat slackSlackStat = slackStatsRepository.findOne(stat.getId());
+        Assert.assertNotNull(slackSlackStat);
+        Assert.assertEquals(slackSlackStat, stat);
     }
 
     @Test
     public void shouldFindAllStats() {
-        Stat stat = new Stat("messageId", "some id", "some other id");
-        slackStatsRepository.save(stat);
-        Stat stat1 = new Stat("messageId1", "some id1", "some other id1");
-        slackStatsRepository.save(stat1);
-        Stat stat2 = new Stat("messageId2", "some id2", "some other id2");
-        slackStatsRepository.save(stat2);
+        SlackStat slackStat = new SlackStat("messageId", "some id", "some other id");
+        slackStatsRepository.save(slackStat);
+        SlackStat slackStat1 = new SlackStat("messageId1", "some id1", "some other id1");
+        slackStatsRepository.save(slackStat1);
+        SlackStat slackStat2 = new SlackStat("messageId2", "some id2", "some other id2");
+        slackStatsRepository.save(slackStat2);
 
-        Iterable<Stat> findAllStatsList = slackStatsRepository.findAll();
-        List<Stat> lisOfAllStats = new ArrayList<>();
-        findAllStatsList.forEach(lisOfAllStats::add);
+        Iterable<SlackStat> findAllStatsList = slackStatsRepository.findAll();
+        List<SlackStat> lisOfAllSlackStats = new ArrayList<>();
+        findAllStatsList.forEach(lisOfAllSlackStats::add);
 
-        Assert.assertEquals(lisOfAllStats.get(0), stat);
-        Assert.assertEquals(lisOfAllStats.get(1), stat1);
-        Assert.assertEquals(lisOfAllStats.get(2), stat2);
+        Assert.assertEquals(lisOfAllSlackStats.get(0), slackStat);
+        Assert.assertEquals(lisOfAllSlackStats.get(1), slackStat1);
+        Assert.assertEquals(lisOfAllSlackStats.get(2), slackStat2);
 
     }
 
 
     @Test
     public void shouldUpdateStat() {
-        Stat stats = new Stat("messageId", "some id", "some other id");
+        SlackStat stats = new SlackStat("messageId", "some id", "some other id");
         slackStatsRepository.save(stats);
-        Stat testStat = slackStatsRepository.findOne(stats.getId());
-        testStat.setFrom("some id update");
-        slackStatsRepository.save(testStat);
-        testStat = slackStatsRepository.findOne(testStat.getId());
+        SlackStat testSlackStat = slackStatsRepository.findOne(stats.getId());
+        testSlackStat.setFrom("some id update");
+        slackStatsRepository.save(testSlackStat);
+        testSlackStat = slackStatsRepository.findOne(testSlackStat.getId());
 
 
-        Assert.assertNotEquals(stats, testStat);
-        Assert.assertEquals(testStat.getId(), stats.getId());
-        Assert.assertEquals(testStat.getMessageId(), stats.getMessageId());
-        Assert.assertEquals(testStat.getMessageTo(), stats.getMessageTo());
+        Assert.assertNotEquals(stats, testSlackStat);
+        Assert.assertEquals(testSlackStat.getId(), stats.getId());
+        Assert.assertEquals(testSlackStat.getMessageId(), stats.getMessageId());
+        Assert.assertEquals(testSlackStat.getMessageTo(), stats.getMessageTo());
 
     }
 
     @Test
     public void shouldDeleteStat() {
-        Stat stat = new Stat("messageId", "some id", "another id");
-        slackStatsRepository.save(stat);
+        SlackStat slackStat = new SlackStat("messageId", "some id", "another id");
+        slackStatsRepository.save(slackStat);
 
-        slackStatsRepository.delete(stat);
-        Assert.assertNull(slackStatsRepository.findOne(stat.getId()));
+        slackStatsRepository.delete(slackStat);
+        Assert.assertNull(slackStatsRepository.findOne(slackStat.getId()));
     }
+
 
 }

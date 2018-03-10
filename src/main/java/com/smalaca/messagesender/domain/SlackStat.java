@@ -5,12 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
-
 @Entity
-public class Stat {
+public class SlackStat {
 
     @Id
     @GeneratedValue
@@ -22,10 +20,10 @@ public class Stat {
     private LocalDateTime date;
 
 
-    public Stat() {
+    public SlackStat() {
     }
 
-    public Stat(String messageFrom, String messageTo, String messageId) {
+    public SlackStat(String messageFrom, String messageTo, String messageId) {
         this.messageFrom = messageFrom;
         this.messageTo = messageTo;
         this.messageId = messageId;
@@ -47,13 +45,13 @@ public class Stat {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Stat)) return false;
-        Stat stat = (Stat) o;
-        return Objects.equals(statId, stat.statId) &&
-                Objects.equals(messageFrom, stat.messageFrom) &&
-                Objects.equals(messageTo, stat.messageTo) &&
-                Objects.equals(messageId, stat.messageId) &&
-                Objects.equals(date, stat.date);
+        if (!(o instanceof SlackStat)) return false;
+        SlackStat slackStat = (SlackStat) o;
+        return Objects.equals(statId, slackStat.statId) &&
+                Objects.equals(messageFrom, slackStat.messageFrom) &&
+                Objects.equals(messageTo, slackStat.messageTo) &&
+                Objects.equals(messageId, slackStat.messageId) &&
+                Objects.equals(date, slackStat.date);
     }
 
     @Override
