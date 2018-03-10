@@ -1,19 +1,23 @@
 package com.smalaca.messagesender.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 public class TwitterStats {
 
-    @Id @GeneratedValue private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
 
-    private final String messageId;
-    private final String from;
-    private final String to;
-    private final Date date;
+    private String messageId;
+    @Column(name = "sentFrom")
+    private String from;
+    private String to;
+    private Date date;
+
+    private TwitterStats() {
+    }
 
     public TwitterStats(String messageId, String from, String to) {
         this.messageId = messageId;
