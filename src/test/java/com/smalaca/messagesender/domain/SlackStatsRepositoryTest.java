@@ -89,4 +89,5 @@ public class SlackStatsRepositoryTest {
         Assert.assertNull(slackStatsRepository.findOne(stat.getId()));
     }
 
+
 }
