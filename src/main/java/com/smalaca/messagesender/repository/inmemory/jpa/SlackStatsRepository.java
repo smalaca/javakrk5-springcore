@@ -1,4 +1,4 @@
-package com.smalaca.messagesender.exceptions.inmemory.jpa;
+package com.smalaca.messagesender.repository.inmemory.jpa;
 
 import com.smalaca.messagesender.domain.SlackStat;
 import org.springframework.data.repository.CrudRepository;
