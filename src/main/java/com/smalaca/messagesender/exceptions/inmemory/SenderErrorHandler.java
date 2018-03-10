@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class SenderErrorHandler {
 
+    private SecurityResponse responseException;
+
     @ExceptionHandler(NoMessageException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public SecurityResponse procesValidatorError(NoMessageException ex) {
 
-        SecurityResponse responseException = new SecurityResponse(ex.getErrorName());
-        return responseException;
+        return responseException = new SecurityResponse(ex.getErrorName());
     }
 }

@@ -3,14 +3,16 @@ package com.smalaca.messagesender.service;
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.exceptions.inmemory.NoMessageException;
+import com.smalaca.messagesender.sender.mail.fake.FakeMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessageSenderService {
 
-    private MessageRepository messageRepository;
-    private FakeMailSender fakeMailSender;
+    @Autowired
+    private final MessageRepository messageRepository;
+    private final FakeMailSender fakeMailSender;
 
     @Autowired
     public MessageSenderService(MessageRepository messageRepository, FakeMailSender fakeMailSender) {
@@ -21,15 +23,12 @@ public class MessageSenderService {
     public Response sendMessageViaEmail(String id) throws NoMessageException {
 
         try {
-            if (messageRepository.exists(id)) {
+            Message message = messageRepository.getMessagesById(id);
+            fakeMailSender.sendMessage(message);
+            return Response.aSuccessfulResponseWith("Mail " + id + " was send");
 
-                Message message = messageRepository.getMessagesById(id);
-                fakeMailSender.sendMessage(message);
-                return Response.aSuccessfulResponseWith("Mail " + id + " was send");
-            }
         } catch (NoMessageException ex) {
-            throw new NoMessageException("Error, cannot send " + id + " mail");
+            throw new NoMessageException("Error, cannot send " + id + " mail" + ex.getErrorName());
         }
-        return Response.aSuccessfulResponse();
     }
 }
