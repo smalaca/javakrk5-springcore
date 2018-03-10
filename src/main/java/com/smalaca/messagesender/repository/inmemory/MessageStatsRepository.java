@@ -1,6 +1,6 @@
 package com.smalaca.messagesender.repository.inmemory;
 
-import com.smalaca.messagesender.domain.EmailStats;
+import com.smalaca.messagesender.domain.EmailStat;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,16 +8,16 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface MessageStatsRepository extends CrudRepository<EmailStats, String>{
+public interface MessageStatsRepository extends CrudRepository<EmailStat, String>{
 
-    List<EmailStats> findAllBy();
+    List<EmailStat> findAllBy();
 
-    List<EmailStats> findAllByDateAfterAndDateBefore(Date after, Date before);
+    List<EmailStat> findAllByDateAfterAndDateBefore(Date after, Date before);
 
-    EmailStats findById(String id);
+    EmailStat findById(String id);
 
-    List<EmailStats> findAllByFrom(String from);
+    List<EmailStat> findAllByFrom(String from);
 
-    List<EmailStats> findAllByTo(String to);
+    List<EmailStat> findAllByTo(String to);
 
 }

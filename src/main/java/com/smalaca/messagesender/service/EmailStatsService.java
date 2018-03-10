@@ -1,6 +1,6 @@
 package com.smalaca.messagesender.service;
 
-import com.smalaca.messagesender.domain.EmailStats;
+import com.smalaca.messagesender.domain.EmailStat;
 import com.smalaca.messagesender.repository.inmemory.MessageStatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,26 +11,30 @@ import java.util.List;
 @Service
 public class EmailStatsService {
 
-    @Autowired
     private MessageStatsRepository messageStatsRepository;
 
-    List<EmailStats> findAllBy(){
+    @Autowired
+    public EmailStatsService(MessageStatsRepository messageStatsRepository) {
+        this.messageStatsRepository = messageStatsRepository;
+    }
+
+    List<EmailStat> findAllBy(){
         return messageStatsRepository.findAllBy();
     }
 
-    List<EmailStats> findAllByFrom(String from){
+    List<EmailStat> findAllByFrom(String from){
         return messageStatsRepository.findAllByFrom(from);
     }
 
-    EmailStats findById(String id){
+    EmailStat findById(String id){
         return messageStatsRepository.findById(id);
     }
 
-    List<EmailStats> findAllByTo(String to){
+    List<EmailStat> findAllByTo(String to){
         return messageStatsRepository.findAllByTo(to);
     }
 
-    List<EmailStats> findAllByDateAfterAndBefore(Date after, Date before){
+    List<EmailStat> findAllByDateAfterAndBefore(Date after, Date before){
         return messageStatsRepository.findAllByDateAfterAndDateBefore(after, before);
     }
 }
