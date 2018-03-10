@@ -1,8 +1,10 @@
 package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.Message;
+import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
 import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
+import com.smalaca.messagesender.service.MessageDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -49,7 +51,15 @@ public class InMemoryMessageRepository implements MessageRepository {
         }
     }
 
-    public List<Message> getMessages() {
+    public List<Message> getAllMessages() {
         return messages;
     }
+
+    @Override
+    public void update(String id, MessageDto messageDto) {
+        messages.remove(messages.stream().filter(message -> message.getId().equals(id)).findFirst());
+        add(new MessageFactory().createFrom(messageDto, id));
+    }
+
+
 }

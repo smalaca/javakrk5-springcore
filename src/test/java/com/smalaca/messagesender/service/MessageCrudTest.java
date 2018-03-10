@@ -86,4 +86,31 @@ public class MessageCrudTest {
     public void shouldReturnListOfMessagesWithNoElement() {
         Assert.assertTrue(messageRepository.getMessages().isEmpty());
     }
+
+    @Test
+    public void shouldUpdateMessageWhenExist() {
+        MessageDto messageDto = new MessageDto();
+        messageDto.setSubject("some subject 2");
+        messageDto.setBody("some body 2");
+        messageDto.setTo("smalaca");
+        messageDto.setFrom("javakrk5");
+
+        Message message = new MessageFactory().createFrom(messageDto, "5");
+        messageRepository.add(message);
+
+        Assert.assertTrue(messageCrud.updateMessage("5", messageDto).isSuccess());
+        Assert.assertEquals(messageCrud.updateMessage("5", messageDto).getMessage(), "Message updated");
+    }
+
+    @Test
+    public void shouldNotUpdateMessageWhenNoPresent() {
+        MessageDto messageDto = new MessageDto();
+        messageDto.setSubject("some subject 2");
+        messageDto.setBody("some body 2");
+        messageDto.setTo("smalaca");
+        messageDto.setFrom("javakrk5");
+
+        Assert.assertFalse(messageCrud.updateMessage("5", messageDto).isSuccess());
+        Assert.assertEquals(messageCrud.updateMessage("5", messageDto).getMessage(), "Message doent't exist");
+    }
 }

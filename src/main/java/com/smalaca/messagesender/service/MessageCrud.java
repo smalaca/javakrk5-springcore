@@ -46,6 +46,14 @@ public class MessageCrud {
     }
 
     public List<Message> getAllMessages() {
-        return messageRepository.getMessages();
+        return messageRepository.getAllMessages();
+    }
+
+
+    public Response updateMessage(String id, MessageDto messageDto) {
+        if (!messageRepository.exists(id))
+            return Response.aFailureResponse("Message doent't exist");
+        messageRepository.update(id, messageDto);
+        return Response.aSuccessfulResponseWith("Message updated");
     }
 }

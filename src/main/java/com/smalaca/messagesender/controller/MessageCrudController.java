@@ -5,13 +5,11 @@ import com.smalaca.messagesender.service.MessageCrud;
 import com.smalaca.messagesender.service.MessageDto;
 import com.smalaca.messagesender.service.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/message")
 @RestController
 public class MessageCrudController {
 
@@ -22,18 +20,26 @@ public class MessageCrudController {
         this.messageCrud = messageCrud;
     }
 
-    @RequestMapping("/message/delete")
-    public Response delete(@RequestParam(name="id") String uniqueId) {
+    @RequestMapping("/delete")
+    public Response delete(@RequestParam(name = "id") String uniqueId) {
         return messageCrud.deleteMessage(uniqueId);
     }
 
-    @RequestMapping("/message/add")
-    public Response add(@ModelAttribute(name="messageDto") MessageDto messageDto) {
+    @RequestMapping("/add")
+    public Response add(@ModelAttribute(name = "messageDto") MessageDto messageDto) {
         return messageCrud.createNew(messageDto);
     }
 
-    @RequestMapping("/message/all")
-    public List<Message> getAllMessages(){
+    @RequestMapping("/all")
+    public List<Message> getAllMessages() {
         return messageCrud.getAllMessages();
     }
+
+    @RequestMapping("/update/{id}")
+    public Response updateMessage(@PathVariable String id, @ModelAttribute MessageDto messageDto) {
+        return messageCrud.updateMessage(id, messageDto);
+    }
+
+
 }
+
