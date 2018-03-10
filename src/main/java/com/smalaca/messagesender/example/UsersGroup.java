@@ -11,9 +11,7 @@ public class UsersGroup {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String description;
-
-    protected UsersGroup() {}
+    private final String description;
 
     public UsersGroup(String name, String description) {
         this.name = name;

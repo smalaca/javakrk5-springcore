@@ -37,6 +37,7 @@ public class UsersGroupRepositoryTest {
     public void shouldRecognizeUsersGroupExists() {
         UsersGroup persisted = repository.save(someUsersGroup());
 
+        assertNotNull(persisted.getId());
         assertTrue(repository.exists(persisted.getId()));
     }
 
