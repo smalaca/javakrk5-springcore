@@ -34,17 +34,16 @@ public class TwitterStatsRepositoryTest {
 
     @Before
     public void addStatsToRepoThatDoNotMeetCriteria() {
-        TwitterStats twitterStats = new TwitterStats(SOME_ID, FROM, TO);
-        TwitterStats twitterStats1 = new TwitterStats(SOME_ID + "1", FROM + "1", TO + "1");
-        TwitterStats twitterStats2 = new TwitterStats(SOME_ID + "2", FROM + "2", TO + "2");
-        TwitterStats twitterStats3 = new TwitterStats(SOME_ID + "3", FROM + "3", TO + "3");
-        TwitterStats twitterStats4 = new TwitterStats(SOME_ID + "4", FROM + "4", TO + "4");
 
-        twitterStatsRepository.save(twitterStats);
-        twitterStatsRepository.save(twitterStats1);
-        twitterStatsRepository.save(twitterStats2);
-        twitterStatsRepository.save(twitterStats3);
-        twitterStatsRepository.save(twitterStats4);
+        twitterStatsRepository.save(new TwitterStats(SOME_ID, FROM, TO));
+
+        twitterStatsRepository.save(new TwitterStats(SOME_ID + "1", FROM + "1", TO + "1"));
+
+        twitterStatsRepository.save(new TwitterStats(SOME_ID + "2", FROM + "2", TO + "2"));
+
+        twitterStatsRepository.save(new TwitterStats(SOME_ID + "3", FROM + "3", TO + "3"));
+
+        twitterStatsRepository.save(new TwitterStats(SOME_ID + "4", FROM + "4", TO + "4"));
     }
 
     @Test
@@ -59,7 +58,6 @@ public class TwitterStatsRepositoryTest {
 
         List<TwitterStats> twitterStatsList = toList(twitterStatsRepository.findAll());
         assertEquals(5, twitterStatsList.size());
-
     }
 
     @Test
@@ -88,7 +86,6 @@ public class TwitterStatsRepositoryTest {
     public void shouldAddSomeStatsToRepository() {
 
         twitterStatsRepository.save(twitterStats);
-
         assertTrue(twitterStatsRepository.exists(twitterStats.getId()));
     }
 
@@ -96,7 +93,6 @@ public class TwitterStatsRepositoryTest {
     public void shouldDeleteStatFromRepository() {
 
         TwitterStats persisted = twitterStatsRepository.save(twitterStats);
-
         twitterStatsRepository.delete(persisted);
         assertFalse(persisted.getId().isEmpty());
     }
@@ -105,7 +101,6 @@ public class TwitterStatsRepositoryTest {
     public void shouldUpdateStatsFromRepository() {
 
         TwitterStats persisted = twitterStatsRepository.save(twitterStats);
-
         twitterStatsRepository.save(persisted);
         assertTrue(twitterStatsRepository.exists(persisted.getId()));
     }
@@ -114,21 +109,19 @@ public class TwitterStatsRepositoryTest {
     public void shouldReturnThreeStatsThatMatchComplexQuery() {
 
         try {
-            TwitterStats twitterStats5 = new TwitterStats(SOME_ID + "5", "janusz", "grażyna");
+            TwitterStats twitterStats5 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "5", "janusz", "grażyna"));
             TimeUnit.MILLISECONDS.sleep(10);
+
             TwitterStats twitterStats6 = new TwitterStats(SOME_ID + "6", "janusz", "grażyna");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats7 = new TwitterStats(SOME_ID + "7", "wiesław", "grażyna");
-            TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats8 = new TwitterStats(SOME_ID + "8", "janusz", "wiesław");
-            TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats9 = new TwitterStats(SOME_ID + "9", "janusz", "grażyna");
 
-            twitterStatsRepository.save(twitterStats5);
-            twitterStatsRepository.save(twitterStats6);
-            twitterStatsRepository.save(twitterStats7);
-            twitterStatsRepository.save(twitterStats8);
-            twitterStatsRepository.save(twitterStats9);
+            TwitterStats twitterStats7 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "7", "wiesław", "grażyna"));
+            TimeUnit.MILLISECONDS.sleep(10);
+
+            TwitterStats twitterStats8 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "8", "janusz", "wiesław"));
+            TimeUnit.MILLISECONDS.sleep(10);
+
+            TwitterStats twitterStats9 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "9", "janusz", "grażyna"));
 
             List<TwitterStats> twitterStatsList = twitterStatsRepository
                     .findFirst3ByFromContainsOrToContainsOrderByDateDesc("janusz", "grażyna");
@@ -147,21 +140,19 @@ public class TwitterStatsRepositoryTest {
     public void shouldReturnTwoStatsThatMatchComplexQuery() {
 
         try {
-            TwitterStats twitterStats5 = new TwitterStats(SOME_ID + "5", "janusz", "grzegorz");
+            TwitterStats twitterStats5 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "5", "janusz", "grzegorz"));
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats6 = new TwitterStats(SOME_ID + "6", "jan", "zofia");
-            TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats7 = new TwitterStats(SOME_ID + "7", "filip", "sara");
-            TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats8 = new TwitterStats(SOME_ID + "8", "krystyna", "grażyna");
-            TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats9 = new TwitterStats(SOME_ID + "9", "krystyna", "janusz");
 
-            twitterStatsRepository.save(twitterStats5);
-            twitterStatsRepository.save(twitterStats6);
-            twitterStatsRepository.save(twitterStats7);
-            twitterStatsRepository.save(twitterStats8);
-            twitterStatsRepository.save(twitterStats9);
+            TwitterStats twitterStats6 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "6", "jan", "zofia"));
+            TimeUnit.MILLISECONDS.sleep(10);
+
+            TwitterStats twitterStats7 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "7", "filip", "sara"));
+            TimeUnit.MILLISECONDS.sleep(10);
+
+            TwitterStats twitterStats8 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "8", "krystyna", "grażyna"));
+            TimeUnit.MILLISECONDS.sleep(10);
+
+            TwitterStats twitterStats9 = twitterStatsRepository.save(new TwitterStats(SOME_ID + "9", "krystyna", "janusz"));
 
             List<TwitterStats> twitterStatsList = twitterStatsRepository
                     .findFirst3ByFromContainsOrToContainsOrderByDateDesc("janusz", "grażyna");

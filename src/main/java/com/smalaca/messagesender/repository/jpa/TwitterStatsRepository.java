@@ -9,4 +9,5 @@ import java.util.List;
 public interface TwitterStatsRepository extends CrudRepository<TwitterStats, String> {
 
     List<TwitterStats> findFirst3ByFromContainsOrToContainsOrderByDateDesc(String from, String to);
+
 }
