@@ -3,10 +3,6 @@ package com.smalaca.messagesender.service;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.validation.constraints.AssertTrue;
-
-import static org.junit.Assert.*;
-
 public class UniqueIdFactoryTest {
 
     @Test

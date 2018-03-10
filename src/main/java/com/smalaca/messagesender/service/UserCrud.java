@@ -5,7 +5,6 @@ import com.smalaca.messagesender.domain.UserFactory;
 import com.smalaca.messagesender.domain.UserRepository;
 import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
 import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
-import com.smalaca.messagesender.repository.inmemory.InMemoryMessageRepository;
 import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

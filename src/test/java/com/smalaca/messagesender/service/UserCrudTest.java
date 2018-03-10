@@ -2,7 +2,6 @@ package com.smalaca.messagesender.service;
 
 
 import com.smalaca.messagesender.repository.inmemory.InMemoryUserRepository;
-import com.smalaca.messagesender.domain.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 

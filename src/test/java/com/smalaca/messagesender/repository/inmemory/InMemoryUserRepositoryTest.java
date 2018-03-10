@@ -5,14 +5,14 @@ import com.smalaca.messagesender.domain.UserFactory;
 import com.smalaca.messagesender.exceptions.inmemory.UserAlreadyExistException;
 import com.smalaca.messagesender.exceptions.inmemory.UserDoesntExistException;
 import com.smalaca.messagesender.service.UserDto;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class InMemoryUserRepositoryTest {
     @Rule

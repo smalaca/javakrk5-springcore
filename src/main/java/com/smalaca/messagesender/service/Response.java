@@ -1,7 +1,5 @@
 package com.smalaca.messagesender.service;
 
-import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
-
 public class Response {
     private static final boolean SUCCESS = true;
     private static final boolean FAILURE = false;
