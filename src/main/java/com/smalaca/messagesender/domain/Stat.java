@@ -1,11 +1,13 @@
 package com.smalaca.messagesender.domain;
 
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+@Entity
 public class Stat {
 
     @Id
@@ -24,7 +26,7 @@ public class Stat {
         this.date = LocalDateTime.now();
     }
 
-    public Integer getStatId() {
+    public Integer getId() {
         return statId;
     }
 }
