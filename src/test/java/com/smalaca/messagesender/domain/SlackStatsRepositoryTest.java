@@ -6,12 +6,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class SlackStatsRepositoryTest {
     @Autowired
     SlackStatsRepository slackStatsRepository;
@@ -39,24 +42,25 @@ public class SlackStatsRepositoryTest {
     }
 
     @Test
-    public void shouldFindAllStats(){
-        List<Stat> testListOfStats = addSomeStatsToRepo();
-        List<Stat> listOfStats = new ArrayList<>();
-        Iterable<Stat> stats = slackStatsRepository.findAll();
-        stats.forEach(listOfStats::add);
+    public void shouldFindAllStats() {
+        Stat stat = new Stat("messageId", "some id", "some other id");
+        slackStatsRepository.save(stat);
+        Stat stat1 = new Stat("messageId1", "some id1", "some other id1");
+        slackStatsRepository.save(stat1);
+        Stat stat2 = new Stat("messageId2", "some id2", "some other id2");
+        slackStatsRepository.save(stat2);
 
-        for (int i = 0; i < listOfStats.size(); i++) {
-            Assert.assertEquals(listOfStats.get(i), testListOfStats.get(i));
-        }
+        Iterable<Stat> findAllStatsList = slackStatsRepository.findAll();
+        List<Stat> lisOfAllStats = new ArrayList<>();
+        findAllStatsList.forEach(lisOfAllStats::add);
+
+        Assert.assertEquals(lisOfAllStats.get(0), stat);
+        Assert.assertEquals(lisOfAllStats.get(1), stat1);
+        Assert.assertEquals(lisOfAllStats.get(2), stat2);
+
+
     }
 
-    private List<Stat> addSomeStatsToRepo() {
-        List<Stat> listOfStats = new ArrayList<>();
-        for (int i = 0; i < 41; i++) {
-            listOfStats.add(new Stat("id".join(String.valueOf(i)), "some id", "some other id" ));
-        }
-        return listOfStats;
-    }
 
 }
 
