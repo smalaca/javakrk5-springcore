@@ -1,7 +1,5 @@
 package com.smalaca.messagesender.service;
 
-import com.smalaca.messagesender.exceptions.inmemory.MessageDoesNotExistException;
-
 public class Response {
     private static final boolean SUCCESS = true;
     private static final boolean FAILURE = false;
@@ -18,11 +16,11 @@ public class Response {
         this.success = success;
     }
 
-    static Response aSuccessfulResponseWith(String message) {
+    public static Response aSuccessfulResponseWith(String message) {
         return new Response(SUCCESS, message);
     }
 
-    static Response aFailureResponse(String message) {
+    public static Response aFailureResponse(String message) {
         return new Response(FAILURE, message);
     }
 
