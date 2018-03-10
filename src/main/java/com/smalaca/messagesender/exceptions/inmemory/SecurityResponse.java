@@ -2,10 +2,7 @@ package com.smalaca.messagesender.exceptions.inmemory;
 
 public class SecurityResponse {
 
-    private String error;
-
-    public SecurityResponse() {
-    }
+    private final String error;
 
     public SecurityResponse(String error) {
         this.error = error;
@@ -13,9 +10,5 @@ public class SecurityResponse {
 
     public String getError() {
         return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
     }
 }

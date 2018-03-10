@@ -3,6 +3,7 @@ package com.smalaca.messagesender.service;
 import com.smalaca.messagesender.domain.Message;
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.MessageRepository;
+import com.smalaca.messagesender.exceptions.inmemory.NoMessageException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class MessageSenderServiceTest {
 
 
     @Test
-    public void shouldReturnTrueIfMessageViaEmailWasSendSuccessfull() {
+    public void shouldReturnTrueIfMessageViaEmailWasSendSuccessfull() throws NoMessageException {
 
         MessageDto messageDto = new MessageDto();
         messageDto.setSubject(SUBJECT);

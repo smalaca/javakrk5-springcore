@@ -16,11 +16,11 @@ public class Response {
         this.success = success;
     }
 
-    static Response aSuccessfulResponseWith(String message) {
+    public static Response aSuccessfulResponseWith(String message) {
         return new Response(SUCCESS, message);
     }
 
-    static Response aFailureResponse(String message) {
+    public static Response aFailureResponse(String message) {
         return new Response(FAILURE, message);
     }
 
