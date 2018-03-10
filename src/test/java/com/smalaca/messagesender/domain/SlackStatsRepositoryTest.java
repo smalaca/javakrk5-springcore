@@ -27,9 +27,12 @@ public class SlackStatsRepositoryTest {
     @Test
     public void shouldAddStat() {
         Stat stats = new Stat("messageId", "some id", "some other id");
+
         slackStatsRepository.save(stats);
         Stat testStat = slackStatsRepository.findOne(stats.getId());
+
         Assert.assertEquals(stats, testStat);
+
     }
 
     @Test
@@ -58,26 +61,33 @@ public class SlackStatsRepositoryTest {
         Assert.assertEquals(lisOfAllStats.get(1), stat1);
         Assert.assertEquals(lisOfAllStats.get(2), stat2);
 
+    }
+
+
+    @Test
+    public void shouldUpdateStat() {
+        Stat stats = new Stat("messageId", "some id", "some other id");
+        slackStatsRepository.save(stats);
+        Stat testStat = slackStatsRepository.findOne(stats.getId());
+        testStat.setFrom("some id update");
+        slackStatsRepository.save(testStat);
+        testStat = slackStatsRepository.findOne(testStat.getId());
+
+
+        Assert.assertNotEquals(stats, testStat);
+        Assert.assertEquals(testStat.getId(), stats.getId());
+        Assert.assertEquals(testStat.getMessageId(), stats.getMessageId());
+        Assert.assertEquals(testStat.getMessageTo(), stats.getMessageTo());
 
     }
+
     @Test
-    public void shouldDeleteStat(){
+    public void shouldDeleteStat() {
         Stat stat = new Stat("messageId", "some id", "another id");
         slackStatsRepository.save(stat);
 
         slackStatsRepository.delete(stat);
         Assert.assertNull(slackStatsRepository.findOne(stat.getId()));
     }
-    @Test
-    public void shouldCreateNewStat(){
-        Stat stat = new Stat("messageId", "some id", "another id");
-        slackStatsRepository.save(stat);
-
-
-    }
-
-
 
 }
-
-

@@ -21,6 +21,7 @@ public class Stat {
     private String messageId;
     private LocalDateTime date;
 
+
     public Stat() {
     }
 
@@ -29,6 +30,14 @@ public class Stat {
         this.messageTo = messageTo;
         this.messageId = messageId;
         this.date = LocalDateTime.now();
+    }
+
+    public String getMessageTo() {
+        return messageTo;
+    }
+
+    public String getMessageId() {
+        return messageId;
     }
 
     public Integer getId() {
@@ -51,5 +60,9 @@ public class Stat {
     public int hashCode() {
 
         return Objects.hash(statId, messageFrom, messageTo, messageId, date);
+    }
+
+    public void setFrom(String from) {
+        this.messageFrom = from;
     }
 }
