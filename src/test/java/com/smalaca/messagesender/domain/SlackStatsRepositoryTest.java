@@ -2,6 +2,7 @@ package com.smalaca.messagesender.domain;
 
 import com.smalaca.messagesender.exceptions.inmemory.jpa.SlackStatsRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,33 @@ import java.util.List;
 public class SlackStatsRepositoryTest {
     @Autowired
     SlackStatsRepository slackStatsRepository;
+
+    @Before
+    public void addSlackStats(){
+
+        slackStatsRepository.save(new SlackStat("Janusz","Dariusz","111"));
+        slackStatsRepository.save(new SlackStat("Kazek","Dariusz","165"));
+        slackStatsRepository.save(new SlackStat("Mateusz","Kazek","189"));
+        slackStatsRepository.save(new SlackStat("Seba","Przemek","77"));
+        slackStatsRepository.save(new SlackStat("Lech","Stanisław","166"));
+        slackStatsRepository.save(new SlackStat("Stanisła","Dariusz","101"));
+        slackStatsRepository.save(new SlackStat("Seba","Dariusz","120"));
+        slackStatsRepository.save(new SlackStat("Lech","Seba","129"));
+        slackStatsRepository.save(new SlackStat("Seba","Kazek","128"));
+        slackStatsRepository.save(new SlackStat("Seba","Stanisław","122"));
+    }
+
+    @Test
+    public void shouldReturnThreeFirstStats() {
+        String messageFrom = "Seba";
+        String messageTo = "Stanisław";
+
+        slackStatsRepository.findFirst3ByMessageFromContainsAndMessageToContainsOrderByMessageToDesc(
+                messageFrom, messageTo
+        );
+    }
+
+
 
     @Test
     public void shouldNotCheckStatByIdThatNotExist() {

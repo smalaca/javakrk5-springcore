@@ -23,7 +23,7 @@ public class SlackStatsCrud {
         return null;
     }
 
-    public SlackStat findById(SlackStat slackStat) {
+    public SlackStat findById(Integer id) {
         return null;
     }
 
