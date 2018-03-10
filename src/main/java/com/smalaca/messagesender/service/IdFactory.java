@@ -1,4 +1,4 @@
-package com.smalaca.messagesender.domain;
+package com.smalaca.messagesender.service;
 
 public interface IdFactory {
 
