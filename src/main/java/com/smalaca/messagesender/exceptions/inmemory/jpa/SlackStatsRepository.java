@@ -9,4 +9,5 @@ import java.util.List;
 public interface SlackStatsRepository extends CrudRepository<SlackStat, Integer> {
 
     List<SlackStat> findFirst3ByMessageFromContainsAndMessageToContainsOrderByMessageToDesc(String messageFrom, String messageTo);
+
 }
