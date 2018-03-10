@@ -1,6 +1,5 @@
 package com.smalaca.messagesender.domain;
 
-import com.sun.org.glassfish.external.statistics.Stats;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
