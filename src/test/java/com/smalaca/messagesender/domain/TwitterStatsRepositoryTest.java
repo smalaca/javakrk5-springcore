@@ -1,6 +1,5 @@
 package com.smalaca.messagesender.domain;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,10 @@ public class TwitterStatsRepositoryTest {
     private static final String TO = "to";
     private static final String SOME_ID = "13";
 
+    TwitterStats twitterStats = new TwitterStats(SOME_ID, FROM, TO);
+
     @Autowired
-    TwitterStatsRepository twitterStatsRepository;
+    private TwitterStatsRepository twitterStatsRepository;
 
     @Test
     public void shouldCheckIfStatExists() {
@@ -64,5 +65,29 @@ public class TwitterStatsRepositoryTest {
     public static List<TwitterStats> toList(final Iterable<TwitterStats> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @Test
+    public void shouldAddSomeStatsToRepository() {
+        twitterStatsRepository.save(twitterStats);
+
+        assertTrue(twitterStatsRepository.exists(twitterStats.getId()));
+    }
+
+    @Test
+    public void shouldDeleteStatFromRepository() {
+        TwitterStats persisted = twitterStatsRepository.save(twitterStats);
+
+        twitterStatsRepository.delete(persisted);
+        assertFalse(persisted.getId().isEmpty());
+    }
+
+    @Test
+    public void shouldUpdateStatsFromRepository() {
+
+        TwitterStats presisted = twitterStatsRepository.save(twitterStats);
+
+        twitterStatsRepository.save(presisted);
+        assertTrue(twitterStatsRepository.exists(presisted.getId()));
     }
 }
