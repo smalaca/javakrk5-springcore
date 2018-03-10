@@ -15,7 +15,7 @@ public class UsersGroup {
     @OneToOne
     private final Location location;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = User.class)
     private final List<User> users = new ArrayList<>();
 
     public UsersGroup(String name, String description, Location location) {
@@ -42,6 +42,7 @@ public class UsersGroup {
     }
 
     public void add(User user) {
+        user.assignTo(this);
         users.add(user);
     }
 

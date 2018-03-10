@@ -26,8 +26,8 @@ public class UsersGroupRepositoryTest {
     private static final String ANOTHER_DESCRIPTION = "another description";
     private static final String YET_ANOTHER_DESCRIPTION = "yet another description";
     private static final String SOME_LOCATION = "location";
-    private static final int FIRST_USER = 0;
-    private static final int SECOND_USER = 1;
+    private static final int FIRST = 0;
+    private static final int SECOND = 1;
 
     @Autowired private UsersGroupRepository usersGroupRepository;
     @Autowired private LocationRepository locationRepository;
@@ -257,17 +257,18 @@ public class UsersGroupRepositoryTest {
 
         UsersGroup persistedUsersGroup = usersGroupRepository.findOne(usersGroup.getId());
         assertFalse(persistedUsersGroup.users().isEmpty());
-        assertUser(user1, persistedUsersGroup.users().get(FIRST_USER));
-        assertUser(user2, persistedUsersGroup.users().get(SECOND_USER));
+        assertUser(user1, persistedUsersGroup.users().get(FIRST), usersGroup);
+        assertUser(user2, persistedUsersGroup.users().get(SECOND), usersGroup);
     }
 
     private User aUser(String name) {
         return userRepository.save(new User(name));
     }
 
-    private void assertUser(User user, User persistedUser) {
+    private void assertUser(User user, User persistedUser, UsersGroup usersGroup) {
         assertNotNull(persistedUser.getId());
         assertTrue(persistedUser.sameAs(user));
+        assertEquals(usersGroup, userRepository.findOne(persistedUser.getId()).getUsersGroup());
     }
 
     private UsersGroup usersGroupWithName(String name) {
