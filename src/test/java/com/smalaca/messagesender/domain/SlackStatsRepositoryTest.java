@@ -1,6 +1,6 @@
 package com.smalaca.messagesender.domain;
 
-import com.smalaca.messagesender.exceptions.inmemory.jpa.SlackStatsRepository;
+import com.smalaca.messagesender.repository.inmemory.jpa.SlackStatsRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
