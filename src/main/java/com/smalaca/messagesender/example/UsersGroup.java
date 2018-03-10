@@ -1,6 +1,8 @@
 package com.smalaca.messagesender.example;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class UsersGroup {
@@ -12,6 +14,9 @@ public class UsersGroup {
 
     @OneToOne
     private final Location location;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private final List<User> users = new ArrayList<>();
 
     public UsersGroup(String name, String description, Location location) {
         this.name = name;
@@ -34,5 +39,13 @@ public class UsersGroup {
 
     public void changeName(String name) {
         this.name = name;
+    }
+
+    public void add(User user) {
+        users.add(user);
+    }
+
+    public List<User> users() {
+        return users;
     }
 }

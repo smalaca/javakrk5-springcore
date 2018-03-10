@@ -26,9 +26,12 @@ public class UsersGroupRepositoryTest {
     private static final String ANOTHER_DESCRIPTION = "another description";
     private static final String YET_ANOTHER_DESCRIPTION = "yet another description";
     private static final String SOME_LOCATION = "location";
+    private static final int FIRST_USER = 0;
+    private static final int SECOND_USER = 1;
 
     @Autowired private UsersGroupRepository usersGroupRepository;
     @Autowired private LocationRepository locationRepository;
+    @Autowired private UserRepository userRepository;
 
     @Test
     public void shouldRecognizeUsersGroupDoesNotExist() {
@@ -240,6 +243,31 @@ public class UsersGroupRepositoryTest {
         UsersGroup result = usersGroupRepository.findOne(UsersGroupSpecification.nameIs(SOME_NAME));
 
         assertEquals(persisted, result);
+    }
+
+    @Test
+    public void shouldAddUsersGroupWithUser() {
+        UsersGroup usersGroup = someUsersGroup();
+        User user1 = aUser(SOME_NAME);
+        User user2 = aUser(DIFFERENT_NAME);
+        usersGroup.add(user1);
+        usersGroup.add(user2);
+
+        usersGroupRepository.save(usersGroup);
+
+        UsersGroup persistedUsersGroup = usersGroupRepository.findOne(usersGroup.getId());
+        assertFalse(persistedUsersGroup.users().isEmpty());
+        assertUser(user1, persistedUsersGroup.users().get(FIRST_USER));
+        assertUser(user2, persistedUsersGroup.users().get(SECOND_USER));
+    }
+
+    private User aUser(String name) {
+        return userRepository.save(new User(name));
+    }
+
+    private void assertUser(User user, User persistedUser) {
+        assertNotNull(persistedUser.getId());
+        assertTrue(persistedUser.sameAs(user));
     }
 
     private UsersGroup usersGroupWithName(String name) {
