@@ -38,17 +38,17 @@ public class TwitterStatsRepositoryTest {
     public void shouldDeleteStatFromRepository() {
         TwitterStats persisted = twitterStatsRepository.save(twitterStats);
 
-        twitterStatsRepository.delete(persisted.getId());
+        twitterStatsRepository.delete(persisted);
+        assertFalse(persisted.getId().isEmpty());
     }
-//
-//    @Test
-//    public void shouldUpdateStatsFromRepository(){
-//
-//        twitterStatsRepository.save(twitterStats);
-//
-//        if(twitterStatsRepository.exists(twitterStats.getId())){
-//            twitterStatsRepository.
-//        }
-//    }
 
+    @Test
+    public void shouldUpdateStatsFromRepository() {
+
+        TwitterStats presisted = twitterStatsRepository.save(twitterStats);
+
+        twitterStatsRepository.save(presisted);
+        assertTrue(twitterStatsRepository.exists(presisted.getId()));
+    }
 }
+
