@@ -1,7 +1,9 @@
 package com.smalaca.messagesender.domain;
 
-import javax.persistence.*;
-import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -42,5 +44,16 @@ public class EmailStat {
     public int hashCode() {
 
         return Objects.hash(from, to, subject, date);
+    }
+
+    @Override
+    public String toString() {
+        return "EmailStat{" +
+                "id='" + id + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", subject='" + subject + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

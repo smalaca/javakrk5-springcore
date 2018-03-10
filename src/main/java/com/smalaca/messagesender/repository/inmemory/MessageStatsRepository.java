@@ -5,7 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -17,8 +16,10 @@ public interface MessageStatsRepository extends CrudRepository<EmailStat, String
 
     EmailStat findById(String id);
 
-    List<EmailStat> findAllByFrom(String from);
+//    List<EmailStat> findAllByFrom(String from);
+//
+//    List<EmailStat> findAllByTo(String to);
 
-    List<EmailStat> findAllByTo(String to);
+    List<EmailStat> findTop3ByDateAfterAndDateBeforeAndFromContainsOrderByFromAsc(Timestamp after, Timestamp before, String fromPart);
 
 }
