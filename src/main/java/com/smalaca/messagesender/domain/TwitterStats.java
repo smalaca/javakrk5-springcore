@@ -4,8 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class TwitterStats {
@@ -16,7 +15,7 @@ public class TwitterStats {
     @Column(name = "sentFrom")
     private String from;
     private String to;
-    private Date date;
+    private LocalDateTime date;
 
     public TwitterStats() {
     }
@@ -25,7 +24,7 @@ public class TwitterStats {
         this.messageId = messageId;
         this.from = from;
         this.to = to;
-        this.date = Date.valueOf(LocalDate.now());
+        this.date = LocalDateTime.now();
     }
 
     public String getId() {
