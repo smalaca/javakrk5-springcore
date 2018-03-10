@@ -1,9 +1,6 @@
 package com.smalaca.messagesender.example;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class UsersGroup {
@@ -13,9 +10,13 @@ public class UsersGroup {
     private String name;
     private final String description;
 
-    public UsersGroup(String name, String description) {
+    @OneToOne
+    private final Location location;
+
+    public UsersGroup(String name, String description, Location location) {
         this.name = name;
         this.description = description;
+        this.location = location;
     }
 
     @Override
