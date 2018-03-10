@@ -1,19 +1,23 @@
 package com.smalaca.messagesender.example;
 
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@DataJpaTest
+@SpringBootTest
 public class UsersGroupRepositoryTest {
     private static final Long NOT_EXISITING_ID = 13L;
     private static final String SOME_VALUE = "value";
@@ -30,8 +34,12 @@ public class UsersGroupRepositoryTest {
     private static final int SECOND = 1;
 
     @Autowired private UsersGroupRepository usersGroupRepository;
-    @Autowired private LocationRepository locationRepository;
     @Autowired private UserRepository userRepository;
+
+    @Before
+    public void clearRepositories() {
+        usersGroupRepository.deleteAll();
+    }
 
     @Test
     public void shouldRecognizeUsersGroupDoesNotExist() {
@@ -44,6 +52,7 @@ public class UsersGroupRepositoryTest {
 
         assertNotNull(persisted.getId());
         assertTrue(usersGroupRepository.exists(persisted.getId()));
+        assertEquals(persisted, usersGroupRepository.findOne(persisted.getId()));
     }
 
     @Test
@@ -176,7 +185,7 @@ public class UsersGroupRepositoryTest {
         List<UsersGroup> result = usersGroupRepository.findByNameOrDescription(SOME_NAME, SOME_DESCRIPTION);
 
         assertEquals(3, result.size());
-        assertThat(result, Matchers.contains(usersGroup1, usersGroup2, usersGroup3));
+        assertThat(result, Matchers.containsInAnyOrder(usersGroup1, usersGroup2, usersGroup3));
     }
 
     @Test
@@ -249,7 +258,7 @@ public class UsersGroupRepositoryTest {
     public void shouldAddUsersGroupWithUser() {
         UsersGroup usersGroup = someUsersGroup();
         User user1 = aUser(SOME_NAME);
-        User user2 = aUser(DIFFERENT_NAME);
+        User user2 = aUser(SOME_NAME);
         usersGroup.add(user1);
         usersGroup.add(user2);
 
@@ -262,7 +271,7 @@ public class UsersGroupRepositoryTest {
     }
 
     private User aUser(String name) {
-        return userRepository.save(new User(name));
+        return new User(name);
     }
 
     private void assertUser(User user, User persistedUser, UsersGroup usersGroup) {
@@ -280,10 +289,23 @@ public class UsersGroupRepositoryTest {
     }
 
     private UsersGroup usersGroup(String name, String description) {
-        return new UsersGroup(name, description, someLocation());
+        return usersGroup(name, description, someLocation());
+    }
+
+    @Test
+    public void shouldAddUserWithLocation() {
+        Location location = someLocation();
+
+        UsersGroup usersGroup = usersGroupRepository.save(usersGroup(SOME_NAME, SOME_DESCRIPTION, location));
+
+        assertTrue(usersGroup.hasSame(location));
+    }
+
+    private UsersGroup usersGroup(String name, String description, Location location) {
+        return new UsersGroup(name, description, location);
     }
 
     private Location someLocation() {
-        return locationRepository.save(new Location(SOME_LOCATION));
+        return new Location(SOME_LOCATION);
     }
 }
