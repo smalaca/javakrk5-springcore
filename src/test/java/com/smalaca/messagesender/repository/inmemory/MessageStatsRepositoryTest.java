@@ -1,6 +1,9 @@
 package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.EmailStat;
+import com.smalaca.messagesender.domain.Message;
+import com.smalaca.messagesender.domain.MessageFactory;
+import com.smalaca.messagesender.service.MessageDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class MessageStatsRepositoryTest {
+    private MessageFactory factory = new MessageFactory();
     @Autowired
     private MessageStatsRepository messageStatsRepository;
 
@@ -25,8 +29,17 @@ public class MessageStatsRepositoryTest {
     public void shouldSaveTwoEmailStats() {
         Timestamp d1 = new Timestamp(System.currentTimeMillis());
         Timestamp d2 = new Timestamp(d1.getTime() + 1000);
-        EmailStat someStat = new EmailStat("franek", "stefan", "subject", d1);
-        EmailStat someStat2 = new EmailStat("stefan", "franek", "subject2", d2);
+        MessageDto mdto = new MessageDto();
+        mdto.setFrom("franek");
+        mdto.setTo("stefan");
+        mdto.setSubject("subject1");
+        Message msg1 = factory.createFrom(mdto);
+        mdto.setFrom("stefan");
+        mdto.setTo("franek");
+        mdto.setSubject("subject2");
+        Message msg2 = factory.createFrom(mdto);
+        EmailStat someStat = new EmailStat(msg1, d1);
+        EmailStat someStat2 = new EmailStat(msg2, d2);
         List<EmailStat> stats = new ArrayList<>();
         stats.add(someStat);
         stats.add(someStat2);
@@ -40,10 +53,15 @@ public class MessageStatsRepositoryTest {
     @Test
     public void shouldFindMessageStatById() {
         Timestamp d1 = new Timestamp(System.currentTimeMillis());
-        EmailStat someStat = new EmailStat("franek", "stefan", "some subject", d1);
+        MessageDto mdto = new MessageDto();
+        mdto.setFrom("franek");
+        mdto.setTo("stefan");
+        mdto.setSubject("some subject");
+        Message msg = factory.createFrom(mdto);
+        EmailStat someStat = new EmailStat(msg, d1);
         messageStatsRepository.save(someStat);
-        messageStatsRepository.save(someStat);
-        messageStatsRepository.save(someStat);
+//        messageStatsRepository.save(new EmailStat(msg, d1));
+//        messageStatsRepository.save(someStat);
         EmailStat newStat = messageStatsRepository.findById("1");
 
         Assert.assertNotNull(messageStatsRepository.findById("1"));
@@ -54,8 +72,17 @@ public class MessageStatsRepositoryTest {
     public void shouldFindOneMessageWithinTime() {
         Timestamp d1 = new Timestamp(System.currentTimeMillis());
         Timestamp d2 = new Timestamp(d1.getTime() + 3600 * 5 * 1000L);
-        EmailStat someStat = new EmailStat("franek", "stefan", "some subject 1", new Timestamp(d1.getTime()));
-        EmailStat someStat2 = new EmailStat("stefan", "franek", "some subject 2", new Timestamp(d2.getTime()));
+        MessageDto mdto = new MessageDto();
+        mdto.setFrom("franek");
+        mdto.setTo("stefan");
+        mdto.setSubject("some subject1");
+        Message msg1 = factory.createFrom(mdto);
+        mdto.setFrom("stefan");
+        mdto.setTo("franek");
+        mdto.setSubject("some subject 2");
+        Message msg2 = factory.createFrom(mdto);
+        EmailStat someStat = new EmailStat(msg1, new Timestamp(d1.getTime()));
+        EmailStat someStat2 = new EmailStat(msg2, new Timestamp(d2.getTime()));
         messageStatsRepository.save(someStat);
         messageStatsRepository.save(someStat2);
         d1.setTime(d1.getTime());
@@ -69,7 +96,12 @@ public class MessageStatsRepositoryTest {
 
     @Test
     public void shouldFindMessageWithName() {
-        EmailStat someStat = new EmailStat("franek", "stefan", "some subject 1", new Timestamp(System.currentTimeMillis()));
+        MessageDto mdto = new MessageDto();
+        mdto.setFrom("franek");
+        mdto.setTo("stefan");
+        mdto.setSubject("some subject1");
+        Message msg = factory.createFrom(mdto);
+        EmailStat someStat = new EmailStat(msg, new Timestamp(System.currentTimeMillis()));
         messageStatsRepository.save(someStat);
 
         Optional<String> retrivedId = messageStatsRepository.findIdByName("franek");

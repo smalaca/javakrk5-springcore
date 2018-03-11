@@ -1,6 +1,8 @@
 package com.smalaca.messagesender.repository.inmemory;
 
 import com.smalaca.messagesender.domain.EmailStat;
+import com.smalaca.messagesender.domain.MessageFactory;
+import com.smalaca.messagesender.service.MessageDto;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,27 +26,35 @@ public class MessageStatsRepositorySophisticatedTest {
     public static final int T3 = 80000;
     private Timestamp t1 = new Timestamp(System.currentTimeMillis());
     private Random random = new Random();
-    private EmailStat es1 = new EmailStat("franek", "kamilek", "subject1", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es2 = new EmailStat("franek", "wacek", "subject2", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es3 = new EmailStat("franek", "robert", "subject3", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es4 = new EmailStat("franek", "kacper", "subject4", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es5 = new EmailStat("franek", "wiola", "subject5", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es6 = new EmailStat("franek", "lucek", "subject6", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es7 = new EmailStat("franek", "rysiek", "subject7", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es8 = new EmailStat("franek", "mateo", "subject8", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es9 = new EmailStat("franek", "rysio", "subject9", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es10 = new EmailStat("franek", "juras", "subject10", new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
-    private EmailStat es11 = new EmailStat("franek", "michaś", "subject11", new Timestamp(t1.getTime() + T2 + random.nextInt(DELTA)));
-    private EmailStat es12 = new EmailStat("franek", "jaruś", "subject12", new Timestamp(t1.getTime() + T2 + random.nextInt(DELTA)));
-    private EmailStat es13 = new EmailStat("franek", "tadzio", "subject13", new Timestamp(t1.getTime() + T3 + random.nextInt(DELTA)));
-    private EmailStat es14 = new EmailStat("franek", "robercik", "subject14", new Timestamp(t1.getTime() + T3 + random.nextInt(DELTA)));
-    private EmailStat es15 = new EmailStat("franek", "emilka", "subject15", new Timestamp(t1.getTime() + T3 + random.nextInt(DELTA)));
+    MessageDto mdto = new MessageDto();
+    MessageFactory factory = new MessageFactory();
 
     @Autowired
     MessageStatsRepository repository;
 
     @Before
     public void setUp() throws Exception {
+        mdto.setFrom("franek");
+        mdto.setTo("kamilek");
+        mdto.setSubject("subject1");
+        EmailStat es1 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        mdto.setTo("wacek");
+        mdto.setSubject("subject2");
+        EmailStat es2 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es3 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es4 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es5 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es6 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es7 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es8 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es9 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es10 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T1 + random.nextInt(DELTA)));
+        EmailStat es11 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T2 + random.nextInt(DELTA)));
+        EmailStat es12 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T2 + random.nextInt(DELTA)));
+        EmailStat es13 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T3 + random.nextInt(DELTA)));
+        EmailStat es14 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T3 + random.nextInt(DELTA)));
+        EmailStat es15 = new EmailStat(factory.createFrom(mdto), new Timestamp(t1.getTime() + T3 + random.nextInt(DELTA)));
+
         repository.save(es1);
         repository.save(es2);
         repository.save(es3);

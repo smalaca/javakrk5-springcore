@@ -1,9 +1,6 @@
 package com.smalaca.messagesender.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -19,13 +16,17 @@ public class EmailStat {
     private String subject;
     private Timestamp date;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Message message;
+
     public EmailStat() {
     }
 
-    public EmailStat(String from, String to, String subject, Timestamp date) {
-        this.from = from;
-        this.to = to;
-        this.subject = subject;
+    public EmailStat(Message message, Timestamp date) {
+        this.message = message;
+        this.from = message.getFrom();
+        this.to = message.getTo();
+        this.subject = message.getSubject();
         this.date = date;
     }
 
