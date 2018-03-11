@@ -82,7 +82,7 @@ public class SlackStatsRepositoryTest {
     public void shouldFindAllStats() {
         MessageDto messageDto = new MessageDto();
 
-        SlackStat slackStat = new SlackStat((new MessageFactory().createWithoutId(messageDto)));
+        SlackStat slackStat = new SlackStat(new MessageFactory().createWithoutId(messageDto));
         slackStatsRepository.save(slackStat);
         SlackStat slackStat1 = new SlackStat((new MessageFactory().createWithoutId(messageDto)));
         slackStatsRepository.save(slackStat1);

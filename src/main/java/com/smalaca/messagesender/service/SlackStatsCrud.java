@@ -1,6 +1,7 @@
 package com.smalaca.messagesender.service;
 
 
+import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.SlackStat;
 import com.smalaca.messagesender.repository.inmemory.jpa.SlackStatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ public class SlackStatsCrud {
     private SlackStatsRepository slackStatsRepository;
 
 
-    public Response createStatistic(SlackStat slackStat) {
+    public Response createStatistic(MessageDto messageDto) {
+        SlackStat slackStat = new SlackStat(new MessageFactory().createWithoutId(messageDto));
         if (statisticValid(slackStat)) {
             slackStatsRepository.save(slackStat);
             return Response.aSuccessfulResponseWith("Slack statistic added");
@@ -52,19 +54,4 @@ public class SlackStatsCrud {
             return Response.aFailureResponse("Statistic not exist");
         }
     }
-
-    public Response update(SlackStat slackStat) {
-
-
-        if (slackStatsRepository.exists(slackStat.getStatId())) {
-            SlackStat statToUpdate = findById(slackStat.getStatId());
-            statToUpdate.setMessage(slackStat.getMessage());
-            slackStatsRepository.save(statToUpdate);
-            return Response.aSuccessfulResponseWith("Statistic update");
-        } else {
-            return Response.aFailureResponse("Statistic not exist");
-        }
-    }
-
-
 }
