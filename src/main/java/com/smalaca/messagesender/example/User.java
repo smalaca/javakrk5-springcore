@@ -1,18 +1,11 @@
 package com.smalaca.messagesender.example;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import org.springframework.data.annotation.Id;
 
-@Entity
 public class User {
-    @Id @GeneratedValue
-    private Long id;
+    @Id
+    private String id;
     private String name;
-
-    @ManyToOne
-    private UsersGroup usersGroup;
 
     private User() {}
 
@@ -20,20 +13,12 @@ public class User {
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
     public boolean sameAs(User user) {
         return name.equals(user.name);
-    }
-
-    public UsersGroup getUsersGroup() {
-        return usersGroup;
-    }
-
-    public void assignTo(UsersGroup usersGroup) {
-        this.usersGroup = usersGroup;
     }
 
     @Override

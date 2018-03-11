@@ -1,22 +1,13 @@
 package com.smalaca.messagesender.example;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UsersGroupRepository extends CrudRepository<UsersGroup, Long>, JpaSpecificationExecutor<UsersGroup> {
+public interface UsersGroupRepository extends CrudRepository<UsersGroup, String> {
 
     UsersGroup findByName(String name);
-
-    @Query("SELECT ug.description FROM UsersGroup ug WHERE ug.name = :name")
-    String findDescriptionByName(@Param("name") String name);
-
-    @Query("SELECT id FROM UsersGroup WHERE name = :name")
-    Optional<String> findIdByName(@Param("name") String name);
 
     Optional<UsersGroup> findByDescription(String description);
 

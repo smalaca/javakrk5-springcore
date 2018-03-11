@@ -1,33 +1,34 @@
 package com.smalaca.messagesender.example;
 
-import javax.persistence.*;
-import java.sql.Date;
-import java.time.LocalDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Document(collection = "usersgroup")
 public class UsersGroup {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
     private String name;
-    private String description;
-    private Date creationDate;
+    private final String description;
+    private final Location location;
 
-    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private Location location;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private final List<User> users = new ArrayList<>();
-
-    private UsersGroup() {}
+    @DBRef
+    private final List<User> users;
 
     public UsersGroup(String name, String description, Location location) {
+        this(name, description, location, new ArrayList<>());
+    }
+
+    @PersistenceConstructor
+    public UsersGroup(String name, String description, Location location, List<User> users) {
         this.name = name;
         this.description = description;
         this.location = location;
-        this.creationDate = Date.valueOf(LocalDate.now());
+        this.users = users;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class UsersGroup {
                 '}';
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -48,7 +49,6 @@ public class UsersGroup {
     }
 
     public void add(User user) {
-        user.assignTo(this);
         users.add(user);
     }
 
@@ -70,7 +70,6 @@ public class UsersGroup {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (!name.equals(that.name)) return false;
         if (!description.equals(that.description)) return false;
-        if (!creationDate.equals(that.creationDate)) return false;
         return location.equals(that.location);
     }
 
@@ -79,7 +78,6 @@ public class UsersGroup {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + name.hashCode();
         result = 31 * result + description.hashCode();
-        result = 31 * result + creationDate.hashCode();
         result = 31 * result + location.hashCode();
         return result;
     }

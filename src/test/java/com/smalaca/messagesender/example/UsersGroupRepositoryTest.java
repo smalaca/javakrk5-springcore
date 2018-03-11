@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class UsersGroupRepositoryTest {
-    private static final Long NOT_EXISITING_ID = 13L;
+    private static final String NOT_EXISITING_ID = "13";
     private static final String SOME_VALUE = "value";
     private static final String SOME_NAME = "name";
     private static final String DIFFERENT_NAME = "different name";
@@ -117,38 +117,6 @@ public class UsersGroupRepositoryTest {
     }
 
     @Test
-    public void shouldFindDescriptionOfTheUsersGroupByName() {
-        usersGroupRepository.save(someUsersGroup());
-
-        String result = usersGroupRepository.findDescriptionByName(SOME_NAME);
-
-        assertEquals(SOME_DESCRIPTION, result);
-    }
-
-    @Test
-    public void shouldNotFindIdOfNonExistingUsersGroup() {
-        Optional<String> result = usersGroupRepository.findIdByName(SOME_NAME);
-
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    public void shouldFindIdOfTheUsersGroupByName() {
-        UsersGroup persisted = usersGroupRepository.save(someUsersGroup());
-
-        Optional<String> result = usersGroupRepository.findIdByName(SOME_NAME);
-
-        assertEquals(persisted.getId(), result.get());
-    }
-
-    @Test
-    public void shouldNotFindUsersGroupByDescription() {
-        Optional<UsersGroup> result = usersGroupRepository.findByDescription(SOME_DESCRIPTION);
-
-        assertFalse(result.isPresent());
-    }
-
-    @Test
     public void shouldFindUsersGroupByDescription() {
         UsersGroup usersGroup = usersGroupRepository.save(someUsersGroup());
 
@@ -223,38 +191,6 @@ public class UsersGroupRepositoryTest {
     }
 
     @Test
-    public void shouldCountAllMatchingCriteria() {
-        usersGroupRepository.save(usersGroupWithName(SOME_NAME));
-        usersGroupRepository.save(usersGroupWithName(SOME_VALUE));
-        usersGroupRepository.save(usersGroupWithName(ANOTHER_NAME));
-
-        long result = usersGroupRepository.count(UsersGroupSpecification.nameContains("%name%"));
-
-        assertEquals(2, result);
-    }
-
-    @Test
-    public void shouldFindAllMatchingCriteria() {
-        UsersGroup usersGroup1 = usersGroupRepository.save(usersGroupWithName(SOME_NAME));
-        usersGroupRepository.save(usersGroupWithName(SOME_VALUE));
-        UsersGroup usersGroup2 = usersGroupRepository.save(usersGroupWithName(ANOTHER_NAME));
-
-        List<UsersGroup> result = usersGroupRepository.findAll(UsersGroupSpecification.nameContains("%name%"));
-
-        assertThat(result, Matchers.containsInAnyOrder(usersGroup1, usersGroup2));
-    }
-
-    @Test
-    public void shouldFindUsersGroupByCriteria() {
-        UsersGroup persisted = usersGroupRepository.save(usersGroupWithName(SOME_NAME));
-        usersGroupRepository.save(usersGroupWithName(ANOTHER_NAME));
-
-        UsersGroup result = usersGroupRepository.findOne(UsersGroupSpecification.nameIs(SOME_NAME));
-
-        assertEquals(persisted, result);
-    }
-
-    @Test
     public void shouldAddUsersGroupWithUser() {
         UsersGroup usersGroup = someUsersGroup();
         User user1 = aUser(SOME_NAME);
@@ -266,18 +202,20 @@ public class UsersGroupRepositoryTest {
 
         UsersGroup persistedUsersGroup = usersGroupRepository.findOne(usersGroup.getId());
         assertFalse(persistedUsersGroup.users().isEmpty());
-        assertUser(user1, persistedUsersGroup.users().get(FIRST), usersGroup);
-        assertUser(user2, persistedUsersGroup.users().get(SECOND), usersGroup);
+        assertUser(user1, persistedUsersGroup.users().get(FIRST));
+        assertUser(user2, persistedUsersGroup.users().get(SECOND));
     }
 
     private User aUser(String name) {
-        return new User(name);
+        User user = new User(name);
+        userRepository.save(user);
+        return user;
     }
 
-    private void assertUser(User user, User persistedUser, UsersGroup usersGroup) {
+    private void assertUser(User user, User persistedUser) {
         assertNotNull(persistedUser.getId());
         assertTrue(persistedUser.sameAs(user));
-        assertEquals(usersGroup, userRepository.findOne(persistedUser.getId()).getUsersGroup());
+        assertEquals(persistedUser, userRepository.findOne(persistedUser.getId()));
     }
 
     private UsersGroup usersGroupWithName(String name) {
