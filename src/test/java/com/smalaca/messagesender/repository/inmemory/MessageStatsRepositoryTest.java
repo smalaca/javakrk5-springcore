@@ -60,8 +60,7 @@ public class MessageStatsRepositoryTest {
         Message msg = factory.createFrom(mdto);
         EmailStat someStat = new EmailStat(msg, d1);
         messageStatsRepository.save(someStat);
-//        messageStatsRepository.save(new EmailStat(msg, d1));
-//        messageStatsRepository.save(someStat);
+        messageStatsRepository.save(new EmailStat(factory.createFrom(mdto), d1));
         EmailStat newStat = messageStatsRepository.findById("1");
 
         Assert.assertNotNull(messageStatsRepository.findById("1"));
