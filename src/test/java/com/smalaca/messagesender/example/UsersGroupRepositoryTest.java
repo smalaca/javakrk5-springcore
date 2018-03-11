@@ -30,11 +30,10 @@ public class UsersGroupRepositoryTest {
     private static final String ANOTHER_DESCRIPTION = "another description";
     private static final String YET_ANOTHER_DESCRIPTION = "yet another description";
     private static final String SOME_LOCATION = "location";
-    private static final int FIRST = 0;
-    private static final int SECOND = 1;
+    public static final String SOME_COUNTRY = "poland";
 
     @Autowired private UsersGroupRepository usersGroupRepository;
-    @Autowired private UserRepository userRepository;
+    @Autowired private UsersGroupDefinitionRepository usersGroupDefinitionRepository;
 
     @Before
     public void clearRepositories() {
@@ -254,32 +253,6 @@ public class UsersGroupRepositoryTest {
         assertEquals(persisted, result);
     }
 
-    @Test
-    public void shouldAddUsersGroupWithUser() {
-        UsersGroup usersGroup = someUsersGroup();
-        User user1 = aUser(SOME_NAME);
-        User user2 = aUser(SOME_NAME);
-        usersGroup.add(user1);
-        usersGroup.add(user2);
-
-        usersGroupRepository.save(usersGroup);
-
-        UsersGroup persistedUsersGroup = usersGroupRepository.findOne(usersGroup.getId());
-        assertFalse(persistedUsersGroup.users().isEmpty());
-        assertUser(user1, persistedUsersGroup.users().get(FIRST), usersGroup);
-        assertUser(user2, persistedUsersGroup.users().get(SECOND), usersGroup);
-    }
-
-    private User aUser(String name) {
-        return new User(name);
-    }
-
-    private void assertUser(User user, User persistedUser, UsersGroup usersGroup) {
-        assertNotNull(persistedUser.getId());
-        assertTrue(persistedUser.sameAs(user));
-        assertEquals(usersGroup, userRepository.findOne(persistedUser.getId()).getUsersGroup());
-    }
-
     private UsersGroup usersGroupWithName(String name) {
         return usersGroup(name, SOME_DESCRIPTION);
     }
@@ -299,6 +272,22 @@ public class UsersGroupRepositoryTest {
         UsersGroup usersGroup = usersGroupRepository.save(usersGroup(SOME_NAME, SOME_DESCRIPTION, location));
 
         assertTrue(usersGroup.hasSame(location));
+    }
+
+    @Test
+    public void shouldKeepInformationInBothObjects() {
+        UsersGroup usersGroup = usersGroupRepository.save(usersGroup(SOME_NAME, SOME_DESCRIPTION));
+
+        UsersGroupDefinition usersGroupDefinition = usersGroupDefinitionRepository.findOne(usersGroup.getId());
+        assertTrue(usersGroupDefinition.sameAs(usersGroup));
+        assertFalse(usersGroupDefinition.hasCountry());
+
+        usersGroupDefinition.changeCountry(someCountry());
+        assertTrue(usersGroupDefinitionRepository.save(usersGroupDefinition).hasCountry());
+    }
+
+    private Country someCountry() {
+        return new Country(SOME_COUNTRY);
     }
 
     private UsersGroup usersGroup(String name, String description, Location location) {

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "users_group")
 public class UsersGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -82,5 +83,13 @@ public class UsersGroup {
         result = 31 * result + creationDate.hashCode();
         result = 31 * result + location.hashCode();
         return result;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
