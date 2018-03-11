@@ -18,6 +18,9 @@ public class SlackStatsCrud {
 
 
     public Response createStatistic(SlackStat slackStat) {
+        System.out.println(slackStat.getMessageId());
+        System.out.println(slackStat.getMessageTo());
+        System.out.println(slackStat.getMessageFrom());
 
         if (statisticValid(slackStat)) {
             slackStatsRepository.save(slackStat);

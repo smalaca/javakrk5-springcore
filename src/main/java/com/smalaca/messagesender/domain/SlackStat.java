@@ -19,6 +19,10 @@ public class SlackStat {
     private String messageId;
     private LocalDateTime date;
 
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
+
     public void setMessageFrom(String messageFrom) {
         this.messageFrom = messageFrom;
     }
