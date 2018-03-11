@@ -18,13 +18,6 @@ public class SlackStatsCrud {
 
 
     public Response createStatistic(SlackStat slackStat) {
-<<<<<<< HEAD
-        System.out.println(slackStat.getMessageId());
-        System.out.println(slackStat.getMessageTo());
-        System.out.println(slackStat.getMessageFrom());
-=======
->>>>>>> origin/SlackStatsControllerAndService
-
         if (statisticValid(slackStat)) {
             slackStatsRepository.save(slackStat);
             return Response.aSuccessfulResponseWith("Slack statistic added");
@@ -34,7 +27,7 @@ public class SlackStatsCrud {
     }
 
     private boolean statisticValid(SlackStat slackStat) {
-        if (slackStat.getMessageId() == null || slackStat.getMessageFrom() == null || slackStat.getMessageTo() == null)
+        if (slackStat.getMessage().getId() == null || slackStat.getMessage().getId() == null || slackStat.getMessage().getId() == null)
             return false;
         return true;
     }
@@ -63,11 +56,9 @@ public class SlackStatsCrud {
     public Response update(SlackStat slackStat) {
 
 
-        if (slackStatsRepository.exists(slackStat.getId())) {
-            SlackStat statToUpdate = findById(slackStat.getId());
-            statToUpdate.setFrom(slackStat.getMessageFrom());
-            statToUpdate.setMessageTo(slackStat.getMessageTo());
-
+        if (slackStatsRepository.exists(slackStat.getStatId())) {
+            SlackStat statToUpdate = findById(slackStat.getStatId());
+            statToUpdate.setMessage(slackStat.getMessage());
             slackStatsRepository.save(statToUpdate);
             return Response.aSuccessfulResponseWith("Statistic update");
         } else {

@@ -12,8 +12,7 @@ public interface SlackStatsRepository extends CrudRepository<SlackStat, Integer>
 
     List<SlackStat> findFirst3ByMessageFromContainsAndMessageToContainsOrderByMessageToDesc(String messageFrom, String messageTo);
 
-
-    @Query("SELECT messagefrom from SlackStat WHERE messageId - :id")
-    String findFromByMessageId(@Param("id") String messageId);
+    @Query("SELECT messageFrom FROM SlackStat WHERE messageId = :messageId")
+    String findFromByMessageId(@Param("messageId") String messageId);
 
 }

@@ -1,14 +1,25 @@
 package com.smalaca.messagesender.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Message {
+
     private String subject;
     private String body;
     private String from;
     private String to;
+    @Id
+    @GeneratedValue
     private String id;
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Message() {
     }
 
     Message(MessageBuilder messageBuilder) {
@@ -49,7 +60,9 @@ public class Message {
         return to;
     }
 
-    public String getId() {return  id;}
+    public String getId() {
+        return id;
+    }
 
     public boolean hasSameId(String id) {
         return this.id.equals(id);
