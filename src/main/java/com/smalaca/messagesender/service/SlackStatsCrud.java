@@ -18,9 +18,12 @@ public class SlackStatsCrud {
 
 
     public Response createStatistic(SlackStat slackStat) {
+<<<<<<< HEAD
         System.out.println(slackStat.getMessageId());
         System.out.println(slackStat.getMessageTo());
         System.out.println(slackStat.getMessageFrom());
+=======
+>>>>>>> origin/SlackStatsControllerAndService
 
         if (statisticValid(slackStat)) {
             slackStatsRepository.save(slackStat);
