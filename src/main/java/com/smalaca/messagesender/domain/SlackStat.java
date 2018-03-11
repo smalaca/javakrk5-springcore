@@ -1,11 +1,9 @@
 package com.smalaca.messagesender.domain;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class SlackStat {
@@ -13,7 +11,7 @@ public class SlackStat {
     @Id
     @GeneratedValue
     private Integer statId;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Message message;
 
     private LocalDateTime date;
@@ -41,5 +39,21 @@ public class SlackStat {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SlackStat)) return false;
+        SlackStat slackStat = (SlackStat) o;
+        return Objects.equals(statId, slackStat.statId) &&
+                Objects.equals(message, slackStat.message) &&
+                Objects.equals(date, slackStat.date);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(statId, message, date);
     }
 }

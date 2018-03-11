@@ -9,6 +9,10 @@ public class MessageFactory {
         return createFrom(messageDto, NO_ID);
     }
 
+    public Message createWithoutId(MessageDto messageDto) {
+        return Message.withNoId(aMessageBuilder(messageDto));
+    }
+
     public Message createFrom(MessageDto messageDto, String id) {
         return aMessageBuilder(messageDto)
                 .withId(id)

@@ -2,7 +2,6 @@ package com.smalaca.messagesender.repository.inmemory.jpa;
 
 import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.SlackStat;
-import com.smalaca.messagesender.repository.inmemory.jpa.SlackStatsRepository;
 import com.smalaca.messagesender.service.MessageDto;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,11 +28,11 @@ public class SlackStatsRepositoryTest {
         messageDto.setTo("to");
 
 
-        slackStatsRepository.save(new SlackStat(new MessageFactory().createFrom(messageDto)));
-        slackStatsRepository.save(new SlackStat(new MessageFactory().createFrom(messageDto)));
-        slackStatsRepository.save(new SlackStat(new MessageFactory().createFrom(messageDto)));
-        slackStatsRepository.save(new SlackStat(new MessageFactory().createFrom(messageDto)));
-        slackStatsRepository.save(new SlackStat(new MessageFactory().createFrom(messageDto)));
+        slackStatsRepository.save(new SlackStat(new MessageFactory().createWithoutId(messageDto)));
+        slackStatsRepository.save(new SlackStat(new MessageFactory().createWithoutId(messageDto)));
+        slackStatsRepository.save(new SlackStat(new MessageFactory().createWithoutId(messageDto)));
+        slackStatsRepository.save(new SlackStat(new MessageFactory().createWithoutId(messageDto)));
+        slackStatsRepository.save(new SlackStat(new MessageFactory().createWithoutId(messageDto)));
     }
 
   /*  @Test
@@ -55,7 +54,7 @@ public class SlackStatsRepositoryTest {
     @Test
     public void shouldAddStat() {
         MessageDto messageDto = new MessageDto();
-        SlackStat stats = new SlackStat(new MessageFactory().createFrom(messageDto));
+        SlackStat stats = new SlackStat(new MessageFactory().createWithoutId(messageDto));
 
         slackStatsRepository.save(stats);
         SlackStat testSlackStat = slackStatsRepository.findOne(stats.getStatId());

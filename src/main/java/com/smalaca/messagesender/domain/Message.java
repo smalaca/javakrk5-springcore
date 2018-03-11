@@ -1,5 +1,6 @@
 package com.smalaca.messagesender.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,8 +10,10 @@ public class Message {
 
     private String subject;
     private String body;
+    @Column(name = "sentFrom")
     private String from;
     private String to;
+
     @Id
     @GeneratedValue
     private String id;
@@ -20,6 +23,15 @@ public class Message {
     }
 
     public Message() {
+    }
+
+    public static Message withNoId(MessageBuilder messageBuilder) {
+        Message message = new Message();
+        message.subject = messageBuilder.subject;
+        message.body = messageBuilder.body;
+        message.from = messageBuilder.sentFrom;
+        message.to = messageBuilder.sentTo;
+        return message;
     }
 
     Message(MessageBuilder messageBuilder) {
