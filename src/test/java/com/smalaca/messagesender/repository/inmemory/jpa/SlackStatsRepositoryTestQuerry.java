@@ -1,11 +1,19 @@
 package com.smalaca.messagesender.repository.inmemory.jpa;
 
 
+import com.smalaca.messagesender.domain.MessageFactory;
+import com.smalaca.messagesender.domain.SlackStat;
+import com.smalaca.messagesender.service.MessageDto;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -16,13 +24,17 @@ public class SlackStatsRepositoryTestQuerry {
     private SlackStatsRepository slackStatsRepository;
 
 
-   /* @Before
+    @Before
     public void fillUpRepositoryWithBadStats() {
-        SlackStat slackStat = new SlackStat("message from", "message to", "message id");
-        SlackStat slackStat1 = new SlackStat("message from1", "message to1", "message id1");
-        SlackStat slackStat2 = new SlackStat("message from2", "message to2", "message id2");
-        SlackStat slackStat3 = new SlackStat("message from3", "message to3", "message id3");
-        SlackStat slackStat4 = new SlackStat("message from4", "message to4", "message id4");
+        MessageDto messageDto = new MessageDto();
+        messageDto.setTo("message to");
+        messageDto.setFrom("message from");
+
+        SlackStat slackStat = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat1 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat2 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat3 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat4 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
 
         slackStatsRepository.save(slackStat);
         slackStatsRepository.save(slackStat1);
@@ -30,15 +42,19 @@ public class SlackStatsRepositoryTestQuerry {
         slackStatsRepository.save(slackStat3);
         slackStatsRepository.save(slackStat4);
     }
-*/
 
-    /*@Test
+    @Test
     public void shouldFind5MatchesWhenExist() {
-        SlackStat slackStat = new SlackStat("seba", "andi", "message id");
-        SlackStat slackStat1 = new SlackStat("seba1", "andi1", "message id1");
-        SlackStat slackStat2 = new SlackStat("seba2", "andi2", "message id2");
-        SlackStat slackStat3 = new SlackStat("seba3", "andi3", "message id3");
-        SlackStat slackStat4 = new SlackStat("seba4", "andi4", "message id4");
+        MessageDto messageDto = new MessageDto();
+        messageDto.setTo("andi");
+        messageDto.setFrom("seba");
+
+        SlackStat slackStat = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat1 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat2 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat3 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+        SlackStat slackStat4 = new SlackStat(new MessageFactory().createWithoutId(messageDto));
+
         slackStatsRepository.save(slackStat);
         slackStatsRepository.save(slackStat1);
         slackStatsRepository.save(slackStat2);
@@ -52,8 +68,7 @@ public class SlackStatsRepositoryTestQuerry {
         Assert.assertEquals(listOfStatistics.get(2), slackStat2);
 
     }
-*/
-   /* @Test
+    /*@Test
     public void shouldFind2MatchesWhenExist() {
         SlackStat slackStat = new SlackStat("seba", "andi", "message id");
         SlackStat slackStat1 = new SlackStat("seba1", "andi1", "message id1");
@@ -71,9 +86,8 @@ public class SlackStatsRepositoryTestQuerry {
         Assert.assertEquals(listOfStatistics.get(0), slackStat1);
         Assert.assertEquals(listOfStatistics.get(1), slackStat);
 
-    }*/
+    }
 
-/*
 
     @Test
     public void shouldNotFindAnyMatchesWhenExist() {
@@ -82,9 +96,8 @@ public class SlackStatsRepositoryTestQuerry {
         Assert.assertEquals(listOfStatistics.size(), 0);
 
     }
-*/
 
-    /*@Test
+    @Test
     public void shouldReturnMessageFromByMessageId() {
         SlackStat slackStat = new SlackStat("seba", "andi", "78");
         slackStatsRepository.save(slackStat);
