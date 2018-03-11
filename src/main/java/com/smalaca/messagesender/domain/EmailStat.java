@@ -12,9 +12,9 @@ public class EmailStat {
 
     @Id @GeneratedValue
     private String id;
-    @Column(name = "sentFrom")
+    @Column(name = "sentfrom")
     private String from;
-    @Column(name = "sentTo")
+    @Column(name = "sentto")
     private String to;
     private String subject;
     private Timestamp date;
