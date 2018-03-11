@@ -86,6 +86,6 @@ public class MessageCrudControllerTest {
                 .andReturn().getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("[{\"subject\":\"some subject 2\",\"body\":\"some body 2\",\"from\":\"javakrk5\",\"to\":\"smalaca\",\"id\":\"999\"}]", response.getContentAsString());
+        assertEquals("[{\"subject\":\"some subject 2\",\"body\":\"some body 2\",\"sender\":\"javakrk5\",\"to\":\"smalaca\",\"id\":\"999\"}]", response.getContentAsString());
     }
 }

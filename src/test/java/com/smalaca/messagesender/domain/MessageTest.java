@@ -13,11 +13,11 @@ public class MessageTest {
         messageDto.setFrom("from");
         messageDto.setTo("to");
 
-        Message message = new MessageFactory().createFrom(messageDto);
+        Message message = new MessageFactory().createFromWithoutId(messageDto);
 
         Assert.assertEquals(messageDto.getSubject(), message.getSubject());
         Assert.assertEquals(messageDto.getBody(), message.getBody());
-        Assert.assertEquals(messageDto.getFrom(), message.getFrom());
+        Assert.assertEquals(messageDto.getFrom(), message.getSender());
         Assert.assertEquals(messageDto.getTo(), message.getTo());
     }
 }

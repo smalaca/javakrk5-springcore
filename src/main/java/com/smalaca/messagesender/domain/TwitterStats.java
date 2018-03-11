@@ -1,9 +1,6 @@
 package com.smalaca.messagesender.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,7 +8,8 @@ public class TwitterStats {
 
     @Id @GeneratedValue private String id;
 
-    private String messageId;
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST})
+    private Message message;
     @Column(name = "sentFrom")
     private String from;
     private String to;
@@ -20,10 +18,10 @@ public class TwitterStats {
     public TwitterStats() {
     }
 
-    public TwitterStats(String messageId, String from, String to) {
-        this.messageId = messageId;
-        this.from = from;
-        this.to = to;
+    public TwitterStats(Message message) {
+        this.message = message;
+        this.from = message.getSender();
+        this.to = message.getTo();
         this.date = LocalDateTime.now();
     }
 
@@ -39,7 +37,7 @@ public class TwitterStats {
         TwitterStats that = (TwitterStats) o;
 
         if (!id.equals(that.id)) return false;
-        if (!messageId.equals(that.messageId)) return false;
+        if (!message.equals(that.message)) return false;
         if (!from.equals(that.from)) return false;
         if (!to.equals(that.to)) return false;
         return date.equals(that.date);
