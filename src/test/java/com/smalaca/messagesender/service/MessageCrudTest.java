@@ -43,7 +43,7 @@ public class MessageCrudTest {
 
         MessageDto messageDto = getMessageDto();
 
-        messageRepository.add(new MessageFactory().createFrom(messageDto));
+        messageRepository.add(new MessageFactory().createFromWithoutId(messageDto));
 
         Response response = messageCrud.createNew(messageDto);
 

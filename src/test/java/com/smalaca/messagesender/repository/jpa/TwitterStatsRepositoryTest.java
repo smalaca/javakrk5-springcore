@@ -1,6 +1,8 @@
 package com.smalaca.messagesender.repository.jpa;
 
+import com.smalaca.messagesender.domain.MessageFactory;
 import com.smalaca.messagesender.domain.TwitterStats;
+import com.smalaca.messagesender.service.MessageDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,18 +29,18 @@ public class TwitterStatsRepositoryTest {
     private static final String TO = "to";
     private static final String SOME_ID = "some id";
 
-    TwitterStats twitterStats = new TwitterStats(SOME_ID, FROM, TO);
+    TwitterStats twitterStats = getTwitterStats(FROM, TO);
 
     @Autowired
     private TwitterStatsRepository twitterStatsRepository;
 
     @Before
     public void addStatsToRepoThatDoNotMeetCriteria() {
-        TwitterStats twitterStats = new TwitterStats(SOME_ID, FROM, TO);
-        TwitterStats twitterStats1 = new TwitterStats(SOME_ID + "1", FROM + "1", TO + "1");
-        TwitterStats twitterStats2 = new TwitterStats(SOME_ID + "2", FROM + "2", TO + "2");
-        TwitterStats twitterStats3 = new TwitterStats(SOME_ID + "3", FROM + "3", TO + "3");
-        TwitterStats twitterStats4 = new TwitterStats(SOME_ID + "4", FROM + "4", TO + "4");
+        TwitterStats twitterStats = getTwitterStats(FROM, TO);
+        TwitterStats twitterStats1 = getTwitterStats(FROM + "1", TO + "1");
+        TwitterStats twitterStats2 = getTwitterStats(FROM + "2", TO + "2");
+        TwitterStats twitterStats3 = getTwitterStats(FROM + "3", TO + "3");
+        TwitterStats twitterStats4 = getTwitterStats(FROM + "4", TO + "4");
 
         twitterStatsRepository.save(twitterStats);
         twitterStatsRepository.save(twitterStats1);
@@ -66,11 +68,11 @@ public class TwitterStatsRepositoryTest {
     public void shouldConfirmAdditionalThreeStatsAreAddedAndMatch() {
 
         TwitterStats persisted1 = twitterStatsRepository.save(
-                new TwitterStats(SOME_ID + "5", FROM + "5", TO + "5"));
+                getTwitterStats(FROM + "5", TO + "5"));
         TwitterStats persisted2 = twitterStatsRepository.save(
-                new TwitterStats(SOME_ID + "6", FROM + "6", TO + "6"));
+                getTwitterStats(FROM + "6", TO + "6"));
         TwitterStats persisted3 = twitterStatsRepository.save(
-                new TwitterStats(SOME_ID + "7", FROM + "7", TO + "7"));
+                getTwitterStats(FROM + "7", TO + "7"));
 
         Iterator<TwitterStats> twitterStatsList = twitterStatsRepository.findAll().iterator();
 
@@ -114,15 +116,15 @@ public class TwitterStatsRepositoryTest {
     public void shouldReturnThreeStatsThatMatchComplexQuery() {
 
         try {
-            TwitterStats twitterStats5 = new TwitterStats(SOME_ID + "5", "janusz", "grażyna");
+            TwitterStats twitterStats5 = getTwitterStats("janusz", "grażyna");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats6 = new TwitterStats(SOME_ID + "6", "janusz", "grażyna");
+            TwitterStats twitterStats6 = getTwitterStats("janusz", "grażyna");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats7 = new TwitterStats(SOME_ID + "7", "wiesław", "grażyna");
+            TwitterStats twitterStats7 = getTwitterStats("wiesław", "grażyna");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats8 = new TwitterStats(SOME_ID + "8", "janusz", "wiesław");
+            TwitterStats twitterStats8 = getTwitterStats("janusz", "wiesław");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats9 = new TwitterStats(SOME_ID + "9", "janusz", "grażyna");
+            TwitterStats twitterStats9 = getTwitterStats("janusz", "grażyna");
 
             twitterStatsRepository.save(twitterStats5);
             twitterStatsRepository.save(twitterStats6);
@@ -147,15 +149,15 @@ public class TwitterStatsRepositoryTest {
     public void shouldReturnTwoStatsThatMatchComplexQuery() {
 
         try {
-            TwitterStats twitterStats5 = new TwitterStats(SOME_ID + "5", "janusz", "grzegorz");
+            TwitterStats twitterStats5 = getTwitterStats("janusz", "grzegorz");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats6 = new TwitterStats(SOME_ID + "6", "jan", "zofia");
+            TwitterStats twitterStats6 = getTwitterStats("jan", "zofia");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats7 = new TwitterStats(SOME_ID + "7", "filip", "sara");
+            TwitterStats twitterStats7 = getTwitterStats("filip", "sara");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats8 = new TwitterStats(SOME_ID + "8", "krystyna", "grażyna");
+            TwitterStats twitterStats8 = getTwitterStats("krystyna", "grażyna");
             TimeUnit.MILLISECONDS.sleep(10);
-            TwitterStats twitterStats9 = new TwitterStats(SOME_ID + "9", "krystyna", "janusz");
+            TwitterStats twitterStats9 = getTwitterStats("krystyna", "janusz");
 
             twitterStatsRepository.save(twitterStats5);
             twitterStatsRepository.save(twitterStats6);
@@ -173,6 +175,13 @@ public class TwitterStatsRepositoryTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private TwitterStats getTwitterStats(String sender, String recipient) {
+        MessageDto messageDto = new MessageDto();
+        messageDto.setFrom(sender);
+        messageDto.setTo(recipient);
+        return new TwitterStats(new MessageFactory().createFromWithoutId(messageDto));
     }
 
     @Test

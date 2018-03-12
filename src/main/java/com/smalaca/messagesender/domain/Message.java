@@ -1,11 +1,20 @@
 package com.smalaca.messagesender.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Message {
     private String subject;
     private String body;
-    private String from;
+    private String sender;
     private String to;
+    @Id @GeneratedValue
     private String id;
+
+    public Message() {
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -14,7 +23,7 @@ public class Message {
     Message(MessageBuilder messageBuilder) {
         subject = messageBuilder.subject;
         body = messageBuilder.body;
-        from = messageBuilder.sentFrom;
+        sender = messageBuilder.sentFrom;
         to = messageBuilder.sentTo;
         id = messageBuilder.id;
     }
@@ -28,9 +37,9 @@ public class Message {
 
         if (!subject.equals(message.subject)) return false;
         if (!body.equals(message.body)) return false;
-        if (!from.equals(message.from)) return false;
-        if (!id.equals(message.id) && id != "") return false;
-        return to.equals(message.to);
+        if (!sender.equals(message.sender)) return false;
+        if (!to.equals(message.to)) return false;
+        return id != null ? id.equals(message.id) : message.id == null;
     }
 
     public String getSubject() {
@@ -41,8 +50,8 @@ public class Message {
         return body;
     }
 
-    public String getFrom() {
-        return from;
+    public String getSender() {
+        return sender;
     }
 
     public String getTo() {

@@ -19,7 +19,7 @@ public class MessageCrud {
     }
 
     public Response createNew(MessageDto messageDto) {
-        Message message = new MessageFactory().createFrom(messageDto);
+        Message message = new MessageFactory().createFromWithoutId(messageDto);
 
         if (!messageRepository.exists(message)) {
             message.setId(new UniqueIdFactory().genarateId());
