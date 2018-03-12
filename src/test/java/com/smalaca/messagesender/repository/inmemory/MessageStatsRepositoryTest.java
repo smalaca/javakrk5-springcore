@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -65,5 +66,16 @@ public class MessageStatsRepositoryTest {
         Assert.assertEquals(1, myList.size());
         Assert.assertEquals(someStat2, myList.get(0));
     }
+
+    @Test
+    public void shouldFindMessageWithName() {
+        EmailStat someStat = new EmailStat("franek", "stefan", "some subject 1", new Timestamp(System.currentTimeMillis()));
+        messageStatsRepository.save(someStat);
+
+        Optional<String> retrivedId = messageStatsRepository.findIdByName("franek");
+
+        Assert.assertEquals("1", retrivedId.get());
+    }
+
 
 }
